@@ -1,0 +1,355 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Детали{% endblock title %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'reports/css/report_details.css' %}"/>
+{% endblock stylesheet %}
+
+{% block content %}
+    <h1>{{ sensor.location }}</h1>
+    <h2>{{ sensor.name }}</h2>
+
+    <!-- Filter -->
+    <form method="post" action="?{{ url }}">
+        {% csrf_token %}
+        <input hidden name="action" value="filter"/>
+        <div class="d-flex justify-content-center w-25 mb-3">
+            <select name="filter" id="filter" class="form-select" required>
+                <option selected disabled>Сортировать по</option>
+                <option>Дата/Время</option>
+                {% for measurement in measurement_types %}
+                    <option value="{{ measurement }}">{{ measurement }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="order" id="order" class="form-select">
+                <option selected value="asc">По возрастанию</option>
+                <option value="desc">По убыванию</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Использовать</button>
+        </div>
+    </form>
+
+    <!-- Create new data -->
+    <button type="button" class="btn btn-primary mb-3" id="openModal2">Добавить новые данные</button>
+    <form method="post" action="?{{ url }}">
+        {% csrf_token %}
+        <input hidden name="action" value="create">
+        <input hidden name="sensor_id" value="{{ sensor.id }}"/>
+
+        <div class="modal" id="modal2">
+            <div class="modal-content">
+                <div class="modal-header p-3">
+                    <h1 class="modal-title fs-5 me-3">Изменить/Удалить данные</h1>
+                    <button type="button" class="btn-close" id="closeModal2"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label for="newDate"
+                               class="form-label mb-0 ms-2">Дата/Время</label>
+                        <input type="datetime-local" class="form-control" name="date" id="newDate" required/>
+                    </div>
+                    {% for measurement_type in measurement_types %}
+                        <div class="mb-4">
+                            <label for="new_{{ measurement_type.code }}"
+                                   class="form-label mb-0 ms-2">{{ measurement_type }}</label>
+                            <input type="text" class="form-control" placeholder="Введите значение"
+                                   id="new_{{ measurement_type.code }}"
+                                   name="{{ measurement_type.code }}" required/>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {% for threshold in thresholds %}
+        {% with threshold.type as type %}
+            <p>{{ type.label }}: {{ threshold.limit1 }}, {{ threshold.limit2 }}</p>
+        {% endwith %}
+    {% endfor %}
+
+    <!-- Table -->
+    {% if messages %}
+        {% for message in messages %}
+            <h3 class="text-danger ms-3">! ! ! {{ message }} ! ! !</h3>
+        {% endfor %}
+    {% endif %}
+    <table class="table table-hover" id="mainTable">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Дата/Время</th>
+            {% for measurement in measurement_types %}
+                <th scope="col">{{ measurement }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for measurements in paged_measurements %}
+            <tr data-number="{{ forloop.counter }}"
+                data-date="{{ measurements.0|date:"Y-m-d H:i:s" }}"
+                    {% for type in measurement_types %}
+                        {% for m in measurements.1 %}
+                            {% if m.type == type %}
+                data-{{ type.code }}="{{ m.value }}"
+                data-{{ type.code }}-id="{{ m.id }}"
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+            >
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ measurements.0|date:"d.m.Y H:i:s" }}</td>
+                {% for type in measurement_types %}
+                    {% for m in measurements.1 %}
+                        {% if m.type == type %}
+                            <td>{{ m.value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <td>
+                    <button type="button" class="btn btn-outline-primary openModals">
+                        Изменить данные
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- Pagination -->
+    <div class="main-table">
+        <nav aria-label="...">
+            {% with request.GET.urlencode as query_string %}
+                <ul class="pagination">
+                    {% if paged_measurements.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?{{ url | safe }}&page={{ paged_measurements.previous_page_number }}">
+                                <span class="sr-only">&lt</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <div class="pagination mb-0" id="pageNumerization"></div>
+
+                    {% if paged_measurements.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?{{ url | safe }}&page={{ paged_measurements.next_page_number }}">
+                                <span class="sr-only">&gt</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endwith %}
+        </nav>
+    </div>
+
+    <!-- Modal for Changing data -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header p-3">
+                <h1 class="modal-title fs-5 me-3" id="modalTitle">Изменить/Удалить данные</h1>
+                <button type="button" class="btn-close" id="closeModal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-4">
+                    <label for="edit_date"
+                           class="form-label mb-0 ms-2">Дата/Время</label>
+                    <input type="datetime-local" class="form-control" id="edit_date" required/>
+                    <input hidden id="sensorId" value="{{ sensor.id }}"/>
+                </div>
+                {% for measurement_type in measurement_types %}
+                    <div class="mb-4">
+                        <label for="edit_{{ measurement_type.code }}"
+                               class="form-label mb-0 ms-2">{{ measurement_type }}</label>
+                        <input type="text" class="form-control" placeholder="Введите новое значение"
+                               id="edit_{{ measurement_type.code }}" required/>
+                        <input hidden id="edit_{{ measurement_type.code }}Id"/>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveBtn">Сохранить</button>
+                <button type="button" class="btn btn-danger" id="deleteBtn">Удалить данные</button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currPage = {{ paged_measurements.number }};
+            const totalPages = {{ paged_measurements.paginator.num_pages }};
+            const container = document.getElementById('pageNumerization');
+
+            let start = 1;
+            let end = totalPages;
+
+            if (totalPages > 5) {
+                if (currPage <= 3) {
+                    start = 1;
+                    end = 5;
+                } else if (currPage >= totalPages - 2) {
+                    start = totalPages - 4;
+                    end = totalPages;
+                } else {
+                    start = currPage - 2;
+                    end = currPage + 2;
+                }
+            }
+
+            for (let page = start; page <= end; page++) {
+                const li = document.createElement('li');
+                li.className = 'page-item' + (page === currPage ? ' active' : '');
+
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = `?{{ url | safe }}&page=${page}`;
+                a.textContent = page;
+
+                li.appendChild(a);
+                container.appendChild(li);
+            }
+        });
+
+        const modal = document.getElementById('modal');
+        const openModals = document.querySelectorAll('.openModals');
+        const closeModal = document.getElementById('closeModal');
+
+        openModals.forEach(function (openModal) {
+            openModal.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const row = openModal.closest('tr');
+                document.getElementById('edit_date').value = row.dataset.date;
+                {% for type in measurement_types %}
+                    document.getElementById('edit_{{ type.code }}').value = row.dataset.{{ type.code }};
+                    document.getElementById('edit_{{ type.code }}Id').value = row.dataset.{{ type.code }}Id;
+                {% endfor %}
+
+                modal.style.display = 'flex';
+            })
+        });
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        })
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.addEventListener('click', function () {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const data = {
+                date: document.getElementById('edit_date').value,
+                sensor_id: document.getElementById('sensorId').value,
+                {% for type in measurement_types %}
+                    "{{ type.code }}": document.getElementById('edit_{{ type.code }}').value,
+                    "{{ type.code }}_id": document.getElementById('edit_{{ type.code }}Id').value,
+                {% endfor %}
+            }
+
+            fetch("{% url 'reports:update-measurements' %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        modal.style.display = 'none';
+                        location.reload();
+                    } else {
+                        alert("Ошибка при сохранении");
+                    }
+                });
+        });
+
+        const deleteBtn = document.getElementById('deleteBtn');
+        deleteBtn.addEventListener("click", function () {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const data = {
+                {% for type in measurement_types %}
+                    "{{ type.code }}_id": document.getElementById('edit_{{ type.code }}Id').value,
+                {% endfor %}
+            }
+
+            fetch("{% url 'reports:delete-measurements' %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        modal.style.display = 'none';
+                        location.reload();
+                    } else {
+                        alert("Ошибка при удалении");
+                    }
+                });
+        });
+
+
+        const modal2 = document.getElementById('modal2');
+        const openModal2 = document.getElementById('openModal2');
+        const closeModal2 = document.getElementById('closeModal2');
+
+        openModal2.addEventListener('click', function () {
+            modal2.style.display = 'flex';
+        })
+        closeModal2.addEventListener('click', function () {
+            modal2.style.display = 'none';
+        })
+        window.addEventListener("click", function (event) {
+            if (event.target === modal2) {
+                modal2.style.display = "none";
+            }
+        });
+
+        const table = document.getElementById('mainTable');
+        const thresholds = {{ thresholds_json|safe }};
+        const measurementTypes = {{ measurement_types_json|safe }};
+
+        thresholds.forEach(t => {
+            console.log(t.type);
+        })
+        for (let i = 1; i < table.rows.length; i++) {
+            measurementTypes.forEach((type, index) => {
+                console.log(type, index);
+                const cell = table.rows[i].cells[index + 2];
+                const value = parseFloat(cell.textContent);
+                cell.style.backgroundColor = "lawngreen";
+                if (!isNaN(value)) {
+                    const threshold = thresholds.find(t => t.type === type.code);
+                    if (threshold && value >= threshold.limit1) {
+                        cell.style.backgroundColor = "orange";
+                    }
+                    if (threshold && value >= threshold.limit2) {
+                        cell.style.backgroundColor = "red";
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock scripts %}

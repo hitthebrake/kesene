@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv
+.env/
+
+Июнь/
+read.py
+calculate.py
+
+db.sqlite3
+.idea/
