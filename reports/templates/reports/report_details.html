@@ -88,7 +88,7 @@
             <th scope="col">#</th>
             <th scope="col">Дата/Время</th>
             {% for measurement in measurement_types %}
-                <th scope="col">{{ measurement }}</th>
+                <th scope="col">{{ measurement.label }}</th>
             {% endfor %}
         </tr>
         </thead>
@@ -98,7 +98,7 @@
                 data-date="{{ measurements.0|date:"Y-m-d H:i:s" }}"
                     {% for type in measurement_types %}
                         {% for m in measurements.1 %}
-                            {% if m.type == type %}
+                            {% if m.type == type.id %}
                 data-{{ type.code }}="{{ m.value }}"
                 data-{{ type.code }}-id="{{ m.id }}"
                             {% endif %}
@@ -109,7 +109,7 @@
                 <td>{{ measurements.0|date:"d.m.Y H:i:s" }}</td>
                 {% for type in measurement_types %}
                     {% for m in measurements.1 %}
-                        {% if m.type == type %}
+                        {% if m.type == type.id %}
                             <td>{{ m.value }}</td>
                         {% endif %}
                     {% endfor %}

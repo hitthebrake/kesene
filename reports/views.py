@@ -48,13 +48,13 @@ def report_details(request):
         del copy_request['page']
         url = urlencode(copy_request)
 
-    data = Measurement.objects.filter(date__year=year, date__month=month, sensor=sensor).order_by('date')
-    measurement_types = sensor.supported_types.all() if sensor else None
+    data = Measurement.objects.filter(date__year=year, date__month=month, sensor=sensor).order_by('date').values('date', 'value', 'type', 'sensor', 'id')
+    measurement_types = sensor.supported_types.all().values('code', 'label', 'id') if sensor else None
     measurements = {}
     for d in data:
-        if d.date not in measurements:
-            measurements[d.date] = []
-        measurements[d.date].append(d)
+        if d['date'] not in measurements:
+            measurements[d['date']] = []
+        measurements[d['date']].append(d)
 
     thresholds = Threshold.objects.filter(sensor=sensor)
 
@@ -97,6 +97,7 @@ def report_details(request):
     paginator = Paginator(measurements, 200)
     page = request.GET.get('page') or 1
     paged_measurements = paginator.get_page(page)
+
     context = {
         'thresholds': thresholds,
         'paged_measurements': paged_measurements,
@@ -106,6 +107,7 @@ def report_details(request):
         "thresholds_json": mark_safe(json.dumps(thresholds_json, cls=DjangoJSONEncoder)),
         "measurement_types_json": mark_safe(json.dumps(list(measurement_types.values('code')), cls=DjangoJSONEncoder)),
     }
+
     return render(request, 'reports/report_details.html', context)
 
 @login_required(login_url='authorization:login')
