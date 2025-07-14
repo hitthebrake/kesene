@@ -7,8 +7,10 @@ venv
 .env
 
 Июнь/
+2025/
 read.py
 calculate.py
+report.py
 
 db.sqlite3
 .idea/

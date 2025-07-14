@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.getenv("DEBUG", "False") == "True"
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
 
-ALLOWED_HOSTS = ['rukovoditel.kz', 'www.rukovoditel.kz']
+ALLOWED_HOSTS = ['rukovoditel.kz', 'www.rukovoditel.kz', '37.140.243.112']
 
 # Application definition
 
