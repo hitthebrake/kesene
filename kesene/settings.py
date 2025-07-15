@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'core',
     'authorization',
     'reports',
-    'monitoring'
+    'monitoring',
+    'sensors'
 ]
 
 ASGI_APPLICATION = 'kesene.asgi.application'
@@ -93,7 +94,8 @@ WSGI_APPLICATION = 'kesene.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    'default': dj_database_url.config(default=os.getenv("DATABASE_URL", "postgres://kesene:kesene_db_password@localhost:5432/kesene_db")),
+
 }
 
 # Password validation
