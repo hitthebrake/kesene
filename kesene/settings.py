@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.getenv("DEBUG", "False") == "True"
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
 
-ALLOWED_HOSTS = ['rukovoditel.kz', 'www.rukovoditel.kz', '37.140.243.112']
+ALLOWED_HOSTS = ['rukovoditel.kz', 'www.rukovoditel.kz', '37.140.243.112', '127.0.0.1']
 
 # Application definition
 
@@ -71,6 +71,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'core.context_processors.location_list',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

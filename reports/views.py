@@ -1,13 +1,15 @@
 import json, pandas
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib import messages
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.safestring import mark_safe
+from django.utils.dateparse import parse_date, parse_time
+from datetime import datetime
 
 
 from urllib.parse import urlencode
@@ -33,42 +35,36 @@ def menu(request):
     return render(request, 'reports/menu.html')
 
 @login_required(login_url='authorization:login')
-def report_archive(request):
-    locations = set(sensor.location for sensor in Sensor.objects.all())
-    return render(request, 'reports/report_archive.html', {'locations': locations})
-
-@login_required(login_url='authorization:login')
 def report_details(request):
-    year, month = (int(x) for x in request.GET.get('date').split('-'))
-    sensor = Sensor.objects.get(id=request.GET.get('sensor'))
+    date = parse_date(request.GET.get('date'))
+    time_start = parse_time(request.GET.get('start'))
+    time_end = parse_time(request.GET.get('end'))
 
-    url = urlencode(request.GET)
-    if 'page' in request.GET:
-        copy_request = request.GET.copy()
-        del copy_request['page']
-        url = urlencode(copy_request)
+    start = format_date(datetime.combine(date, time_start))
+    end = format_date(datetime.combine(date, time_end))
 
-    data = Measurement.objects.filter(date__year=year, date__month=month, sensor=sensor).order_by('date').values('date', 'value', 'type', 'sensor', 'id')
-    measurement_types = sensor.supported_types.all().values('code', 'label', 'id') if sensor else None
+    sensor_ids = request.GET.getlist('sensor_id')
+    sensors = Sensor.objects.filter(id__in=sensor_ids)
+    types = MeasurementType.objects.filter(sensor__in=sensors).values('id', 'label', 'code').distinct()
+
+    data = Measurement.objects.filter(date__range=(start, end), sensor__in=sensors).order_by('date').values('date', 'value', 'type', 'sensor', 'id')
     measurements = {}
     for d in data:
-        if d['date'] not in measurements:
-            measurements[d['date']] = []
-        measurements[d['date']].append(d)
-
-    thresholds = Threshold.objects.filter(sensor=sensor)
+        if (d['date'], d['sensor']) not in measurements:
+            measurements[(d['date'], d['sensor'])] = []
+        measurements[(d['date'], d['sensor'])].append(d)
 
     if request.method == 'POST':
         action = request.POST.get('action')
 
         if action == 'filter':
-            measurement_type = request.POST.get('filter')
+            type = request.POST.get('filter')
             order = (request.POST.get('order') == 'desc')
-            for m in measurement_types:
-                if m.label == measurement_type:
-                    measurement_type = m
+            for m in types:
+                if m["id"] == type:
+                    type = m
 
-            sorting_key = (lambda x: next(((y.value or 0) for y in x[1] if y.type == measurement_type), 0)) if measurement_type in measurement_types else lambda x: x[0]
+            sorting_key = (lambda x: next(((y['value'] or 0) for y in x[1] if y.type == type), 0)) if type in types else lambda x: x[0]
             measurements = sorted(list(measurements.items()), key=sorting_key, reverse=order)
         elif action == 'create':
             sensor_id = request.POST.get('sensor_id')
@@ -89,10 +85,17 @@ def report_details(request):
     if not isinstance(measurements, list):
         measurements = list(measurements.items())
 
+    thresholds = Threshold.objects.filter(sensor__in=sensors)
     thresholds_json = [
         {"type": t.type.code, "limit1": t.limit1, "limit2": t.limit2}
         for t in thresholds
     ]
+
+    url = urlencode(request.GET)
+    if 'page' in request.GET:
+        copy_request = request.GET.copy()
+        del copy_request['page']
+        url = urlencode(copy_request)
 
     paginator = Paginator(measurements, 200)
     page = request.GET.get('page') or 1
@@ -101,11 +104,11 @@ def report_details(request):
     context = {
         'thresholds': thresholds,
         'paged_measurements': paged_measurements,
-        'sensor': sensor,
-        'measurement_types': measurement_types,
+        'sensors': sensors,
+        'measurement_types': types,
         'url': url,
         "thresholds_json": mark_safe(json.dumps(thresholds_json, cls=DjangoJSONEncoder)),
-        "measurement_types_json": mark_safe(json.dumps(list(measurement_types.values('code')), cls=DjangoJSONEncoder)),
+        "measurement_types_json": mark_safe(json.dumps(list(types.values('code')), cls=DjangoJSONEncoder)),
     }
 
     return render(request, 'reports/report_details.html', context)

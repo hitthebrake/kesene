@@ -11,6 +11,7 @@ venv
 read.py
 calculate.py
 report.py
+temp.py
 
 db.sqlite3
 .idea/

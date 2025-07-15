@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load dict_extras %}
 
 {% block title %}Детали{% endblock title %}
 
@@ -82,18 +83,19 @@
             <h3 class="text-danger ms-3">! ! ! {{ message }} ! ! !</h3>
         {% endfor %}
     {% endif %}
-    <table class="table table-hover" id="mainTable">
+    <table class="table table-hover table-bordered border-dark" id="mainTable">
         <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Дата/Время</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Время</th>
             {% for measurement in measurement_types %}
                 <th scope="col">{{ measurement.label }}</th>
             {% endfor %}
         </tr>
         </thead>
         <tbody>
-        {% for measurements in paged_measurements %}
+        {% for date, measurements in paged_measurements %}
             <tr data-number="{{ forloop.counter }}"
                 data-date="{{ measurements.0|date:"Y-m-d H:i:s" }}"
                     {% for type in measurement_types %}
@@ -106,13 +108,11 @@
                     {% endfor %}
             >
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ measurements.0|date:"d.m.Y H:i:s" }}</td>
+                <td>{{ date.0|date:"d.m.Y" }}</td>
+                <td>{{ date.0|date:"H:i:s" }}</td>
                 {% for type in measurement_types %}
-                    {% for m in measurements.1 %}
-                        {% if m.type == type.id %}
-                            <td>{{ m.value }}</td>
-                        {% endif %}
-                    {% endfor %}
+                             <td>{{ measurements|get_item:type.id }}</td>
+
                 {% endfor %}
                 <td>
                     <button type="button" class="btn btn-outline-primary openModals">
@@ -337,7 +337,7 @@
         for (let i = 1; i < table.rows.length; i++) {
             measurementTypes.forEach((type, index) => {
                 console.log(type, index);
-                const cell = table.rows[i].cells[index + 2];
+                const cell = table.rows[i].cells[index + 3];
                 const value = parseFloat(cell.textContent);
                 cell.style.backgroundColor = "lawngreen";
                 if (!isNaN(value)) {
