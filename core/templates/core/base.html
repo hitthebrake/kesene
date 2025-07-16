@@ -15,7 +15,7 @@
         {% if user.is_authenticated %}
             {% include 'core/sidebar.html' %}
         {% endif %}
-        <div class="col py-3">
+        <div class="col p-0 border-light">
             {% block content %}{% endblock content %}
         </div>
     </div>

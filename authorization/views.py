@@ -25,9 +25,8 @@ def logout_view(request):
     logout(request)
     return redirect('authorization:login')
 
+@login_required(login_url='authorization:login')
 def signup(request):
-    if request.user.is_authenticated:
-        return redirect('reports:menu')
     if request.method == 'POST':
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
@@ -39,6 +38,5 @@ def signup(request):
             messages.error(request, "Электронная почта уже используется*")
         else:
             user = User.objects.create_user(username=email, email=email, password=password1)
-            login(request, user)
             return redirect('reports:menu')
     return render(request, 'authorization/signup.html')
