@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+
+from .models import CustomUser
 # Create your views here.
 
 def login_view(request):
@@ -28,15 +29,26 @@ def logout_view(request):
 @login_required(login_url='authorization:login')
 def signup(request):
     if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        role = request.POST.get('role')
+        phone = request.POST.get('phone')
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
 
         if password1 != password2:
             messages.error(request, "Пароли не совпадают*")
-        elif User.objects.filter(username=email).exists():
+        elif CustomUser.objects.filter(email=email).exists():
             messages.error(request, "Электронная почта уже используется*")
         else:
-            user = User.objects.create_user(username=email, email=email, password=password1)
-            return redirect('reports:menu')
+            user = CustomUser.objects.create_user(
+                username=email,
+                email=email,
+                password=password1,
+                phone=phone,
+                first_name=first_name,
+                last_name=last_name
+            )
+            messages.success(request, 'Пользователь успешно создан')
     return render(request, 'authorization/signup.html')
