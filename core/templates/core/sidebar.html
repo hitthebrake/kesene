@@ -6,25 +6,33 @@
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
                 <a href="#" class="nav-link align-middle px-0">
-                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Мониторинг</span>
                 </a>
             </li>
             <li>
                 <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Архив</span> </a>
                 <form method="get" action="{% url 'reports:details' %}">
-                    <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                    <ul class="collapse hide nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                         <li class="w-100">
                             {#                            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>#}
-                            <input type="date" class="form-input px-0" name="date"/>
+                            <div class="mb-3">
+                                <label>Выберите начало периода</label>
+                                <input type="date" class="form-input px-0" name="date_s"/>
+                                <input type="time" class="form-input px-0" name="time_s" required/>
+                            </div>
+
                         </li>
                         <li>
                             {#                            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>#}
-                            <input type="time" class="form-input px-0" name="start" required/>
-                            <input type="time" class="form-input d-none d-sm-inline" name="end" required/>
+                            <div class="mb-3">
+                                <label>Выберите конец периода</label>
+                                <input type="date" class="form-input px-0" name="date_e"/>
+                                <input type="time" class="form-input d-none d-sm-inline" name="time_e" required/>
+                            </div>
                         </li>
                         <li>
-                            <select id="locationSelect" class="form-select" required>
+                            <select id="locationSelect" class="form-select mb-3" required>
                                 <option selected disabled>Выберите место</option>
                                 {% for location in location_list %}
                                     <option value="{{ location }}">{{ location }}</option>
@@ -32,10 +40,10 @@
                             </select>
                         </li>
                         <li>
-                            <div id="sensorsCheckbox"></div>
+                            <div id="sensorsCheckbox" class="mb-3"></div>
                         </li>
                         <li>
-                            <button type="submit" class="btn btn-primary">Показать</button>
+                            <button type="submit" class="btn btn-primary mb-2">Показать</button>
                         </li>
                         <li>
                             <button type="button" class="btn btn-success">Выгрузить в Excel</button>

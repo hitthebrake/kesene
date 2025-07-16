@@ -36,12 +36,13 @@ def menu(request):
 
 @login_required(login_url='authorization:login')
 def report_details(request):
-    date = parse_date(request.GET.get('date'))
-    time_start = parse_time(request.GET.get('start'))
-    time_end = parse_time(request.GET.get('end'))
+    date_start = parse_date(request.GET.get('date_s'))
+    date_end = parse_date(request.GET.get('date_e'))
+    time_start = parse_time(request.GET.get('time_s'))
+    time_end = parse_time(request.GET.get('time_e'))
 
-    start = format_date(datetime.combine(date, time_start))
-    end = format_date(datetime.combine(date, time_end))
+    start = format_date(datetime.combine(date_start, time_start))
+    end = format_date(datetime.combine(date_end, time_end))
 
     sensor_ids = request.GET.getlist('sensor_id')
     sensors = Sensor.objects.filter(id__in=sensor_ids)

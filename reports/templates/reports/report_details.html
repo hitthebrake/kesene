@@ -331,15 +331,11 @@
         const thresholds = {{ thresholds_json|safe }};
         const measurementTypes = {{ measurement_types_json|safe }};
 
-        thresholds.forEach(t => {
-            console.log(t.type);
-        })
         for (let i = 1; i < table.rows.length; i++) {
             measurementTypes.forEach((type, index) => {
-                console.log(type, index);
                 const cell = table.rows[i].cells[index + 3];
                 const value = parseFloat(cell.textContent);
-                cell.style.backgroundColor = "lawngreen";
+                cell.style.backgroundColor = "limegreen";
                 if (!isNaN(value)) {
                     const threshold = thresholds.find(t => t.type === type.code);
                     if (threshold && value >= threshold.limit1) {
