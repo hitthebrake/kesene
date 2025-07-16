@@ -143,3 +143,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 
 WEATHER_API_KEY = 'd267e2eb44ad988921a291b61667cc36'
+
+AUTH_USER_MODEL = 'authorization.CustomUser'
+
