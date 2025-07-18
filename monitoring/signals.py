@@ -3,7 +3,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.dispatch import receiver
 
-from reports.models import MeasurementType, Measurement, Threshold, Sensor
+from reports.models import MeasurementType, Measurement, Sensor
 
 @receiver(post_save, sender=Measurement)
 def notify_new_data(sender, instance, created, **kwargs):

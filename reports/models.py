@@ -28,11 +28,6 @@ class Measurement(models.Model):
             raise ValidationError(f"{self.sensor.name} не поддерживает измерение типа {self.type.label}")
 
 
-class Threshold(models.Model):
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
-    type = models.ForeignKey(MeasurementType, on_delete=models.CASCADE, null=True)
-    limit1 = models.DecimalField(max_digits=10, decimal_places=3, verbose_name='Первый предел', blank=True, null=True)
-    limit2 = models.DecimalField(max_digits=10, decimal_places=3, verbose_name='Второй предел', blank=True, null=True)
 
 """
 class TimeInstance(models.Model):

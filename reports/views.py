@@ -16,7 +16,7 @@ from urllib.parse import urlencode
 
 from pip._internal import locations
 
-from .models import MeasurementType, Measurement, Sensor, Threshold
+from .models import MeasurementType, Measurement, Sensor
 # Create your views here.
 
 def format_date(date):
@@ -138,7 +138,6 @@ def report_details(request):
     context = {
         'start': start,
         'end': end,
-        'thresholds': thresholds,
         'paged_measurements': paged_measurements,
         'sensors': sensors,
         'measurement_types': types,
@@ -182,33 +181,6 @@ def delete_measurements(request):
                 instance.delete()
         return JsonResponse({'status': 'ok'})
     return JsonResponse({'status': 'error'})
-
-@login_required(login_url='authorization:login')
-def thresholds(request):
-    locations = set(sensor.location for sensor in Sensor.objects.all())
-    if request.method == 'POST':
-        sensor_id = request.POST.get('sensor_id')
-        if Sensor.objects.filter(id=sensor_id).exists():
-            sensor = Sensor.objects.get(id=sensor_id)
-            types = sensor.supported_types.all()
-            for type in types:
-                limit1 = request.POST.get(f'{type.code}_first')
-                limit2 = request.POST.get(f'{type.code}_second')
-
-                if Threshold.objects.filter(sensor=sensor, type=type).exists():
-                    print(f'{type.label} threshold already exists')
-                else:
-                    instance = Threshold(sensor=sensor, type=type, limit1=limit1, limit2=limit2)
-                    instance.save()
-
-    return render(request, 'reports/thresholds.html', {'locations': locations})
-
-def get_threshold_types(request):
-    sensor = Sensor.objects.get(id=request.GET.get('sensor_id'))
-    if sensor is None:
-        return JsonResponse({'status': 'error', 'error': 'Датчик не найден в базе данных'})
-    types = sensor.supported_types.all().values('id', 'code', 'label')
-    return JsonResponse(list(types), safe=False)
 
 
 @login_required(login_url='authorization:login')
