@@ -346,7 +346,7 @@
         });
 
         const table = document.getElementById('mainTable');
-        const measurementTypes = {{ measurement_types_json|safe }};
+        const measurementTypes = [];
 
         for (let i = 1; i < table.rows.length; i++) {
             measurementTypes.forEach((type, index) => {
