@@ -1,0 +1,64 @@
+<div class="main-table">
+    <nav aria-label="...">
+        {% with request.GET.urlencode as query_string %}
+            <ul class="pagination">
+                {% if paged_measurements.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?{{ url | safe }}&page={{ paged_measurements.previous_page_number }}">
+                            <span class="sr-only">&lt</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <div class="pagination mb-0" id="pageNumerization"></div>
+
+                {% if paged_measurements.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?{{ url | safe }}&page={{ paged_measurements.next_page_number }}">
+                            <span class="sr-only">&gt</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endwith %}
+    </nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currPage = {{ paged_measurements.number }};
+        const totalPages = {{ paged_measurements.paginator.num_pages }};
+        const container = document.getElementById('pageNumerization');
+
+        let start = 1;
+        let end = totalPages;
+
+        if (totalPages > 5) {
+            if (currPage <= 3) {
+                start = 1;
+                end = 5;
+            } else if (currPage >= totalPages - 2) {
+                start = totalPages - 4;
+                end = totalPages;
+            } else {
+                start = currPage - 2;
+                end = currPage + 2;
+            }
+        }
+
+        for (let page = start; page <= end; page++) {
+            const li = document.createElement('li');
+            li.className = 'page-item' + (page === currPage ? ' active' : '');
+
+            const a = document.createElement('a');
+            a.className = 'page-link';
+            a.href = `?{{ url | safe }}&page=${page}`;
+            a.textContent = page;
+
+            li.appendChild(a);
+            container.appendChild(li);
+        }
+    });
+</script>

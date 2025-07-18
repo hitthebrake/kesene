@@ -27,6 +27,13 @@ class Measurement(models.Model):
         if self.type not in self.sensor.supported_types.all():
             raise ValidationError(f"{self.sensor.name} не поддерживает измерение типа {self.type.label}")
 
+class Threshold(models.Model):
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    type = models.ForeignKey(MeasurementType, on_delete=models.CASCADE)
+    description = models.TextField(blank=False)
+    upper_limit = models.DecimalField(max_digits=10, decimal_places=3)
+    lower_limit = models.DecimalField(max_digits=10, decimal_places=3)
+    color = models.CharField(max_length=20)
 
 
 """
