@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.safestring import mark_safe
 from django.utils.dateparse import parse_date, parse_time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from urllib.parse import urlencode
@@ -34,6 +34,41 @@ def get_sensors(request):
 def menu(request):
     return render(request, 'reports/menu.html')
 
+
+def calculate_stat(sensor, type, data, duration):
+    total_val, count_none, count_tot = 0, 0, 0
+    maximum, minimum = -100000, 100000
+
+    for obj in data:
+        if obj['sensor'] == sensor.id and obj['type'] == type.id:
+            if obj['value'] is None or obj['value']=="":
+                count_none += 1
+            else:
+                count_tot += 1
+                total_val += obj['value']
+                maximum = max(maximum, obj['value'])
+                minimum = min(minimum, obj['value'])
+
+    average = None
+    if count_tot > 0:
+        average = round(total_val / count_tot, 3)
+
+    interval = 10 if 'ТвОВв' in str(sensor.name) else 2
+    time_active = timedelta(minutes=count_tot * interval)
+
+    result = {'average': average, 'max': maximum, 'min': minimum,
+              'active_duration': time_active, 'passive_duration': duration - time_active,
+              'total_count': count_tot, 'interval': interval,
+              }
+    return result
+
+
+def get_url(request):
+    if 'page' in request:
+        del request['page']
+    return request.urlencode()
+
+
 @login_required(login_url='authorization:login')
 def report_details(request):
     date_start = parse_date(request.GET.get('date_s'))
@@ -49,6 +84,15 @@ def report_details(request):
     types = MeasurementType.objects.filter(sensor__in=sensors).values('id', 'label', 'code').distinct()
 
     data = Measurement.objects.filter(date__range=(start, end), sensor__in=sensors).order_by('date').values('date', 'value', 'type', 'sensor', 'id')
+
+    statistics = {}
+    for sensor in sensors:
+        statistics[f'{sensor.location}: {sensor.name}'] = {}
+        for type in sensor.supported_types.all():
+            statistics[f'{sensor.location}: {sensor.name}'][type.label] = calculate_stat(sensor, type, data, end-start)
+
+
+
     measurements = {}
     for d in data:
         if (d['date'], d['sensor']) not in measurements:
@@ -86,30 +130,20 @@ def report_details(request):
     if not isinstance(measurements, list):
         measurements = list(measurements.items())
 
-    thresholds = Threshold.objects.filter(sensor__in=sensors)
-    thresholds_json = [
-        {"type": t.type.code, "limit1": t.limit1, "limit2": t.limit2}
-        for t in thresholds
-    ]
-
-    url = urlencode(request.GET)
-    if 'page' in request.GET:
-        copy_request = request.GET.copy()
-        del copy_request['page']
-        url = urlencode(copy_request)
 
     paginator = Paginator(measurements, 200)
-    page = request.GET.get('page') or 1
+    page = request.GET.get('page')
     paged_measurements = paginator.get_page(page)
 
     context = {
+        'start': start,
+        'end': end,
         'thresholds': thresholds,
         'paged_measurements': paged_measurements,
         'sensors': sensors,
         'measurement_types': types,
-        'url': url,
-        "thresholds_json": mark_safe(json.dumps(thresholds_json, cls=DjangoJSONEncoder)),
-        "measurement_types_json": mark_safe(json.dumps(list(types.values('code')), cls=DjangoJSONEncoder)),
+        'url': get_url(request.GET.copy()),
+        'statistics': statistics,
     }
 
     return render(request, 'reports/report_details.html', context)

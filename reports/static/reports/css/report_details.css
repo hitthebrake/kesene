@@ -1,23 +1,77 @@
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
 }
 
 .modal .modal-content {
-  margin: 25px auto;
-  padding: 20px;
-  border: 1px solid #888;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  gap: 0;
-  width: fit-content;
-  height: fit-content;
+    margin: 25px auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+.data-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* spacing between boxes */
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.data-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex: 1 1 350px; /* grows and shrinks, min width 250px */
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-height: 360px;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.data-box-inner {
+    flex: 1 1 350px; /* grows and shrinks, min width 250px */
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-height: 360px;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.data-box h3 {
+    margin: 0 0 8px;
+}
+
+table {
+    text-align: center;
+}
+
+
+td, th {
+    vertical-align: middle;
+    overflow: auto;
+    scrollbar-width: none;
+    max-width: 130px;
+    max-height: 50px;
+}
+
+.data-box p, .data-box-inner p {
+    margin: 0.5rem 0;
 }

@@ -9,8 +9,7 @@
 {% endblock stylesheet %}
 
 {% block content %}
-    <h1>{{ sensor.location }}</h1>
-    <h2>{{ sensor.name }}</h2>
+    <h4 class="h4">Данные на период с {{ start |date:"Y-m-d, H:i:s" }} до {{ end |date:"Y-m-d, H:i:s" }}.</h4>
 
     <!-- Filter -->
     <form method="post" action="?{{ url }}">
@@ -71,11 +70,28 @@
         </div>
     </form>
 
-    {% for threshold in thresholds %}
-        {% with threshold.type as type %}
-            <p>{{ type.label }}: {{ threshold.limit1 }}, {{ threshold.limit2 }}</p>
-        {% endwith %}
-    {% endfor %}
+
+    <!-- Statistics -->
+    <div class="data-container">
+        {% for sensor, data in statistics.items %}
+            <div class="data-box">
+                <h4>{{ sensor }}</h4>
+                {% for type, d in data.items %}
+                    <div class="data-box-inner">
+                        <p>Tип измерения: {{ type }}</p>
+                        <p>Среднее значение: {{ d.average }}</p>
+                        <p>Максимальное значение: {{ d.max }}</p>
+                        <p>Минимальное значение: {{ d.min }}</p>
+                        <p>Активное время: {{ d.active_duration }}</p>
+                        <p>Неактивное время: {{ d.passive_duration }}</p>
+                        <p>Интервал: {{ d.interval }}мин</p>
+                        <p>Количество измерении: {{ d.total_count }}</p>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 
     <!-- Table -->
     {% if messages %}
@@ -92,6 +108,8 @@
             {% for measurement in measurement_types %}
                 <th scope="col">{{ measurement.label }}</th>
             {% endfor %}
+            <th>morergsegvgstgvsgvbsgvsetbsetbrwebwetbgwertbewtb</th>
+
         </tr>
         </thead>
         <tbody>
@@ -111,7 +129,7 @@
                 <td>{{ date.0|date:"d.m.Y" }}</td>
                 <td>{{ date.0|date:"H:i:s" }}</td>
                 {% for type in measurement_types %}
-                             <td>{{ measurements|get_item:type.id }}</td>
+                    <td>{{ measurements|get_item:type.id }}</td>
 
                 {% endfor %}
                 <td>
@@ -328,7 +346,6 @@
         });
 
         const table = document.getElementById('mainTable');
-        const thresholds = {{ thresholds_json|safe }};
         const measurementTypes = {{ measurement_types_json|safe }};
 
         for (let i = 1; i < table.rows.length; i++) {
@@ -336,14 +353,8 @@
                 const cell = table.rows[i].cells[index + 3];
                 const value = parseFloat(cell.textContent);
                 cell.style.backgroundColor = "limegreen";
-                if (!isNaN(value)) {
-                    const threshold = thresholds.find(t => t.type === type.code);
-                    if (threshold && value >= threshold.limit1) {
-                        cell.style.backgroundColor = "orange";
-                    }
-                    if (threshold && value >= threshold.limit2) {
-                        cell.style.backgroundColor = "red";
-                    }
+                if (isNaN(value)) {
+                    cell.style.backgroundColor = "blue";
                 }
             });
         }
