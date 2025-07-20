@@ -23,6 +23,11 @@ class Measurement(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=3, verbose_name="Значение", blank=True, null=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, verbose_name="Датчик", blank=True, null=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['sensor', 'type', '-date']),
+        ]
+
     def clean(self):
         if self.type not in self.sensor.supported_types.all():
             raise ValidationError(f"{self.sensor.name} не поддерживает измерение типа {self.type.label}")
