@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.db import connection
 
-from reports.models import Sensor, Measurement, MeasurementType
+from reports.models import Sensor, Threshold
 
 import time
 import requests
@@ -35,17 +37,38 @@ def index(request):
     end = time.time()
     print('SQL duration:', end - start)
 
+    # Thresholds
+    thresholds = Threshold.objects.select_related('sensor', 'type').values(
+        'id', 'color',
+        'sensor__id', 'type__id',
+        'sensor__name', 'sensor__location',
+        'type__label', 'type__code',
+        'description', 'upper_limit', 'lower_limit'
+    )
+
     # Build values
     values = []
     for sensor in sensors:
         data = {'name': sensor.name, 'location': sensor.location, 'sensor_id': sensor.id, 'data': []}
         for t in sensor.supported_types.all():
-            data['data'].append({
-                'value': latest_values.get((sensor.id, t.id)),
+            value = latest_values.get((sensor.id, t.id))
+            d = {
+                'value': value,
                 'id': t.id,
                 'label': t.label,
                 'code': t.code,
-            })
+                'color' : '#FFFFFF',
+                'description': None,
+            }
+
+            for threshold in thresholds:
+                if threshold['sensor__id'] == sensor.id and threshold['type__id'] == t.id:
+                    if threshold['upper_limit'] >= value >= threshold['lower_limit']:
+                        d['color'] = threshold['color']
+                        d['description'] = threshold['description']
+
+
+            data['data'].append(d)
         values.append(data)
 
     overall_end = time.time()
@@ -54,3 +77,55 @@ def index(request):
     return render(request, 'monitoring/monitoring.html', {
         'values': values,
     })
+
+def check_limits(a, b, c, d):
+    if a >= b or c >= d:
+        return False, 'Неправильные лимиты'
+    if b <= c or d <= a:
+        return True, ''
+    return False, 'Пересечение другими лимитами'
+
+def thresholds_view(request):
+    thresholds = Threshold.objects.select_related('sensor', 'type').values(
+        'id', 'color',
+        'sensor__id', 'type__id',
+        'sensor__name', 'sensor__location',
+        'type__label', 'type__code',
+        'description', 'upper_limit', 'lower_limit'
+    )
+
+    if request.method == 'POST':
+        sensor_id = int(request.POST.get('sensor_id'))
+        type_id = int(request.POST.get('type_id'))
+        color_code = request.POST.get('color_code')
+        lower_limit = float(request.POST.get('lower_limit').replace(',', '.'))
+        upper_limit = float(request.POST.get('upper_limit').replace(',', '.'))
+        description = request.POST.get('description')
+
+        for threshold in thresholds:
+            if threshold['sensor__id'] == sensor_id and threshold['type__id'] == type_id:
+                check, message = check_limits(lower_limit, upper_limit, threshold['lower_limit'], threshold['upper_limit'])
+                if not check:
+                    messages.error(request, message)
+                    return render(request, 'monitoring/thresholds_view.html', {'thresholds': thresholds})
+
+        instance = Threshold(
+            sensor_id=sensor_id,
+            type_id=type_id,
+            color=color_code,
+            lower_limit=lower_limit,
+            upper_limit=upper_limit,
+            description=description
+        )
+        instance.save()
+        return redirect('monitoring:thresholds')
+
+    return render(request, 'monitoring/thresholds_view.html', {'thresholds': thresholds})
+
+@login_required(login_url='authorization:login')
+def get_types(request):
+    sensor_id = request.GET.get('sensor_id')
+    sensor = Sensor.objects.get(id=sensor_id)
+    types = sensor.supported_types.values('id', 'label', 'code')
+    return JsonResponse(list(types), safe=False)
+

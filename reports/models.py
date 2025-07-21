@@ -33,12 +33,21 @@ class Measurement(models.Model):
             raise ValidationError(f"{self.sensor.name} не поддерживает измерение типа {self.type.label}")
 
 class Threshold(models.Model):
+    COLOR_CHOICES = [
+        ('#D32F2F', 'Red'),
+        ('#FF5F15', 'Orange'),
+        ('#FFC107', 'Yellow'),
+        ('#32CD32', 'Green'),
+        ('#00FFFF', 'Blue'),
+    ]
+
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     type = models.ForeignKey(MeasurementType, on_delete=models.CASCADE)
-    description = models.TextField(blank=False)
+    description = models.CharField(max_length=255, blank=False)
     upper_limit = models.DecimalField(max_digits=10, decimal_places=3)
     lower_limit = models.DecimalField(max_digits=10, decimal_places=3)
-    color = models.CharField(max_length=20)
+    color = models.CharField(max_length=7, choices=COLOR_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 """

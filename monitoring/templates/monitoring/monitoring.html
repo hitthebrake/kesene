@@ -33,7 +33,9 @@
             <tr>
                 <td>{{ sensor_data.name }}: {{ sensor_data.location }}</td>
                 {% for type_data in sensor_data.data %}
-                    <td>
+                    <td class="thresholds"
+                        data-threshold-description="{{ type_data.description }}"
+                        style="background-color: {{ type_data.color }}">
                         {{ type_data.value }}
                     </td>
                 {% endfor %}
@@ -53,4 +55,17 @@
 {% endblock content %}
 
 {% block scripts %}
+    <script>
+        thresholds = document.querySelectorAll('.thresholds');
+        thresholds.forEach(function (threshold) {
+
+            threshold.addEventListener('click', function () {
+                if (threshold.dataset.thresholdDescription) {
+                    alert(threshold.dataset.thresholdDescription);
+                }
+
+            })
+        });
+
+    </script>
 {% endblock scripts %}

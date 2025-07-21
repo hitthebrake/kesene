@@ -6,15 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib import messages
-from django.core.serializers.json import DjangoJSONEncoder
-from django.utils.safestring import mark_safe
 from django.utils.dateparse import parse_date, parse_time
+
 from datetime import datetime, timedelta
-
-
-from urllib.parse import urlencode
-
-from pip._internal import locations
 
 from .models import MeasurementType, Measurement, Sensor
 # Create your views here.
