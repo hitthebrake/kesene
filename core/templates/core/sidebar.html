@@ -51,16 +51,21 @@
                     </ul>
                 </form>
             </li>
-            <li>
-                <a href="{% url 'authorization:signup' %}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span
-                        class="ms-1 d-none d-sm-inline">Создать нового пользователя</span></a>
-            </li>
-            <li>
-                <a href="{% url 'monitoring:thresholds' %}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span
-                        class="ms-1 d-none d-sm-inline">Задать лимиты</span></a>
-            </li>
+            {% if request.user.is_superuser or request.user.can_create_user %}
+                <li>
+                    <a href="{% url 'authorization:signup' %}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi-table"></i> <span
+                            class="ms-1 d-none d-sm-inline">Создать нового пользователя</span></a>
+                </li>
+            {% endif %}
+            {% if request.user.is_superuser or request.user.can_add_threshold %}
+                <li>
+                    <a href="{% url 'monitoring:thresholds' %}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi-table"></i> <span
+                            class="ms-1 d-none d-sm-inline">Задать лимиты</span></a>
+                </li>
+            {% endif %}
+
             <li>
                 <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
                     <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Items</span></a>

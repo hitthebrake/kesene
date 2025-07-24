@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 from .models import CustomUser
 # Create your views here.
+
+
+def can_create_user(user):
+    return user.can_create_user or user.is_superuser
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -26,16 +30,17 @@ def logout_view(request):
     logout(request)
     return redirect('authorization:login')
 
-@login_required(login_url='authorization:login')
+
+@user_passes_test(can_create_user, login_url='authorization:login')
 def signup(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        role = request.POST.get('role')
         phone = request.POST.get('phone')
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+
 
         if password1 != password2:
             messages.error(request, "Пароли не совпадают*")
@@ -48,7 +53,10 @@ def signup(request):
                 password=password1,
                 phone=phone,
                 first_name=first_name,
-                last_name=last_name
+                last_name=last_name,
+                can_add_data='add_data' in request.POST,
+                can_create_user='create_user' in request.POST,
+                can_add_threshold='add_threshold' in request.POST
             )
             messages.success(request, 'Пользователь успешно создан')
     return render(request, 'authorization/signup.html')

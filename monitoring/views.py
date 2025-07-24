@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.db import connection
 
@@ -9,6 +9,9 @@ from reports.models import Sensor, Threshold
 
 import time
 import requests
+
+def can_add_threshold(user):
+    return user.can_add_threshold or user.is_superuser
 
 @login_required(login_url='authorization:login')
 def table(request):
@@ -85,6 +88,7 @@ def check_limits(a, b, c, d):
         return True, ''
     return False, 'Пересечение другими лимитами'
 
+@user_passes_test(can_add_threshold, login_url='authorization:login')
 def thresholds_view(request):
     thresholds = Threshold.objects.select_related('sensor', 'type').values(
         'id', 'color',

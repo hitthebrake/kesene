@@ -58,18 +58,30 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12 mb-4 pb-2">
+                                    <div class="col-12 mb-2 pb-2">
+                                        <label class="form-label select-label" for="requirements">Разрешения
+                                            пользователя</label>
+                                        <ul id="requirements" style="list-style-type: none; padding-left: 5px;">
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="add_data" value="1">
+                                                    Может добавлять данные вручную
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="create_user" value="1">
+                                                    Может создавать других пользователей
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="add_threshold" value="1">
+                                                    Может добавлять лимиты
+                                                </label>
+                                            </li>
+                                        </ul>
 
-                                        <select class="form-select select form-control-lg border-dark-subtle w-100"
-                                                name="role" required>
-
-                                            <option selected disabled hidden></option>
-                                            <option value="4">Ученый</option>
-                                            <option value="2">Админ</option>
-                                            <option value="3">Инженер</option>
-                                            <option value="4">Пользователь</option>
-                                        </select>
-                                        <label class="form-label select-label">Выберите роль*</label>
 
                                     </div>
                                 </div>
@@ -101,7 +113,8 @@
                                 {% if messages %}
                                     {% for message in messages %}
                                         <div class="mt-2 pt-2">
-                                            <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                                            <p {% if message.tags %}
+                                                class="{{ message.tags }}" {% endif %}>{{ message }}</p>
                                         </div>
                                     {% endfor %}
                                 {% endif %}
