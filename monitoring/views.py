@@ -13,6 +13,17 @@ import requests
 def can_add_threshold(user):
     return user.can_add_threshold or user.is_superuser
 
+
+def delete_threshold(request):
+    if request.method == 'POST':
+        id = request.POST.get('threshold_id')
+        try:
+            threshold = Threshold.objects.get(id=id)
+            threshold.delete()
+        except Threshold.DoesNotExist:
+            pass
+    return redirect('monitoring:thresholds')
+
 @login_required(login_url='authorization:login')
 def table(request):
     data = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat=43.2975&lon=68.2708&appid={settings.WEATHER_API_KEY}&lang=ru')
@@ -60,8 +71,8 @@ def index(request):
                 'id': t.id,
                 'label': t.label,
                 'code': t.code,
-                'color' : '#FFFFFF',
-                'description': None,
+                'color' : '#32CD32',
+                'description': 'Все нормально!',
             }
 
             for threshold in thresholds:

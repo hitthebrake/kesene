@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}Лимиты{% endblock title %}
 
@@ -168,6 +169,7 @@
             </div>
         </form>
     </div>
+
     <!-- Existing thresholds -->
     <table>
         <thead>
@@ -179,19 +181,30 @@
             <th class="th-5">Верхний лимит</th>
             <th class="th-6">Действие</th>
             <th class="th-7">Цвет</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for threshold in thresholds %}
-            <tr>
-                <td class="th-1">{{ forloop.counter }}</td>
-                <td class="th-2">{{ threshold.sensor__location }}: {{ threshold.sensor__name }}</td>
-                <td class="th-3">{{ threshold.type__label }}</td>
-                <td class="th-4">{{ threshold.lower_limit }}</td>
-                <td class="th-5">{{ threshold.upper_limit }}</td>
-                <td class="th-6">{{ threshold.description }}</td>
-                <td class="th-7" style="background-color: {{ threshold.color }}"></td>
-            </tr>
+            <form method="post" action="{% url 'monitoring:delete-threshold' %}">
+                {% csrf_token %}
+                <input hidden name="threshold_id" value="{{ threshold.id }}"/>
+                <tr>
+                    <td class="th-1">{{ forloop.counter }}</td>
+                    <td class="th-2">{{ threshold.sensor__location }}: {{ threshold.sensor__name }}</td>
+                    <td class="th-3">{{ threshold.type__label }}</td>
+                    <td class="th-4">{{ threshold.lower_limit }}</td>
+                    <td class="th-5">{{ threshold.upper_limit }}</td>
+                    <td class="th-6">{{ threshold.description }}</td>
+                    <td class="th-7" style="background-color: {{ threshold.color }}"></td>
+                    <td>
+                        <button type="submit" class="btn btn-outline-danger">
+                            <img src="{% static 'icons/trash3.svg' %}">
+                        </button>
+                    </td>
+
+                </tr>
+            </form>
         {% endfor %}
         </tbody>
     </table>
