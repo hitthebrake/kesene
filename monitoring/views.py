@@ -14,6 +14,7 @@ def can_add_threshold(user):
     return user.can_add_threshold or user.is_superuser
 
 
+@user_passes_test(can_add_threshold, login_url='authorization:login')
 def delete_threshold(request):
     if request.method == 'POST':
         id = request.POST.get('threshold_id')
