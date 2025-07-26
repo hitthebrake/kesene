@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'authorization',
     'reports',
     'monitoring',
-    'sensors'
+    'sensors',
+    'profiles',
 ]
 
 ASGI_APPLICATION = 'kesene.asgi.application'

@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}Профиль{% endblock title %}
+{% block stylesheet %}{% endblock stylesheet %}
+
+
+{% block content %}
+    <div class="justify-content-center">
+        <div><p>Имя: {{ first_name }}</p></div>
+        <div><p>Фамилия: {{ last_name }}</p></div>
+        <div><p>Телефон: {{ phone }}</p></div>
+        <div><p>Почта: {{ email }}</p></div>
+
+    </div>
+{% endblock content %}
+
+{% block scripts %}{% endblock scripts %}

@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('authorization.urls')),
     path('main/', include('reports.urls')),
     path('monitoring/', include('monitoring.urls')),
+    path('profile/', include('profiles.urls')),
 ]
