@@ -59,4 +59,6 @@ def signup(request):
                 can_add_threshold='add_threshold' in request.POST
             )
             messages.success(request, 'Пользователь успешно создан')
-    return render(request, 'authorization/signup.html')
+
+    users = CustomUser.objects.values('first_name', 'last_name', 'email', 'phone', 'can_add_data', 'can_add_threshold', 'can_create_user')
+    return render(request, 'authorization/signup.html', {'users': users})

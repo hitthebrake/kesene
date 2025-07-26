@@ -4,8 +4,8 @@
 
 {% block content %}
     <section class="vh-100 bg-dark gradient-custom">
-        <div class="container py-5 h-100">
-            <div class="row justify-content-center align-items-center h-100">
+        <div class="container py-5 h-100" style="overflow: scroll; scrollbar-width: none">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-12 col-lg-9 col-xl-7">
                     <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
@@ -131,6 +131,35 @@
             </div>
         </div>
     </section>
+    <!-- List of users -->
+    <table>
+        <thead>
+        <tr>
+            <th class="th-1">#</th>
+            <th class="th-2">Имя</th>
+            <th class="th-3">Фамилия</th>
+            <th class="th-4">Телефон</th>
+            <th class="th-5">Почта</th>
+            <th class="th-6">Добавить пользователей</th>
+            <th class="th-7">Добавить лимиты</th>
+            <th class="th-8">Добавить данные</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user_obj in users %}
+            <tr>
+                <td class="th-1">{{ forloop.counter }}</td>
+                <td class="th-2">{{ user_obj.first_name }}</td>
+                <td class="th-3">{{ user_obj.last_name }}</td>
+                <td class="th-4">{{ user_obj.phone }}</td>
+                <td class="th-5">{{ user_obj.email }}</td>
+                <td class="th-6">{% if user_obj.can_create_user %}Да{% else %}Нет{% endif %}</td>
+                <td class="th-7">{% if user_obj.can_add_threshold %}Да{% else %}Нет{% endif %}</td>
+                <td class="th-8">{% if user_obj.can_add_data %}Да{% else %}Нет{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     <style>
         .gradient-custom {
@@ -154,6 +183,59 @@
         .card-registration .select-arrow {
             top: 13px;
         }
+
+        table {
+            border: 1px solid black;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 15px;
+        }
+
+        tr {
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+            overflow-x: scroll;
+            scrollbar-width: none;
+
+        }
+
+        .th-1 {
+            width: 2%;
+        }
+
+        .th-2 {
+            width: 10%;
+        }
+
+        .th-3 {
+            width: 10%;
+        }
+
+        .th-4 {
+            width: 10%;
+        }
+
+        .th-5 {
+            width: 15%;
+        }
+
+        .th-6 {
+            width: 10%;
+        }
+
+        .th-7 {
+            width: 10%;
+        }
+
+        .th-8 {
+            width: 10%;
+        }
+
+
     </style>
 
 {% endblock content %}
