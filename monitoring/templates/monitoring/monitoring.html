@@ -22,6 +22,7 @@
     <table>
         <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Датчик</th>
             <th scope="col">Значение1</th>
             <th scope="col">Значение2</th>
@@ -31,7 +32,8 @@
         <tbody>
         {% for sensor_data in values %}
             <tr>
-                <td>{{ sensor_data.name }}: {{ sensor_data.location }}</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ sensor_data.location }}: {{ sensor_data.name }}</td>
                 {% for type_data in sensor_data.data %}
                     <td class="thresholds"
                         data-threshold-description="{{ type_data.description }}"
