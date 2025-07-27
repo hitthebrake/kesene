@@ -4,8 +4,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.db import connection
+from django.db.models import OuterRef, Subquery, Prefetch
 
-from reports.models import Sensor, Threshold
+from reports.models import Sensor, Threshold, Measurement, MeasurementType
 
 import time
 import requests
@@ -33,7 +34,6 @@ def table(request):
 
     return render(request, 'monitoring/monitoring.html', {'locations': locations})
 
-
 @login_required(login_url='authorization:login')
 def index(request):
     overall_start = time.time()
@@ -42,11 +42,18 @@ def index(request):
     start = time.time()
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT DISTINCT ON (sensor_id, type_id)
-                   sensor_id, type_id, value
-            FROM reports_measurement
-            ORDER BY sensor_id, type_id, date DESC
-        """)
+                       SELECT s.sensor_id, s.type_id, m.value
+                       FROM (SELECT DISTINCT sensor_id, type_id
+                             FROM reports_measurement) AS s
+                                CROSS JOIN LATERAL (
+                           SELECT value
+                           FROM reports_measurement m
+                           WHERE m.sensor_id = s.sensor_id
+                             AND m.type_id = s.type_id
+                           ORDER BY m.date DESC
+                           LIMIT 1
+                           ) AS m;
+                       """)
         raw_rows = cursor.fetchall()
     latest_values = {(s_id, t_id): value for s_id, t_id, value in raw_rows}
     end = time.time()
