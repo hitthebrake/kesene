@@ -15,19 +15,17 @@
                 <form method="get" action="{% url 'reports:details' %}">
                     <ul class="collapse hide nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                         <li class="w-100">
-                            {#                            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>#}
                             <div class="mb-3">
                                 <label>Выберите начало периода</label>
-                                <input type="date" class="form-input px-0" name="date_s"/>
+                                <input type="date" class="form-input px-0" name="date_s" required/>
                                 <input type="time" class="form-input px-0" name="time_s" required/>
                             </div>
 
                         </li>
                         <li>
-                            {#                            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>#}
                             <div class="mb-3">
                                 <label>Выберите конец периода</label>
-                                <input type="date" class="form-input px-0" name="date_e"/>
+                                <input type="date" class="form-input px-0" name="date_e" required/>
                                 <input type="time" class="form-input d-none d-sm-inline" name="time_e" required/>
                             </div>
                         </li>
@@ -46,7 +44,7 @@
                             <button type="submit" class="btn btn-primary mb-2">Показать</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-success">Выгрузить в Excel</button>
+                            <button type="button" class="btn btn-success" id="downloadExcel">Выгрузить в Excel</button>
                         </li>
                     </ul>
                 </form>
@@ -107,7 +105,8 @@
         </ul>
         <hr>
         <div class="dropdown pb-4">
-            <a href="{% url 'profiles:profile' %}" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle">
+            <a href="{% url 'profiles:profile' %}"
+               class="d-flex align-items-center text-white text-decoration-none dropdown-toggle">
                 <span class="d-none d-sm-inline mx-1">{{ user.username }}</span>
             </a>
         </div>
@@ -132,6 +131,78 @@
                 });
             });
     });
+
+
+    const downloadExcel = document.getElementById('downloadExcel');
+    downloadExcel.addEventListener('click', function (e) {
+        e.preventDefault();
+        const date_s = document.getElementsByName('date_s')[0].value;
+        const time_s = document.getElementsByName('time_s')[0].value;
+        const date_e = document.getElementsByName('date_e')[0].value;
+        const time_e = document.getElementsByName('time_e')[0].value;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const apiUrl = '/main/download_excel_report/';
+        const sensor_ids = document.getElementsByName('sensor_id');
+        const checked = [];
+        sensor_ids.forEach(sensor_id => {
+            if (sensor_id.checked) {
+                checked.push(sensor_id.value);
+            }
+        })
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "X-CSRFToken": csrfToken
+            },
+            body: JSON.stringify({
+                date_s: date_s,
+                date_e: date_e,
+                time_s: time_s,
+                time_e: time_e,
+                sensor_ids: checked
+            }),
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get("Content-Type");
+                if (contentType && contentType.includes("application/json")) {
+                    const data = await response.json();
+                    alert(data.message);
+                    return null;
+                }
+
+                const contentDisposition = response.headers.get('Content-Disposition');
+                let filename = 'downloaded-file'; // Default name in case header is missing
+                if (contentDisposition) {
+                    let match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/);
+                    if (match) {
+                        filename = decodeURIComponent(match[1]);
+                    }
+                }
+                return response.blob().then(blob => ({blob, filename}));
+            })
+            .then(fileData => {
+                if (!fileData) return;
+                const {blob, filename} = fileData;
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename; // Set filename
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url); // Clean up URL objec
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+    })
 
 </script>
 

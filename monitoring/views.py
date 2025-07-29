@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.db import connection
-from django.db.models import OuterRef, Subquery, Prefetch
+import json
 
 from reports.models import Sensor, Threshold, Measurement, MeasurementType
 
@@ -36,6 +36,10 @@ def table(request):
 
 @login_required(login_url='authorization:login')
 def index(request):
+    data = requests.get(
+        f'https://api.openweathermap.org/data/2.5/weather?lat=43.2975&lon=68.2708&appid={settings.WEATHER_API_KEY}&lang=ru'
+    )
+    print(json.loads(data.text))
     overall_start = time.time()
     sensors = Sensor.objects.prefetch_related('supported_types')
 
