@@ -70,7 +70,7 @@
             })
         });
 
-        const socket = new WebSocket('ws://' + window.location.host + '/ws/monitor/');
+        const socket = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
         socket.onopen = () => console.log("Connected!");
         socket.onmessage = function (e) {
             const data = JSON.parse(e.data);
