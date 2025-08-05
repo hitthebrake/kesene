@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.db import connection
 import json
+import pandas
+from django.utils import timezone
+
 
 from reports.models import Sensor, Threshold, Measurement, MeasurementType
 
@@ -155,4 +158,28 @@ def get_types(request):
     sensor = Sensor.objects.get(id=sensor_id)
     types = sensor.supported_types.values('id', 'label', 'code')
     return JsonResponse(list(types), safe=False)
+
+def format_date(date):
+    res = pandas.to_datetime(date).to_pydatetime()
+    return timezone.make_aware(res)
+
+def add_data_manually(request):
+    if request.method == 'POST':
+        date = format_date(request.POST.get('date'))
+        sensor_id = request.POST.get('sensor_id')
+        type_id = request.POST.get('type_id')
+        value = request.POST.get('value')
+        try:
+            instance = Measurement(date=date, sensor_id=sensor_id, type_id=type_id, value=value)
+            instance.save()
+            print('saved')
+            return redirect('monitoring:add-data-manually')
+        except Exception as e:
+            print(e)
+            messages.error(request, 'Ошибка при сохранении')
+
+    return render(request, 'monitoring/add_data_manually.html')
+
+
+
 

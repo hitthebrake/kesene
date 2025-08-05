@@ -1,13 +1,17 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer
 
-class LiveDataConsumer(AsyncWebsocketConsumer):
+class MonitorConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        await self.channel_layer.group_add("live_data", self.channel_name)
+        if self.scope["user"].is_anonymous:
+            await self.close()
+            return
+        await self.channel_layer.group_add("monitor", self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_discard("live_data", self.channel_name)
+        await self.channel_layer.group_discard("monitor", self.channel_name)
 
-    async def send_new_data(self, event):
+    async def send_measurement(self, event):
+        # Send data to WebSocket
         await self.send(text_data=json.dumps(event["data"]))

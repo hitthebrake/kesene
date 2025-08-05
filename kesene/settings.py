@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['rukovoditel.kz', 'www.rukovoditel.kz', '37.140.243.112', '127.
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,4 +158,10 @@ LOGIN_URL = '/login/'
 WEATHER_API_KEY = 'd267e2eb44ad988921a291b61667cc36'
 
 AUTH_USER_MODEL = 'authorization.CustomUser'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
 

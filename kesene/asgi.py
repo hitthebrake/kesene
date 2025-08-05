@@ -13,13 +13,19 @@ from django.core.asgi import get_asgi_application
 
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
+from channels.security.websocket import AllowedHostsOriginValidator
 
-from monitoring.routing import websocket_urlpatterns
+import monitoring.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kesene.settings')
 
+print("ASGI application loaded!")
+print(monitoring.routing.websocket_urlpatterns)
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
-    # Later you'll add "websocket": ...
+    "websocket": AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(monitoring.routing.websocket_urlpatterns)
+        )
+    ),
 })

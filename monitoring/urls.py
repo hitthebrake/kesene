@@ -6,5 +6,5 @@ urlpatterns = [
     path('thresholds/', views.thresholds_view, name='thresholds'),
     path('get-types/', views.get_types, name='get-types'),
     path('delete_threshold/', views.delete_threshold, name='delete-threshold'),
-
+    path('add_data_manually/', views.add_data_manually, name='add-data-manually'),
 ]
