@@ -14,4 +14,5 @@ urlpatterns = [
     path('deleted_users/', views.deleted_users_view, name='deleted_users'),
     path('off_users/', views.off_users_view, name='off_users'),
     path('users/', views.users_view, name='users'),
+    path('json_login/', views.login_with_json, name='json_login'),
 ]

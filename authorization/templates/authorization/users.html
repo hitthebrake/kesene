@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr" data-navigation-type="combo" data-navbar-horizontal-shape="default">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,20 +11,20 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-     <title>МХАЯ</title>
+    <title>МХАЯ</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.svg">
-    <link rel="manifest" href="../images/manifest.json">
-    <meta name="msapplication-TileImage" content="../images/mstile-150x150.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href='{% static "images/favicon-32x32.png" %}'>
+    <link rel="icon" type="image/png" sizes="16x16" href='{% static "images/favicon-16x16.png" %}'>
+    <link rel="shortcut icon" type="image/x-icon" href='{% static "images/favicon.svg" %}'>
+    <link rel="manifest" href='{% static "images/manifest.json" %}'>
+    <meta name="msapplication-TileImage" content='{% static "images/mstile-150x150.png" %}'>
     <meta name="theme-color" content="#ffffff">
-    <script src="../js/simplebar.min.js"></script>
-    <script src="../js/config.js"></script>
+    <script src='{% static "js/simplebar.min.js" %}'></script>
+    <script src='{% static "js/config.js" %}'></script>
 
 
     <!-- ===============================================-->
@@ -31,685 +32,497 @@
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
-    <link href="../css/simplebar.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
+          rel="stylesheet">
+    <link href='{% static "css/simplebar.min.css" %}' rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="../css/theme-rtl.min.css" type="text/css" rel="stylesheet" id="style-rtl">
-    <link href="../css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-    <link href="../css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
-    <link href="../css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
+    <link href='{% static "css/theme-rtl.min.css" %}' type="text/css" rel="stylesheet" id="style-rtl">
+    <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
+    <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
+    <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
     <script>
-      var phoenixIsRTL = window.config.config.phoenixIsRTL;
-      if (phoenixIsRTL) {
-        var linkDefault = document.getElementById('style-default');
-        var userLinkDefault = document.getElementById('user-style-default');
-        linkDefault.setAttribute('disabled', true);
-        userLinkDefault.setAttribute('disabled', true);
-        document.querySelector('html').setAttribute('dir', 'rtl');
-      } else {
-        var linkRTL = document.getElementById('style-rtl');
-        var userLinkRTL = document.getElementById('user-style-rtl');
-        linkRTL.setAttribute('disabled', true);
-        userLinkRTL.setAttribute('disabled', true);
-      }
+        let phoenixIsRTL = window.config.config.phoenixIsRTL;
+        if (phoenixIsRTL) {
+            let linkDefault = document.getElementById('style-default');
+            let userLinkDefault = document.getElementById('user-style-default');
+            linkDefault.setAttribute('disabled', true);
+            userLinkDefault.setAttribute('disabled', true);
+            document.querySelector('html').setAttribute('dir', 'rtl');
+        } else {
+            let linkRTL = document.getElementById('style-rtl');
+            let userLinkRTL = document.getElementById('user-style-rtl');
+            linkRTL.setAttribute('disabled', true);
+            userLinkRTL.setAttribute('disabled', true);
+        }
     </script>
-    <link href="css/leaflet.css" rel="stylesheet">
-    <link href="css/MarkerCluster.css" rel="stylesheet">
-    <link href="css/MarkerCluster.Default.css" rel="stylesheet">
-  </head>
+    <link href='{% static "css/leaflet.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.Default.css" %}' rel="stylesheet">
+</head>
 
 
-  <body>
+<body>
 
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
-    <main class="main" id="top">
-      <nav class="navbar navbar-vertical navbar-expand-lg">
-        <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-          <!-- scrollbar removed-->
-          <div class="navbar-vertical-content">
-            <ul class="navbar-nav flex-column" id="navbarVerticalNav">    
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Панель управления
-                </p>
-                <hr class="navbar-vertical-line" />
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/mysettings.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-					<span class="nav-link-icon"><span data-feather="settings"></span></span><span class="nav-link-text-wrapper">
-					<span class="nav-link-text">Панель</span></span>
-                    </div>
-                  </a>
-                </div>			
-              </li>				
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка пользователей
-                </p>
-                <hr class="navbar-vertical-line" />
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/add_user.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-					<span class="nav-link-icon"><span data-feather="user-plus"></span></span><span class="nav-link-text-wrapper">
-					<span class="nav-link-text">Добавить пользователя</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1 active " href="../user_pages/users.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="users"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Пользователи</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/off.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user-minus"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Отключенные</span></span>
-                    </div>
-                  </a>
-                </div>	
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/deleted.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user-x"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Удаленные</span></span>
-                    </div>
-                  </a>
-                </div>				
-              </li>
-			  <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка организации
-                </p>
-                <hr class="navbar-vertical-line" />
-                <!-- parent pages-->
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/add-organization.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="plus-square"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Добавить организацию</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/organizations.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="briefcase"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Организации</span></span>
-                    </div>
-                  </a>
-                </div>				
-                <!-- parent pages-->
-                
-              </li>			  
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка датчиков
-                </p>
-                <hr class="navbar-vertical-line" />
-                <!-- parent pages-->
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/add_settings.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="plus-square"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Добавить настройку</span></span>
-                    </div>
-                  </a>
-                </div>				
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/winter.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-snowflake"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Зимний период</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/spring.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-flower"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Весенний период</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/sammer.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-sun"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Летний период</span></span>
-                    </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/outem.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-cloud-sun-rain"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Осенний период</span></span>
-                    </div>
-                  </a>
-                </div>				
-                <!-- parent pages-->
-                
-              </li>         
-
-            </ul>
-          </div>
-        </div>
-        <div class="navbar-vertical-footer">
-          <button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-8"></span><span class="uil uil-arrow-from-right fs-8"></span><span class="navbar-vertical-footer-text ms-2">Свернуть меню</span></button>
-        </div>
-      </nav>
-      <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarCombo" data-navbar-top="combo" data-move-target="#navbarVerticalNav">
-        <div class="navbar-logo">
-
-          <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-          <a class="navbar-brand me-1 me-sm-3" href="../index.html">
-            <div class="d-flex align-items-center">
-              <div class="d-flex align-items-center"><img src="../images/logo.png" alt="Система мониторинга" width="27" />
-                <h5 class="logo-text ms-2 d-none d-sm-block">Система мониторинга</h5>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
-          <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Главная</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-                <li>
-				  <a class="dropdown-item active" href="../index.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Состояние системы
-					</div>
-                  </a>
-				</li>				
-                <li><a class="dropdown-item" href="../set/on_map.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="map"></span>Датчики на карте
-                    </div>
-                  </a>
-                </li>                
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-cube"></span>Аналитика</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-				<li><a class="dropdown-item" href="../set/ashana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="coffee"></span>Асхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/aksarai_small.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="user"></span>Аксарай малый</div>
-                  </a></li>
-				<li><a class="dropdown-item" href="../set/aksarai_big.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Аксарай большой</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/enter_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход №1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/entar_2.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход №2</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/gurkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="inbox"></span>Гурхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kazandyk.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="disc"></span>Казандык</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kazandyk_mkp.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="database"></span>Казандык. МКП</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kitapkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="book-open"></span>Китапхна</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hall_2.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор 2</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hall_4.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор 4</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kudukkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="droplet"></span>Кудукхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/mechet.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="clock"></span>Мечеть</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/room_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="square"></span>Помещение 1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/terassa_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="maximize"></span>Терраса 1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hudzhra_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="watch"></span>Худжара 1</div>
-                  </a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-files-landscapes-alt"></span>Данные</a>
-			<ul class="dropdown-menu navbar-dropdown-caret">
-                <li><a class="dropdown-item" href="../set/logs.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="list"></span>Журнал уведомлении</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/report_maker.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="file-plus"></span>Конструктор отчетов
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-document-layout-right"></span>Документация</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-                <li><a class="dropdown-item" href="../set/tbo.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="shield"></span>Техника безопасности
-                    </div>
-                  </a>
-                </li>
-                <li><a class="dropdown-item" href="../set/rules.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="bookmark"></span>Правила работы
-                    </div>
-                  </a>
-                </li>		
-                <li><a class="dropdown-item" href="../set/staff.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Кадровый состав
-                    </div>
-                  </a>
-                </li>					
-                <li class="dropdown dropdown-inside"><a class="dropdown-item dropdown-toggle" id="customization" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                    <div class="dropdown-item-wrapper"><span class="uil fs-8 uil-angle-right lh-1 dropdown-indicator-icon"></span><span><span class="me-2 uil" data-feather="book-open"></span>Справочник</span></div>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../set/emergency.html">
-                        <div class="dropdown-item-wrapper">Экстренные службы
-                        </div>
-                      </a>
-                    </li>
-                    <li><a class="dropdown-item" href="../set/operator.html">
-                        <div class="dropdown-item-wrapper">Дежурный состав
-                        </div>
-                      </a>
-                    </li>                    
-                  </ul>
-                </li>                
-              </ul>
-            </li>
-			
-          </ul>
-        </div>
-        <ul class="navbar-nav navbar-nav-icons flex-row">
-            <li class="nav-item">
-              <div class="theme-control-toggle  px-2">
-                <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
-                <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение" style="height:32px;width:32px;"><span class="icon" data-feather="moon"></span></label>
-                <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение" style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label>
-              </div>
-            </li>
-            
-            <li class="nav-item dropdown">
-			<a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
-				</div>
-            </a>
-              <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
-                <div class="card position-relative border-0">
-                  <div class="card-body p-0">
-                    <div class="text-center pt-4 pb-3">
-                      <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
-					  </div>
-                      <h6 class="mt-2 text-body-emphasis">Батырулан Айтжанов</h6>
-                    </div>
-                  </div>
-
-                  <div class="p-0">
-				  <hr />
-                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="../sign-out.html"> <span class="me-2" data-feather="log-out"> </span>Выход</a></div>
-                    <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a class="text-body-quaternary me-1" href="../set/tbo.html">Техника безопасности</a></a></div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-      </nav>
-      <div class="content">
-<h3 class="text-bold text-body-emphasis mb-5">Пользователи</h3>
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<main class="main" id="top">
+    {% include 'core/sidebar.html' %}
+    {% include 'core/navbar.html' %}
+    <div class="content">
+        <h3 class="text-bold text-body-emphasis mb-5">Пользователи</h3>
         <div class="pb-5">
-<!--    Тут ставить коды основного контента страниц и элементов-->
-        <div id="table" data-list='{"valueNames":["group", "name","surname","secondname","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
-		  <div class="row align-items-center justify-content-between g-3 mb-0">
-            <div class="col col-auto">
-			  <div class="search-box mb-3 mx-auto">
-				<form class="position-relative"><input class="form-control search-input search form-control-sm" type="search" placeholder="Введите запрос" aria-label="Search" />
-				  <span class="fas fa-search search-box-icon"></span>
-				</form>
-			  </div>
+            <!--    Тут ставить коды основного контента страниц и элементов-->
+            <div id="table"
+                 data-list='{"valueNames":["group", "name","surname","secondname","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
+                <div class="row align-items-center justify-content-between g-3 mb-0">
+                    <div class="col col-auto">
+                        <div class="search-box mb-3 mx-auto">
+                            <form class="position-relative"><input
+                                    class="form-control search-input search form-control-sm" type="search"
+                                    placeholder="Введите запрос" aria-label="Search"/>
+                                <span class="fas fa-search search-box-icon"></span>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex align-items-center">
+                            <div class="col-auto px-0">
+                                <select class="form-select form-select-sm mb-3" data-list-filter="data-list-filter">
+                                    <option selected="" value="">Выберите должность</option>
+                                    <option value="Менеджер проекта">Менеджер проекта</option>
+                                    <option value="Инженер ТВР">Инженер ТВР</option>
+                                    <option value="Директор">Директор</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm fs-9 mb-0">
+                        <thead>
+                        <tr>
+                            <th class="sort border-top border-translucent ps-3" data-sort="name" style="min-width:40px;"
+                                hidden>Должность
+                            </th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="name">Имя</th>
+                            <th class="sort border-top d-none d-lg-table-cell" data-sort="surname">Фамилия</th>
+                            <th class="sort border-top" data-sort="secondname">Отчество</th>
+                            <th class="sort border-top d-none d-lg-table-cell" data-sort="organization">Организация</th>
+                            <th class="sort border-top d-none d-lg-table-cell" data-sort="department">Отдел</th>
+                            <th class="sort border-top d-none d-lg-table-cell" data-sort="position">Должность</th>
+                            <th class="sort border-top" data-sort="phone">Телефон</th>
+                            <th class="sort border-top d-none d-lg-table-cell" data-sort="mail">E-mail</th>
+                            <th class="sort text-end align-middle pe-3 border-top" scope="col"><span
+                                    class="fas fa-ellipsis-h fs-10"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+                        <tr>
+                            <td class="align-middle ps-3 group" hidden>Менеджер проекта</td>
+                            <td class="align-middle ps-3 name">Батырулан</td>
+                            <td class="align-middle surname d-none d-lg-table-cell">Айтжанов</td>
+                            <td class="align-middle secondname">Толепбергенович</td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
+                                "КазРеставрация"
+                            </td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
+                            <td class="align-middle position d-none d-lg-table-cell">Менеджер проекта</td>
+                            <td class="align-middle phone">87012501199</td>
+                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
+                            <td class="align-middle white-space-nowrap text-end pe-0">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2">
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#view">Просмотр</a>
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#edit">Редактировать</a>
+                                        <a class="dropdown-item" href="#!">Отключить</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle ps-3 group" hidden>Инженер ТВР</td>
+                            <td class="align-middle ps-3 name">Бахытжан</td>
+                            <td class="align-middle surname d-none d-lg-table-cell">Саитов</td>
+                            <td class="align-middle secondname">Болатович</td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
+                                "КазРеставрация"
+                            </td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
+                            <td class="align-middle position d-none d-lg-table-cell">Инженер ТВР</td>
+                            <td class="align-middle phone">87012501199</td>
+                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
+                            <td class="align-middle white-space-nowrap text-end pe-0">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2">
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#view">Просмотр</a>
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#edit">Редактировать</a>
+                                        <a class="dropdown-item" href="#!">Отключить</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle ps-3 group" hidden>Директор</td>
+                            <td class="align-middle ps-3 name">Олжас</td>
+                            <td class="align-middle surname d-none d-lg-table-cell">Шариазданов</td>
+                            <td class="align-middle secondname">Казбекович</td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
+                                "КазРеставрация"
+                            </td>
+                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
+                            <td class="align-middle position d-none d-lg-table-cell">Директор</td>
+                            <td class="align-middle phone">87000010203</td>
+                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
+                            <td class="align-middle white-space-nowrap text-end pe-0">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2">
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#view">Просмотр</a>
+                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                           data-bs-target="#edit">Редактировать</a>
+                                        <a class="dropdown-item" href="#!">Отключить</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                    <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
+                    <div class="d-flex">
+                        <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span>
+                        </button>
+                        <ul class="mb-0 pagination"></ul>
+                        <button class="page-link pe-0" data-list-pagination="next">
+                            <span class="fas fa-chevron-right"></span></button>
+                    </div>
+                </div>
+                <footer class="footer position-absolute">
+                    <div class="row g-0 justify-content-between align-items-center h-100">
+                        <div class="col-12 col-sm-auto text-center">
+                            <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
+                                    class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
+                                    class="d-sm-none"/>2025 &copy;<a class="mx-1"
+                                                                     href="https://www.instagram.com/qazqaitajanarty/">Instagram</a>
+                            </p>
+                        </div>
+                        <div class="col-12 col-sm-auto text-center">
+                            <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
+                        </div>
+                    </div>
+                </footer>
             </div>
-            <div class="col-auto">
-              <div class="d-flex align-items-center">				  
-              <div class="col-auto px-0">
-			  <select class="form-select form-select-sm mb-3" data-list-filter="data-list-filter">
-				<option selected="" value="">Выберите должность</option>
-				<option value="Менеджер проекта">Менеджер проекта</option>
-				<option value="Инженер ТВР">Инженер ТВР</option>
-				<option value="Директор">Директор</option>
-			  </select>
-			  </div>
-              </div>
+            <div class="modal fade" id="view" tabindex="-1" aria-labelledby="scrollingLongModalLabel2"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
+                            <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card h-100 h-xxl-auto">
+                                <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                    <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+                                        <div class="col-12 col-sm-auto mb-sm-2">
+                                            <div class="avatar avatar-5xl"><img class="rounded-circle"
+                                                                                src='{% static "images/30.webp" %}'
+                                                                                alt=""/>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-auto flex-1">
+                                            <h3>Айтжанов Батырулан Толепбергенович</h3>
+                                            <p class="text-body-secondary">Администратор системы</p>
+                                            <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-between-center border-top border-dashed pt-4">
+
+                                        <div class="card-body">
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-envelope-alt">  </span>
+                                                    <h5 class="text-body-highlight mb-0">Email</h5>
+                                                </div>
+                                                <a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-phone"> </span>
+                                                    <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
+                                                </div>
+                                                <a href="tel:+77012501199">+7 701 250-11-99 </a>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-building"></span>
+                                                    <h5 class="text-body-highlight mb-0">Организация</h5>
+                                                </div>
+                                                <p class="mb-0 text-body-secondary">Головной офис РГП
+                                                    "КазРеставрация"</p>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-postcard"></span>
+                                                    <h5 class="text-body-highlight mb-0">Отдел</h5>
+                                                </div>
+                                                <p class="mb-0 text-body-secondary">Информационный отдел</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-		 </div>
-		<div class="table-responsive">
-		<table class="table table-striped table-sm fs-9 mb-0">
-		  <thead>
-			<tr>
-			  <th class="sort border-top border-translucent ps-3" data-sort="name" style="min-width:40px;" hidden>Должность</th>
-			  <th class="sort border-top border-translucent ps-3" data-sort="name">Имя</th>
-			  <th class="sort border-top d-none d-lg-table-cell" data-sort="surname" >Фамилия</th>
-			  <th class="sort border-top" data-sort="secondname">Отчество</th>
-			  <th class="sort border-top d-none d-lg-table-cell" data-sort="organization">Организация</th>
-			  <th class="sort border-top d-none d-lg-table-cell" data-sort="department">Отдел</th>
-			  <th class="sort border-top d-none d-lg-table-cell" data-sort="position">Должность</th>		
-			  <th class="sort border-top" data-sort="phone">Телефон</th>		  
-			  <th class="sort border-top d-none d-lg-table-cell" data-sort="mail">E-mail</th>
-			  <th class="sort text-end align-middle pe-3 border-top" scope="col"><span class="fas fa-ellipsis-h fs-10"></span></th>
-			</tr>
-		  </thead>
-		  <tbody class="list">
-			<tr>
-			  <td class="align-middle ps-3 group" hidden>Менеджер проекта</td>
-			  <td class="align-middle ps-3 name">Батырулан</td>
-			  <td class="align-middle surname d-none d-lg-table-cell">Айтжанов</td>
-			  <td class="align-middle secondname">Толепбергенович</td>
-			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
-			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
-			  <td class="align-middle position d-none d-lg-table-cell">Менеджер проекта</td>
-			  <td class="align-middle phone">87012501199</td>
-			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-			  <td class="align-middle white-space-nowrap text-end pe-0">
-				<div class="btn-reveal-trigger position-static">
-				<button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-				<span class="fas fa-ellipsis-h fs-10"></span></button>
-					<div class="dropdown-menu dropdown-menu-end py-2">
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#edit">Редактировать</a>
-					<a class="dropdown-item" href="#!"">Отключить</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href="#!">Удалить</a>
-					</div>
-				</div>
-			  </td>
-			</tr>
-			<tr>
-			  <td class="align-middle ps-3 group" hidden>Инженер ТВР</td>
-			  <td class="align-middle ps-3 name">Бахытжан</td>
-			  <td class="align-middle surname d-none d-lg-table-cell">Саитов</td>
-			  <td class="align-middle secondname">Болатович</td>
-			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
-			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
-			  <td class="align-middle position d-none d-lg-table-cell">Инженер ТВР</td>
-			  <td class="align-middle phone">87012501199</td>
-			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-			  <td class="align-middle white-space-nowrap text-end pe-0">
-				<div class="btn-reveal-trigger position-static">
-				<button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-				<span class="fas fa-ellipsis-h fs-10"></span></button>
-					<div class="dropdown-menu dropdown-menu-end py-2">
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#edit">Редактировать</a>
-					<a class="dropdown-item" href="#!"">Отключить</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href="#!">Удалить</a>
-					</div>
-				</div>
-			  </td>
-			</tr>   
-			<tr>
-			  <td class="align-middle ps-3 group" hidden>Директор</td>
-			  <td class="align-middle ps-3 name">Олжас</td>
-			  <td class="align-middle surname d-none d-lg-table-cell">Шариазданов</td>
-			  <td class="align-middle secondname">Казбекович</td>
-			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
-			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>			  
-			  <td class="align-middle position d-none d-lg-table-cell">Директор</td>
-			  <td class="align-middle phone">87000010203</td>
-			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-			  <td class="align-middle white-space-nowrap text-end pe-0">
-				<div class="btn-reveal-trigger position-static">
-				<button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-				<span class="fas fa-ellipsis-h fs-10"></span></button>
-					<div class="dropdown-menu dropdown-menu-end py-2">
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#edit">Редактировать</a>
-					<a class="dropdown-item" href="#!"">Отключить</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href="#!">Удалить</a>
-					</div>
-				</div>
-			  </td>
-			</tr>         	
-		  </tbody>
-		</table>
-		
+            <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="scrollingLongModalLabel2"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
+                            <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card h-100 h-xxl-auto">
+                                <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                    <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+                                        <div class="col-12 col-sm-auto mb-sm-2">
+
+                                            <input class="d-none" id="avatarFile" type="file">
+                                            <label class="cursor-pointer avatar avatar-5xl" for="avatarFile">
+                                                <img class="rounded-circle" src='{% static "images/30.webp" %}'
+                                                     alt=""></label>
+
+                                        </div>
+                                        <div class="col-12 col-sm-auto flex-1">
+                                            <h3>Айтжанов Батырулан Толепбергенович</h3>
+                                            <p class="text-body-secondary">Администратор системы</p>
+                                            <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-between-center border-top border-dashed pt-4">
+
+                                        <div class="card-body">
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 far fa-id-badge"></span>
+                                                    <h5 class="text-body-highlight mb-0">Фамилия</h5>
+                                                    <button class="btn btn-link p-0"><span
+                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    </button>
+                                                </div>
+                                                <p class="mb-0 text-body-secondary">Айтжанов</p>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 far fa-id-badge "></span>
+                                                    <h5 class="text-body-highlight mb-0">Имя</h5>
+                                                    <button class="btn btn-link p-0"><span
+                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    </button>
+                                                </div>
+                                                <p class="mb-0 text-body-secondary">Батырулан</p>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil far fa-id-badge"></span>
+                                                    <h5 class="text-body-highlight mb-0">Отчество</h5>
+                                                    <button class="btn btn-link p-0"><span
+                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    </button>
+                                                </div>
+                                                <p class="mb-0 text-body-secondary">Толепбергенович</p>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-envelope-alt">  </span>
+                                                    <h5 class="text-body-highlight mb-0">Email</h5>
+                                                    <button class="btn btn-link p-0"><span
+                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    </button>
+                                                </div>
+                                                <a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-phone"> </span>
+                                                    <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
+                                                    <button class="btn btn-link p-0"><span
+                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    </button>
+                                                </div>
+                                                <a href="tel:+77012501199">+7 701 250-11-99 </a>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-building"></span>
+                                                    <h5 class="text-body-highlight mb-0">Организация</h5>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="floatingSelectIndustry">
+                                                        <option selected="selected">Головной офис РГП "КазРеставрация"
+                                                        </option>
+                                                        <option value="1">Головной офис РГП "КазРеставрация"</option>
+                                                        <option value="2">Головной офис РГП "КазРеставрация"</option>
+                                                        <option value="3">Головной офис РГП "КазРеставрация"</option>
+                                                    </select>
+                                                    <label for="floatingSelectIndustry">Организация</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil uil-postcard"></span>
+                                                    <h5 class="text-body-highlight mb-0">Отдел</h5>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="floatingSelectDepartment">
+                                                        <option selected="selected">Информационный отдел</option>
+                                                        <option value="1">Информационный отдел</option>
+                                                        <option value="2">Информационный отдел</option>
+                                                        <option value="3">Информационный отдел</option>
+                                                    </select>
+                                                    <label for="floatingSelectStatus">Отдел </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <div class="d-flex align-items-center mb-1"><span
+                                                        class="me-2 uil fas fa-chess-queen"></span>
+                                                    <h5 class="text-body-highlight mb-0">Должность</h5>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="floatingSelectLeadStaff">
+                                                        <option selected="selected">Менеджер проекта</option>
+                                                        <option value="1">Менеджер проекта</option>
+                                                        <option value="2">Инженер ТВР</option>
+                                                        <option value="3">Директор</option>
+                                                    </select>
+                                                    <label for="floatingSelectLeadSource">Должность</label>
+                                                </div>
+                                            </div>
+
+                                            <h4 class="mt-3">Разрешения</h4>
+                                            <div class="col-sm-12 mt-3">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" id="flexCheckChecked"
+                                                           type="checkbox" value="" checked=""/>
+                                                    <label class="form-check-label"
+                                                           for="flexCheckChecked">Администратор</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                           value="option2"/>
+                                                    <label class="form-check-label"
+                                                           for="inlineCheckbox2">Просмотр</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" id="inlineCheckbox3" type="checkbox"
+                                                           value="option3"/>
+                                                    <label class="form-check-label" for="inlineCheckbox3">Добавить
+                                                        пользователей</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" id="inlineCheckbox4" type="checkbox"
+                                                           value="option4"/>
+                                                    <label class="form-check-label" for="inlineCheckbox4">Настройка
+                                                        датчиков</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" id="inlineCheckbox4" type="checkbox"
+                                                           value="option4"/>
+                                                    <label class="form-check-label" for="inlineCheckbox4">Ручной
+                                                        ввод</label>
+                                                </div>
+                                            </div>
+                                            <h4 class="mt-3">Пароль</h4>
+                                            <div class="col-sm-12 mt-3">
+                                                <div class="form-floating"><input class="form-control" type="text"
+                                                                                  placeholder="Введите номер телефона"><label>Введите
+                                                    новый пароль</label></div>
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <div class="form-floating"><input class="form-control" type="text"
+                                                                                  placeholder="Введите E-mail"><label>Повторите
+                                                    новый пароль</label></div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success me-1 mb-1" type="button">Сохранить</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-				  <div class="d-flex justify-content-between mt-3">
-				    <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
-						<div class="d-flex">
-						  <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-						  <ul class="mb-0 pagination"></ul><button class="page-link pe-0" data-list-pagination="next">
-						  <span class="fas fa-chevron-right"></span></button>					  
-						</div>
-					</div>        
-		<footer class="footer position-absolute">
-          <div class="row g-0 justify-content-between align-items-center h-100">
-            <div class="col-12 col-sm-auto text-center">
-              <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2025 &copy;<a class="mx-1" href="https://www.instagram.com/qazqaitajanarty/">Instagram</a></p>
-            </div>
-            <div class="col-12 col-sm-auto text-center">
-              <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
-            </div>
-          </div>
-        </footer>
-      </div>
-<div class="modal fade" id="view" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5><button class="btn btn-close p-1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-	  <div class="card h-100 h-xxl-auto">
-                    <div class="card-body d-flex flex-column justify-content-between pb-3">
-                      <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
-                        <div class="col-12 col-sm-auto mb-sm-2">
-                          <div class="avatar avatar-5xl"><img class="rounded-circle" src="../user_pages/img/30.webp" alt="" /></div>
-                        </div>
-                        <div class="col-12 col-sm-auto flex-1">
-                          <h3>Айтжанов Батырулан Толепбергенович</h3>
-						  <p class="text-body-secondary">Администратор системы</p>
-                          <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
-                          
-                        </div>
-                      </div>
-                      <div class="d-flex flex-between-center border-top border-dashed pt-4">
-
-                    <div class="card-body">
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-envelope-alt">  </span>
-                          <h5 class="text-body-highlight mb-0">Email</h5>
-                        </div><a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-phone"> </span>
-                          <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
-                        </div><a href="tel:+77012501199">+7 701 250-11-99 </a>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-building"></span>
-                          <h5 class="text-body-highlight mb-0">Организация</h5>
-                        </div>
-                        <p class="mb-0 text-body-secondary">Головной офис РГП "КазРеставрация"</p>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-postcard"></span>
-                          <h5 class="text-body-highlight mb-0">Отдел</h5>
-                        </div>
-                        <p class="mb-0 text-body-secondary">Информационный отдел</p>
-                      </div>
-                    </div>
-
-                      </div>
-                    </div>
-                </div>	  	  
-	  
-	  </div>
-      <div class="modal-footer"><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button></div>
-    </div>
-  </div>
-</div> 
-<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5><button class="btn btn-close p-1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-	  <div class="card h-100 h-xxl-auto">
-                    <div class="card-body d-flex flex-column justify-content-between pb-3">
-                      <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
-					  <div class="col-12 col-sm-auto mb-sm-2">
-					  
-						<input class="d-none" id="avatarFile" type="file">
-						<label class="cursor-pointer avatar avatar-5xl" for="avatarFile">
-						<img class="rounded-circle" src="../user_pages/img/30.webp" alt=""></label>				  
-					  
-					  </div>
-                        <div class="col-12 col-sm-auto flex-1">
-                          <h3>Айтжанов Батырулан Толепбергенович</h3>
-						  <p class="text-body-secondary">Администратор системы</p>
-                          <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>                          
-                        </div>
-                      </div>
-                      <div class="d-flex flex-between-center border-top border-dashed pt-4">
-
-                    <div class="card-body">	
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 far fa-id-badge"></span>
-                          <h5 class="text-body-highlight mb-0">Фамилия</h5><button class="btn btn-link p-0"><span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span></button>
-                        </div>
-                        <p class="mb-0 text-body-secondary">Айтжанов</p>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 far fa-id-badge "></span>
-                          <h5 class="text-body-highlight mb-0">Имя</h5><button class="btn btn-link p-0"><span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span></button>
-                        </div>
-                        <p class="mb-0 text-body-secondary">Батырулан</p>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil far fa-id-badge"></span>
-                          <h5 class="text-body-highlight mb-0">Отчество</h5><button class="btn btn-link p-0"><span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span></button>
-                        </div>
-                        <p class="mb-0 text-body-secondary">Толепбергенович</p>
-                      </div>						  
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-envelope-alt">  </span>
-                          <h5 class="text-body-highlight mb-0">Email</h5><button class="btn btn-link p-0"><span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span></button>
-                        </div><a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-phone"> </span>
-                          <h5 class="text-body-highlight mb-0">Сотовый номер</h5><button class="btn btn-link p-0"><span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span></button>
-                        </div><a href="tel:+77012501199">+7 701 250-11-99 </a>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-building"></span>
-                          <h5 class="text-body-highlight mb-0">Организация</h5>
-                        </div>
-						<div class="form-floating">
-						  <select class="form-select" id="floatingSelectIndustry">
-							<option selected="selected">Головной офис РГП "КазРеставрация"</option>
-							<option value="1">Головной офис РГП "КазРеставрация"</option>
-							<option value="2">Головной офис РГП "КазРеставрация"</option>
-							<option value="3">Головной офис РГП "КазРеставрация"</option>
-						  </select>
-						  <label for="floatingSelectIndustry">Организация</label>
-						</div>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil uil-postcard"></span>
-                          <h5 class="text-body-highlight mb-0">Отдел</h5>
-                        </div>
-						<div class="form-floating">
-						  <select class="form-select" id="floatingSelectDepartment">
-							<option selected="selected">Информационный отдел</option>
-							<option value="1">Информационный отдел</option>
-							<option value="2">Информационный отдел</option>
-							<option value="3">Информационный отдел</option>
-						  </select>
-						  <label for="floatingSelectStatus">Отдел </label>
-						</div>
-                      </div>
-                      <div class="mb-2">
-                        <div class="d-flex align-items-center mb-1"><span class="me-2 uil fas fa-chess-queen"></span>
-                          <h5 class="text-body-highlight mb-0">Должность</h5>
-                        </div>
-						<div class="form-floating">
-						  <select class="form-select" id="floatingSelectLeadStaff">
-							<option selected="selected">Менеджер проекта</option>
-							<option value="1">Менеджер проекта</option>
-							<option value="2">Инженер ТВР</option>
-							<option value="3">Директор</option>
-						  </select>
-						  <label for="floatingSelectLeadSource">Должность</label>
-						</div>
-                      </div>
-
-			<h4 class="mt-3">Разрешения</h4>
-			  <div class="col-sm-12 mt-3">
-				<div class="form-check form-check-inline">
-				  <input class="form-check-input" id="flexCheckChecked" type="checkbox" value="" checked="" />
-				  <label class="form-check-label" for="flexCheckChecked">Администратор</label>
-				</div>
-				<div class="form-check form-check-inline">
-				  <input class="form-check-input" id="inlineCheckbox2" type="checkbox" value="option2" />
-				  <label class="form-check-label" for="inlineCheckbox2">Просмотр</label>
-				</div>
-				<div class="form-check form-check-inline">
-				  <input class="form-check-input" id="inlineCheckbox3" type="checkbox" value="option3"  />
-				  <label class="form-check-label" for="inlineCheckbox3">Добавить пользователей</label>
-				</div>  
-				<div class="form-check form-check-inline">
-				  <input class="form-check-input" id="inlineCheckbox4" type="checkbox" value="option4"  />
-				  <label class="form-check-label" for="inlineCheckbox4">Настройка датчиков</label>
-				</div>  
-				<div class="form-check form-check-inline">
-				  <input class="form-check-input" id="inlineCheckbox4" type="checkbox" value="option4"  />
-				  <label class="form-check-label" for="inlineCheckbox4">Ручной ввод</label>
-				</div> 				
-              </div>
-			<h4 class="mt-3">Пароль</h4>
-			  <div class="col-sm-12 mt-3">
-                <div class="form-floating"><input class="form-control"  type="text" placeholder="Введите номер телефона"><label>Введите новый пароль</label></div>
-              </div>
-			  <div class="col-sm-12 mt-3">
-                <div class="form-floating"><input class="form-control"  type="text" placeholder="Введите E-mail"><label>Повторите новый пароль</label></div>
-              </div>	
-					  
-                    </div>
-
-                      </div>
-                    </div>
-                </div>	  	  
-	  
-	  </div>
-      <div class="modal-footer"><button class="btn btn-success me-1 mb-1" type="button">Сохранить</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button></div>
-    </div>
-  </div>
-</div>          
-    </main>
-    <!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
 
 
-    
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/anchor.min.js"></script>
-    <script src="../js/is.min.js"></script>
-    <script src="../js/all.min.js"></script>
-    <script src="../js/lodash.min.js"></script>
-    <script src="../js/list.min.js"></script>
-    <script src="../js/feather.min.js"></script>
-    <script src="../js/dayjs.min.js"></script>
-    <script src="../js/leaflet.js"></script>
-    <script src="../js/leaflet.markercluster.js"></script>
-    <script src="../js/leaflet-tilelayer-colorfilter.min.js"></script>
-    <script src="../js/phoenix.js"></script>
-    <script src="../js/echarts.min.js"></script>
-    <script src="../js/ecommerce-dashboard.js"></script>
+<!-- ===============================================-->
+<!--    JavaScripts-->
+<!-- ===============================================-->
+<script src='{% static "js/popper.min.js" %}'></script>
+<script src='{% static "js/bootstrap.min.js" %}'></script>
+<script src='{% static "js/anchor.min.js" %}'></script>
+<script src='{% static "js/is.min.js" %}'></script>
+<script src='{% static "js/all.min.js" %}'></script>
+<script src='{% static "js/lodash.min.js" %}'></script>
+<script src='{% static "js/list.min.js" %}'></script>
+<script src='{% static "js/feather.min.js" %}'></script>
+<script src='{% static "js/dayjs.min.js" %}'></script>
+<script src='{% static "js/leaflet.js" %}'></script>
+<script src='{% static "js/leaflet.markercluster.js" %}'></script>
+<script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
+<script src='{% static "js/phoenix.js" %}'></script>
+<script src='{% static "js/echarts.min.js" %}'></script>
+<script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
-  </body>
+</body>
 
 </html>

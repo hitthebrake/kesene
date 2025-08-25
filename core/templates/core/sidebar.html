@@ -1,116 +1,153 @@
 <nav class="navbar navbar-vertical navbar-expand-lg">
-        <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-          <!-- scrollbar removed-->
-          <div class="navbar-vertical-content">
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <!-- scrollbar removed-->
+        <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Панель управления
-                </p>
-                <div class="nav-item-wrapper"><a class="nav-link label-1 active" href='{% url "monitoring:settings_view" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-					<span class="nav-link-icon"><span data-feather="settings"></span></span><span class="nav-link-text-wrapper">
+                <li class="nav-item">
+                    <!-- label-->
+                    <p class="navbar-vertical-label">Панель управления
+                    </p>
+                    <div class="nav-item-wrapper"><a class="nav-link label-1 active"
+                                                     href='{% url "monitoring:settings_view" %}' role="button"
+                                                     data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><span data-feather="settings"></span></span><span
+                                class="nav-link-text-wrapper">
 					<span class="nav-link-text">Панель</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка пользователей
-                </p>
-                <hr class="navbar-vertical-line" />
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:add_user" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-					<span class="nav-link-icon"><span data-feather="user-plus"></span></span><span class="nav-link-text-wrapper">
+                </li>
+                <li class="nav-item">
+                    <!-- label-->
+                    <p class="navbar-vertical-label">Настройка пользователей
+                    </p>
+                    <hr class="navbar-vertical-line"/>
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:add_user" %}'
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><span data-feather="user-plus"></span></span><span
+                                class="nav-link-text-wrapper">
 					<span class="nav-link-text">Добавить пользователя</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:users" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="users"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Пользователи</span></span>
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:users" %}'
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="users"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Пользователи</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:off_users" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user-minus"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Отключенные</span></span>
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:off_users" %}'
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="user-minus"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Отключенные</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:deleted_users" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user-x"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Удаленные</span></span>
+                    <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                     href='{% url "authorization:deleted_users" %}' role="button"
+                                                     data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="user-x"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Удаленные</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-              </li>
-			  <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка организации
-                </p>
-                <hr class="navbar-vertical-line" />
-                <!-- parent pages-->
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:add_organization" %}' role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="plus-square"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Добавить организацию</span></span>
+                </li>
+                <li class="nav-item">
+                    <!-- label-->
+                    <p class="navbar-vertical-label">Настройка организации
+                    </p>
+                    <hr class="navbar-vertical-line"/>
+                    <!-- parent pages-->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                     href='{% url "authorization:add_organization" %}' role="button"
+                                                     data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="plus-square"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Добавить организацию</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/organizations.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="briefcase"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Организации</span></span>
+                    <!-- CHANGE "../user_pages/organizations.html" -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="briefcase"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Организации</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <!-- parent pages-->
+                    <!-- parent pages-->
 
-              </li>
-              <li class="nav-item">
-                <!-- label-->
-                <p class="navbar-vertical-label">Настройка датчиков
-                </p>
-                <hr class="navbar-vertical-line" />
-                <!-- parent pages-->
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/add_settings.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="plus-square"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Добавить настройку</span></span>
+                </li>
+                <li class="nav-item">
+                    <!-- label-->
+                    <p class="navbar-vertical-label">Настройка датчиков
+                    </p>
+                    <hr class="navbar-vertical-line"/>
+                    <!-- parent pages-->
+                    <!-- CHANGE "../user_pages/add_settings.html" -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                data-feather="plus-square"></span></span>
+                            <span class="nav-link-text-wrapper"><span
+                                    class="nav-link-text">Добавить настройку</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/winter.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-snowflake"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Зимний период</span></span>
+                    <!-- CHANGE ../user_pages/winter.html -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                class="far fa-snowflake"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Зимний период</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/spring.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-flower"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Весенний период</span></span>
+                    <!-- CHANGE ../user_pages/spring.html -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                class="uil-flower"></span></span>
+                            <span class="nav-link-text-wrapper"><span
+                                    class="nav-link-text">Весенний период</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/sammer.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-sun"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Летний период</span></span>
+                    <!-- CHANGE ../user_pages/sammer.html -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-sun"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Летний период</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <div class="nav-item-wrapper"><a class="nav-link label-1" href="../user_pages/outem.html" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="uil-cloud-sun-rain"></span></span>
-					<span class="nav-link-text-wrapper"><span class="nav-link-text">Осенний период</span></span>
+                    <!-- CHANGE  "../user_pages/outem.html" -->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href=""
+                                                     role="button" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                class="uil-cloud-sun-rain"></span></span>
+                            <span class="nav-link-text-wrapper"><span class="nav-link-text">Осенний период</span></span>
+                        </div>
+                    </a>
                     </div>
-                  </a>
-                </div>
-                <!-- parent pages-->
+                    <!-- parent pages-->
 
-              </li>
+                </li>
 
             </ul>
-          </div>
         </div>
-        <div class="navbar-vertical-footer">
-          <button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-8"></span><span class="uil uil-arrow-from-right fs-8"></span><span class="navbar-vertical-footer-text ms-2">Свернуть меню</span></button>
-        </div>
-      </nav>
+    </div>
+    <div class="navbar-vertical-footer">
+        <button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
+            <span class="uil uil-left-arrow-to-left fs-8"></span><span
+                class="uil uil-arrow-from-right fs-8"></span><span class="navbar-vertical-footer-text ms-2">Свернуть меню</span>
+        </button>
+    </div>
+</nav>

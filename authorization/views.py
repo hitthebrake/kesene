@@ -1,3 +1,6 @@
+import json
+
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -91,3 +94,21 @@ def off_users_view(request):
 @login_required(login_url='authorization:login')
 def users_view(request):
     return render(request, 'authorization/users.html')
+
+
+def login_with_json(request):
+    if request.user.is_authenticated:
+        return JsonResponse({'status': 'success', 'message': 'Already logged in'})
+
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        print('data:', data)
+        email = data.get('email', '')
+        password = data.get('password', '')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'status': 'success', 'message': 'Logged in'})
+        return JsonResponse({'status': 'fail', 'message': 'Invalid credentials'})
+
+    return JsonResponse({'status': 'fail', 'message': 'Internal errors'})
