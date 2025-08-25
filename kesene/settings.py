@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'monitoring',
     'sensors',
     'profiles',
+    'maps',
+    'webhook',
 ]
 
 ASGI_APPLICATION = 'kesene.asgi.application'

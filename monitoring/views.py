@@ -1,5 +1,7 @@
+from http.client import responses
+
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
@@ -29,13 +31,15 @@ def delete_threshold(request):
             pass
     return redirect('monitoring:thresholds')
 
+
 @login_required(login_url='authorization:login')
 def table(request):
     data = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat=43.2975&lon=68.2708&appid={settings.WEATHER_API_KEY}&lang=ru')
     locations = set(sensor.location for sensor in Sensor.objects.all())
 
-
+    return redirect()
     return render(request, 'monitoring/monitoring.html', {'locations': locations})
+
 
 @login_required(login_url='authorization:login')
 def index(request):
@@ -103,9 +107,10 @@ def index(request):
     overall_end = time.time()
     print('Overall duration:', overall_end - overall_start)
 
-    return render(request, 'monitoring/monitoring.html', {
+    return render(request, 'monitoring/index.html', {
         'values': values,
     })
+
 
 def check_limits(a, b, c, d):
     if a >= b or c >= d:
@@ -113,6 +118,7 @@ def check_limits(a, b, c, d):
     if b <= c or d <= a:
         return True, ''
     return False, 'Пересечение другими лимитами'
+
 
 @user_passes_test(can_add_threshold, login_url='authorization:login')
 def thresholds_view(request):
@@ -152,6 +158,7 @@ def thresholds_view(request):
 
     return render(request, 'monitoring/thresholds_view.html', {'thresholds': thresholds})
 
+
 @login_required(login_url='authorization:login')
 def get_types(request):
     sensor_id = request.GET.get('sensor_id')
@@ -159,9 +166,11 @@ def get_types(request):
     types = sensor.supported_types.values('id', 'label', 'code')
     return JsonResponse(list(types), safe=False)
 
+
 def format_date(date):
     res = pandas.to_datetime(date).to_pydatetime()
     return timezone.make_aware(res)
+
 
 def add_data_manually(request):
     if request.method == 'POST':
@@ -179,6 +188,11 @@ def add_data_manually(request):
             messages.error(request, 'Ошибка при сохранении')
 
     return render(request, 'monitoring/add_data_manually.html')
+
+
+@login_required(login_url='authorization:login')
+def settings_view(request):
+    return render(request, 'monitoring/mysettings.html')
 
 
 

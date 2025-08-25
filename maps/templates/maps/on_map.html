@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr" data-navigation-type="horizontal" data-navbar-horizontal-shape="default">
 
@@ -8,31 +9,31 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>МХАЯ</title
+    <title>МХАЯ</title>
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.svg">
-    <link rel="manifest" href="../images/manifest.json">
-    <meta name="msapplication-TileImage" content="../images/mstile-150x150.png">
+    <link rel="apple-touch-icon" sizes="180x180" href='{% static "images/apple-touch-icon.png" %}'>
+    <link rel="icon" type="image/png" sizes="32x32" href='{% static "images/favicon-32x32.png" %}'>
+    <link rel="icon" type="image/png" sizes="16x16" href='{% static "images/favicon-16x16.png" %}'>
+    <link rel="shortcut icon" type="image/x-icon" href='{% static "images/favicon.svg" %}'>
+    <link rel="manifest" href='{% static "images/manifest.json" %}'>
+    <meta name="msapplication-TileImage" content="{% static 'images/mstile-150x150.png' %}">
     <meta name="theme-color" content="#ffffff">
-    <script src="../js/simplebar.min.js"></script>
-    <script src="../js/config.js"></script>
+    <script src='{% static "js/simplebar.min.js" %}'></script>
+    <script src='{% static "js/config.js" %}'></script>
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
-    <link href="../css/simplebar.min.css" rel="stylesheet">
+    <link href='{% static "css/simplebar.min.css" %}' rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="../css/theme-rtl.min.css" type="text/css" rel="stylesheet" id="style-rtl">
-    <link href="../css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-    <link href="../css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
-    <link href="../css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
+    <link href='{% static "css/theme-rtl.min.css" %}' type="text/css" rel="stylesheet" id="style-rtl">
+    <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
+    <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
+    <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
     <script>
       var phoenixIsRTL = window.config.config.phoenixIsRTL;
       if (phoenixIsRTL) {
@@ -48,9 +49,9 @@
         userLinkRTL.setAttribute('disabled', true);
       }
     </script>
-    <link href="../css/leaflet.css" rel="stylesheet">
-    <link href="../css/MarkerCluster.css" rel="stylesheet">
-    <link href="../css/MarkerCluster.Default.css" rel="stylesheet">
+    <link href='{% static "css/leaflet.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.Default.css" %}' rel="stylesheet">
   </head>
   <body>
 
@@ -62,9 +63,9 @@
         <div class="navbar-logo">
 
           <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-          <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+          <a class="navbar-brand me-1 me-sm-3" href="{% url 'monitoring:index' %}">
             <div class="d-flex align-items-center">
-              <div class="d-flex align-items-center"><img src="../images/logo.png" alt="phoenix" width="27" />
+              <div class="d-flex align-items-center"><img src='{% static "images/logo.png" %}' alt="phoenix" width="27" />
                 <h5 class="logo-text ms-2 d-none d-sm-block">Система мониторинга</h5>
               </div>
             </div>
@@ -75,12 +76,12 @@
             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Главная</a>
               <ul class="dropdown-menu navbar-dropdown-caret">
                 <li>
-				  <a class="dropdown-item active" href="../index.html">
+				  <a class="dropdown-item active" href="{% url 'monitoring:index' %}">
                     <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Состояние системы
 					</div>
                   </a>
 				</li>				
-                <li><a class="dropdown-item" href="../set/on_map.html">
+                <li><a class="dropdown-item" href="{% url 'maps:maps' %}">
                     <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="map"></span>Датчики на карте
                     </div>
                   </a>
@@ -202,7 +203,7 @@
 <li class="nav-item dropdown">
 			<a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
+                  <img class="rounded-circle " src='{% static "images/30.webp" %}' alt="" />
 				</div>
             </a>
               <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
@@ -210,19 +211,19 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
+                        <img class="rounded-circle " src='{% static "images/30.webp" %}' alt="" />
 					  </div>
                       <h6 class="mt-2 text-body-emphasis">Батырулан Айтжанов</h6>
                     </div>
                   </div>
                   <div class="overflow-auto scrollbar">
                     <ul class="nav d-flex flex-column mb-2 pb-1">
-                      <li class="nav-item"><a class="nav-link px-3 d-block" href="../user_pages/mysettings.html"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Администрирование</a></li>
+                      <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'monitoring:settings_view' %}"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Администрирование</a></li>
                     </ul>
                   </div>
                   <div class="p-0">
 				  <hr />
-                    <div class="px-3"><a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="../sign-out.html"> <span class="me-2" data-feather="log-out"> </span>Выход</a></div>
+                    <div class="px-3"><a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{% url 'authorization:logout' %}"> <span class="me-2" data-feather="log-out"> </span>Выход</a></div>
                     </div>
                 </div>
               </div>
@@ -246,13 +247,13 @@
 			</ul>
 			<div class="tab-content mt-3" id="myTabContent">
 			  <div class="tab-pane fade show active" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
-			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src="../images/1_floor.jpg" alt="" style="min-height: 250px;">
+			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src='{% static "images/1_floor.jpg" %}' alt="" style="min-height: 250px;">
 			  </div>
 			  <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
-			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src="../images/2_floor.jpg" alt="" style="min-height: 250px;">
+			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src='{% static "images/2_floor.jpg" %}' alt="" style="min-height: 250px;">
 			  </div>
 			  <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="contact-tab">
-			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src="../images/roof_plan.jpg" alt="" style="min-height: 250px;">
+			  <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8" src='{% static "images/roof_plan.jpg" %}' alt="" style="min-height: 250px;">
 			  </div>
 			</div>
             </div>            
@@ -416,7 +417,7 @@
 			<p class="text-body-tertiary lh-lg mb-0">Большая вероятность скопления влажности изза потока ветра. Закройте двери во избежании образования сквозняков</p>
 		  </div>
 		  <div class="modal-body">
-		  <img class="rounded-2 w-100 h-100 object-fit-cover" src="../images/91.png" alt="">
+		  <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
 			<div class="position-absolute w-100 bottom-0 start-0 p-5">
 				<h4 class="text-white">Вентиляционная шахта-P1.14-Vв</h4>
 				<p class="mb-0 text-secondary-lighter text-capitalize">Скорость воздушного потока, м/с</p>
@@ -437,7 +438,7 @@
 			<p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с датчиком. Необходимо проверить физическое состояние данного датчика на месте ее установки.</p>
 		  </div>
 		  <div class="modal-body">
-		  <img class="rounded-2 w-100 h-100 object-fit-cover" src="../images/91.png" alt="">
+		  <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
 			<div class="position-absolute w-100 bottom-0 start-0 p-5">
 				<h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
 				<p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
@@ -459,7 +460,7 @@
 			<p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с датчиком. Необходимо проверить физическое состояние данного датчика на месте ее установки.</p>
 		  </div>
 		  <div class="modal-body">
-		  <img class="rounded-2 w-100 h-100 object-fit-cover" src="../images/91.png" alt="">
+		  <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
 			<div class="position-absolute w-100 bottom-0 start-0 p-5">
 				<h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
 				<p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
@@ -479,7 +480,7 @@
 			<p class="text-body-tertiary lh-lg mb-0">Включить вентиляторы по направлению выдува к двери. Ограничить посщение на 2 часа!</p>
 		  </div>
 		  <div class="modal-body">
-		  <img class="rounded-2 w-100 h-100 object-fit-cover" src="../images/91.png" alt="">
+		  <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
 			<div class="position-absolute w-100 bottom-0 start-0 p-5">
 				<h4 class="text-white">Вентиляционная шахта-P2.5-ТвОВв</h4>
 				<p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
@@ -489,7 +490,7 @@
 		</div>
 	  </div>
 	</div>  
-	
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
@@ -502,21 +503,21 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/anchor.min.js"></script>
-    <script src="../js/is.min.js"></script>
-    <script src="../js/all.min.js"></script>
-    <script src="../js/lodash.min.js"></script>
-    <script src="../js/list.min.js"></script>
-    <script src="../js/feather.min.js"></script>
-    <script src="../js/dayjs.min.js"></script>
-    <script src="../js/leaflet.js"></script>
-    <script src="../js/leaflet.markercluster.js"></script>
-    <script src="../js/leaflet-tilelayer-colorfilter.min.js"></script>
-    <script src="../js/phoenix.js"></script>
-    <script src="../js/echarts.min.js"></script>
-    <script src="../js/ecommerce-dashboard.js"></script>
+    <script src='{% static "js/popper.min.js" %}'></script>
+    <script src='{% static "js/bootstrap.min.js" %}'></script>
+    <script src='{% static "js/anchor.min.js" %}'></script>
+    <script src='{% static "js/is.min.js" %}'></script>
+    <script src='{% static "js/all.min.js" %}'></script>
+    <script src='{% static "js/lodash.min.js" %}'></script>
+    <script src='{% static "js/list.min.js" %}'></script>
+    <script src='{% static "js/feather.min.js" %}'></script>
+    <script src='{% static "js/dayjs.min.js" %}'></script>
+    <script src='{% static "js/leaflet.js" %}'></script>
+    <script src='{% static "js/leaflet.markercluster.js" %}'></script>
+    <script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
+    <script src='{% static "js/phoenix.js" %}'></script>
+    <script src='{% static "js/echarts.min.js" %}'></script>
+    <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
   </body>
 

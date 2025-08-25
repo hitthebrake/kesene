@@ -1,0 +1,266 @@
+{% load static %}
+<nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
+        <div class="navbar-logo">
+
+            <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse"
+                    aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
+                    class="toggle-line"></span></span></button>
+            <a class="navbar-brand me-1 me-sm-3" href="{% url 'monitoring:index' %}">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center"><img src='{% static "images/logo.png" %}' alt="phoenix"
+                                                                width="27"/>
+                        <h5 class="logo-text ms-2 d-none d-sm-block">Система мониторинга</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
+             id="navbarTopCollapse">
+            <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button"
+                                                 data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                                 aria-haspopup="true" aria-expanded="false"><span
+                        class="uil fs-8 me-2 uil-chart-pie"></span>Главная</a>
+                    <ul class="dropdown-menu navbar-dropdown-caret">
+                        <li>
+                            <a class="dropdown-item active" href="{% url 'monitoring:index' %}">
+                                <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Состояние
+                                    системы
+                                </div>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href='{% url "maps:maps" %}' >
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="map"></span>Датчики
+                                на карте
+                            </div>
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown"
+                       data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span
+                            class="uil fs-8 me-2 uil-cube"></span>Аналитика</a>
+                    <ul class="dropdown-menu navbar-dropdown-caret">
+                        <!-- CHANGE href='{ % static "set/ashana.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="coffee"></span>Асхана
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/aksarai_small.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="user"></span>Аксарай
+                                малый
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/aksarai_big.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Аксарай
+                                большой
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/enter_1.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход
+                                №1
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/entar_2.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход
+                                №2
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/gurkhana.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="inbox"></span>Гурхана
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/kazandyk.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="disc"></span>Казандык
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/kazandyk_mkp.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="database"></span>Казандык.
+                                МКП
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/kitapkhana.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="book-open"></span>Китапхна
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/hall_2.html" %}'-->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор
+                                2
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/hall_4.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор
+                                4
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/kudukkhana.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="droplet"></span>Кудукхана
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/mechet.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="clock"></span>Мечеть
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/room_1.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="square"></span>Помещение
+                                1
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/terassa_1.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="maximize"></span>Терраса
+                                1
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/hudzhra_1.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="watch"></span>Худжара
+                                1
+                            </div>
+                        </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown"
+                       data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span
+                            class="uil fs-8 me-2 uil-files-landscapes-alt"></span>Данные</a>
+                    <ul class="dropdown-menu navbar-dropdown-caret">
+                        <!-- CHANGE href='{ % static "set/logs.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="list"></span>Журнал
+                                уведомлении
+                            </div>
+                        </a></li>
+                        <!-- CHANGE href='{ % static "set/report_maker.html" %}'-->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="file-plus"></span>Конструктор
+                                отчетов
+                            </div>
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button"
+                                                 data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                                 aria-haspopup="true" aria-expanded="false"><span
+                        class="uil fs-8 me-2 uil-document-layout-right"></span>Документация</a>
+                    <ul class="dropdown-menu navbar-dropdown-caret">
+                        <!-- CHANGE href='{ % static "set/tbo.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="shield"></span>Техника
+                                безопасности
+                            </div>
+                        </a>
+                        </li>
+                        <!-- CHANGE href='{ % static "set/rules.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="bookmark"></span>Правила
+                                работы
+                            </div>
+                        </a>
+                        </li>
+                        <!-- CHANGE href='{ % static "set/staff.html" %}' -->
+                        <li><a class="dropdown-item" href='#'>
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Кадровый
+                                состав
+                            </div>
+                        </a>
+                        </li>
+                        <li class="dropdown dropdown-inside"><a class="dropdown-item dropdown-toggle" id="customization"
+                                                                href="#" data-bs-toggle="dropdown"
+                                                                data-bs-auto-close="outside">
+                            <div class="dropdown-item-wrapper"><span
+                                    class="uil fs-8 uil-angle-right lh-1 dropdown-indicator-icon"></span><span><span
+                                    class="me-2 uil" data-feather="book-open"></span>Справочник</span></div>
+                        </a>
+                            <ul class="dropdown-menu">
+                                <!-- CHANGE href='{ % static "set/emergency.html" %} -->
+                                <li><a class="dropdown-item" href='#'>
+                                    <div class="dropdown-item-wrapper">Экстренные службы
+                                    </div>
+                                </a>
+                                </li>
+                                <!-- CHANGE href='{ % static "set/operator.html" %}' -->
+                                <li><a class="dropdown-item" href='#'>
+                                    <div class="dropdown-item-wrapper">Дежурный состав
+                                    </div>
+                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li class="nav-item">
+                <div class="theme-control-toggle  px-2">
+                    <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
+                           data-theme-control="phoenixTheme" value="dark" id="themeControlToggle"/>
+                    <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle"
+                           data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение"
+                           style="height:32px;width:32px;"><span class="icon" data-feather="moon"></span></label>
+                    <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle"
+                           data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение"
+                           style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown"
+                   data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                    <div class="avatar avatar-l ">
+                        <img class="rounded-circle " src='{% static "images/30.webp" %}' alt=""/>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
+                     aria-labelledby="navbarDropdownUser">
+                    <div class="card position-relative border-0">
+                        <div class="card-body p-0">
+                            <div class="text-center pt-4 pb-3">
+                                <div class="avatar avatar-xl ">
+                                    <img class="rounded-circle " src='{% static "images/30.webp" %}' alt=""/>
+                                </div>
+                                <h6 class="mt-2 text-body-emphasis">Батырулан Айтжанов</h6>
+                            </div>
+                        </div>
+                        <div class="overflow-auto scrollbar">
+                            <ul class="nav d-flex flex-column mb-2 pb-1">
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                                        href='{% url 'monitoring:settings_view' %}'> <span
+                                        class="me-2 text-body align-bottom" data-feather="settings"></span>Администрирование</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-0">
+                            <hr/>
+                            <div class="px-3"><a class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                                                 href='{% url "authorization:logout" %}'> <span class="me-2"
+                                                                             data-feather="log-out"> </span>Выход</a>
+                            </div>
+                            <!-- CHANGE href='{ % static "set/tbo.html" %}' -->
+                            <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a
+                                    class="text-body-quaternary me-1" href='#'>Техника
+                                безопасности</a></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>

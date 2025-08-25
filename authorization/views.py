@@ -12,7 +12,7 @@ def can_create_user(user):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('reports:menu')
+        return redirect('monitoring:index')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -20,7 +20,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('reports:menu')
+            return redirect('monitoring:index')
 
         messages.error(request, 'Недействительная электронная почта или неправильный пароль')
     return render(request, 'authorization/login.html')
@@ -28,7 +28,7 @@ def login_view(request):
 @login_required(login_url='authorization:login')
 def logout_view(request):
     logout(request)
-    return redirect('authorization:login')
+    return render(request, 'authorization/sign-out.html')
 
 
 @user_passes_test(can_create_user, login_url='authorization:login')
@@ -62,3 +62,32 @@ def signup(request):
 
     users = CustomUser.objects.values('first_name', 'last_name', 'email', 'phone', 'can_add_data', 'can_add_threshold', 'can_create_user')
     return render(request, 'authorization/signup.html', {'users': users})
+
+
+def forgot_password(request):
+    return render(request, 'authorization/forgot-password.html')
+
+
+@login_required(login_url='authorization:login')
+def add_organization(request):
+    return render(request, 'authorization/add-organization.html')
+
+
+@login_required(login_url='authorization:login')
+def add_user(request):
+    return render(request, 'authorization/add_user.html')
+
+
+@login_required(login_url='authorization:login')
+def deleted_users_view(request):
+    return render(request, 'authorization/deleted.html')
+
+
+@login_required(login_url='authorization:login')
+def off_users_view(request):
+    return render(request, 'authorization/off.html')
+
+
+@login_required(login_url='authorization:login')
+def users_view(request):
+    return render(request, 'authorization/users.html')

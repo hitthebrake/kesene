@@ -1,14 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+<html lang="en-US" dir="ltr" data-navigation-type="combo" data-navbar-horizontal-shape="default">
 
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>МХАЯ</title>
+     <title>МХАЯ</title>
+
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
@@ -21,6 +25,8 @@
     <meta name="theme-color" content="#ffffff">
     <script src="../js/simplebar.min.js"></script>
     <script src="../js/config.js"></script>
+
+
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
@@ -34,207 +40,39 @@
     <link href="../css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href="../css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
     <script>
-      var phoenixIsRTL = window.config.config.phoenixIsRTL;
+      let phoenixIsRTL = window.config.config.phoenixIsRTL;
       if (phoenixIsRTL) {
-        var linkDefault = document.getElementById('style-default');
-        var userLinkDefault = document.getElementById('user-style-default');
+        let linkDefault = document.getElementById('style-default');
+        let userLinkDefault = document.getElementById('user-style-default');
         linkDefault.setAttribute('disabled', true);
         userLinkDefault.setAttribute('disabled', true);
         document.querySelector('html').setAttribute('dir', 'rtl');
       } else {
-        var linkRTL = document.getElementById('style-rtl');
-        var userLinkRTL = document.getElementById('user-style-rtl');
+        let linkRTL = document.getElementById('style-rtl');
+        let userLinkRTL = document.getElementById('user-style-rtl');
         linkRTL.setAttribute('disabled', true);
         userLinkRTL.setAttribute('disabled', true);
       }
     </script>
-    <link href="../css/leaflet.css" rel="stylesheet">
-    <link href="../css/MarkerCluster.css" rel="stylesheet">
-    <link href="../css/MarkerCluster.Default.css" rel="stylesheet">
+    <link href="css/leaflet.css" rel="stylesheet">
+    <link href="css/MarkerCluster.css" rel="stylesheet">
+    <link href="css/MarkerCluster.Default.css" rel="stylesheet">
   </head>
+
+
   <body>
 
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-      <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
-        <div class="navbar-logo">
-
-          <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-          <a class="navbar-brand me-1 me-sm-3" href="../index.html">
-            <div class="d-flex align-items-center">
-              <div class="d-flex align-items-center"><img src="../images/logo.png" alt="phoenix" width="27" />
-                <h5 class="logo-text ms-2 d-none d-sm-block">Система мониторинга</h5>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
-          <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Главная</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-                <li>
-				  <a class="dropdown-item active" href="../index.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Состояние системы
-					</div>
-                  </a>
-				</li>				
-                <li><a class="dropdown-item" href="../set/on_map.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="map"></span>Датчики на карте
-                    </div>
-                  </a>
-                </li>                
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-cube"></span>Аналитика</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-				<li><a class="dropdown-item" href="../set/ashana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="coffee"></span>Асхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/aksarai_small.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="user"></span>Аксарай малый</div>
-                  </a></li>
-				<li><a class="dropdown-item" href="../set/aksarai_big.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Аксарай большой</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/enter_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход №1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/entar_2.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход №2</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/gurkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="inbox"></span>Гурхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kazandyk.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="disc"></span>Казандык</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kazandyk_mkp.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="database"></span>Казандык. МКП</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kitapkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="book-open"></span>Китапхна</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hall_2.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор 2</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hall_4.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор 4</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/kudukkhana.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="droplet"></span>Кудукхана</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/mechet.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="clock"></span>Мечеть</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/room_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="square"></span>Помещение 1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/terassa_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="maximize"></span>Терраса 1</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/hudzhra_1.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="watch"></span>Худжара 1</div>
-                  </a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-files-landscapes-alt"></span>Данные</a>
-			<ul class="dropdown-menu navbar-dropdown-caret">
-                <li><a class="dropdown-item" href="../set/logs.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="list"></span>Журнал уведомлении</div>
-                  </a></li>
-                <li><a class="dropdown-item" href="../set/report_maker.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="file-plus"></span>Конструктор отчетов
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-document-layout-right"></span>Документация</a>
-              <ul class="dropdown-menu navbar-dropdown-caret">
-                <li><a class="dropdown-item" href="../set/tbo.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="shield"></span>Техника безопасности
-                    </div>
-                  </a>
-                </li>
-                <li><a class="dropdown-item" href="../set/rules.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="bookmark"></span>Правила работы
-                    </div>
-                  </a>
-                </li>		
-                <li><a class="dropdown-item" href="../set/staff.html">
-                    <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Кадровый состав
-                    </div>
-                  </a>
-                </li>					
-                <li class="dropdown dropdown-inside"><a class="dropdown-item dropdown-toggle" id="customization" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                    <div class="dropdown-item-wrapper"><span class="uil fs-8 uil-angle-right lh-1 dropdown-indicator-icon"></span><span><span class="me-2 uil" data-feather="book-open"></span>Справочник</span></div>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../set/emergency.html">
-                        <div class="dropdown-item-wrapper">Экстренные службы
-                        </div>
-                      </a>
-                    </li>
-                    <li><a class="dropdown-item" href="../set/operator.html">
-                        <div class="dropdown-item-wrapper">Дежурный состав
-                        </div>
-                      </a>
-                    </li>                    
-                  </ul>
-                </li>                
-              </ul>
-            </li>
-			</ul>
-        </div>
-        <ul class="navbar-nav navbar-nav-icons flex-row">
-            <li class="nav-item">
-              <div class="theme-control-toggle  px-2">
-                <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
-                <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение" style="height:32px;width:32px;"><span class="icon" data-feather="moon"></span></label>
-                <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Переключение" style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label>
-              </div>
-            </li>
-            
-		<li class="nav-item dropdown">
-			<a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
-				</div>
-            </a>
-              <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
-                <div class="card position-relative border-0">
-                  <div class="card-body p-0">
-                    <div class="text-center pt-4 pb-3">
-                      <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="../user_pages/img/30.webp" alt="" />
-					  </div>
-                      <h6 class="mt-2 text-body-emphasis">Батырулан Айтжанов</h6>
-                    </div>
-                  </div>
-                  <div class="overflow-auto scrollbar">
-                    <ul class="nav d-flex flex-column mb-2 pb-1">
-                      <li class="nav-item"><a class="nav-link px-3 d-block" href="../user_pages/mysettings.html"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Администрирование</a></li>
-                    </ul>
-                  </div>
-                  <div class="p-0">
-				  <hr />
-                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="../sign-out.html"> <span class="me-2" data-feather="log-out"> </span>Выход</a></div>
-                    <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a class="text-body-quaternary me-1" href="set/tbo.html">Техника безопасности</a></a></div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-      </nav>
+      {% include 'core/sidebar.html' %}
+      {% include 'core/navbar.html' %}
       <div class="content">
-	  <h3 class="text-bold text-body-emphasis mb-5">Кадровый состав</h3>
+<h3 class="text-bold text-body-emphasis mb-5">Пользователи</h3>
         <div class="pb-5">
 <!--    Тут ставить коды основного контента страниц и элементов-->
-        <div id="table" data-list='{"valueNames":["group", "name","surname","secondname","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
+        <div id="table" data-list='{"valueNames":["group", "name","surname","secondname","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
 		  <div class="row align-items-center justify-content-between g-3 mb-0">
             <div class="col col-auto">
 			  <div class="search-box mb-3 mx-auto">
@@ -264,6 +102,8 @@
 			  <th class="sort border-top border-translucent ps-3" data-sort="name">Имя</th>
 			  <th class="sort border-top d-none d-lg-table-cell" data-sort="surname" >Фамилия</th>
 			  <th class="sort border-top" data-sort="secondname">Отчество</th>
+			  <th class="sort border-top d-none d-lg-table-cell" data-sort="organization">Организация</th>
+			  <th class="sort border-top d-none d-lg-table-cell" data-sort="department">Отдел</th>
 			  <th class="sort border-top d-none d-lg-table-cell" data-sort="position">Должность</th>		
 			  <th class="sort border-top" data-sort="phone">Телефон</th>		  
 			  <th class="sort border-top d-none d-lg-table-cell" data-sort="mail">E-mail</th>
@@ -276,6 +116,8 @@
 			  <td class="align-middle ps-3 name">Батырулан</td>
 			  <td class="align-middle surname d-none d-lg-table-cell">Айтжанов</td>
 			  <td class="align-middle secondname">Толепбергенович</td>
+			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
+			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
 			  <td class="align-middle position d-none d-lg-table-cell">Менеджер проекта</td>
 			  <td class="align-middle phone">87012501199</td>
 			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
@@ -285,6 +127,8 @@
 				<span class="fas fa-ellipsis-h fs-10"></span></button>
 					<div class="dropdown-menu dropdown-menu-end py-2">
 					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="#!">Восстановить</a>
 					</div>
 				</div>
 			  </td>
@@ -294,26 +138,10 @@
 			  <td class="align-middle ps-3 name">Бахытжан</td>
 			  <td class="align-middle surname d-none d-lg-table-cell">Саитов</td>
 			  <td class="align-middle secondname">Болатович</td>
+			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
+			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
 			  <td class="align-middle position d-none d-lg-table-cell">Инженер ТВР</td>
 			  <td class="align-middle phone">87012501199</td>
-			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-			  <td class="align-middle white-space-nowrap text-end pe-0">
-			  <div class="btn-reveal-trigger position-static">
-				<button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-				<span class="fas fa-ellipsis-h fs-10"></span></button>
-					<div class="dropdown-menu dropdown-menu-end py-2">
-					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
-					</div>
-			  </div>
-			  </td>
-			</tr>   
-			<tr>
-			  <td class="align-middle ps-3 group" hidden>Директор</td>
-			  <td class="align-middle ps-3 name">Олжас</td>
-			  <td class="align-middle surname d-none d-lg-table-cell">Шариазданов</td>
-			  <td class="align-middle secondname">Казбекович</td>
-			  <td class="align-middle position d-none d-lg-table-cell">Директор</td>
-			  <td class="align-middle phone">8700 001 02 03</td>
 			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
 			  <td class="align-middle white-space-nowrap text-end pe-0">
 				<div class="btn-reveal-trigger position-static">
@@ -321,6 +149,30 @@
 				<span class="fas fa-ellipsis-h fs-10"></span></button>
 					<div class="dropdown-menu dropdown-menu-end py-2">
 					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="#!">Восстановить</a>
+					</div>
+				</div>
+			  </td>
+			</tr>   
+			<tr>
+			  <td class="align-middle ps-3 group" hidden>Директор</td>
+			  <td class="align-middle ps-3 name">Олжас</td>
+			  <td class="align-middle surname d-none d-lg-table-cell">Шариазданов</td>
+			  <td class="align-middle secondname">Казбекович</td>
+			  <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП "КазРеставрация"</td>			  
+			  <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>			  
+			  <td class="align-middle position d-none d-lg-table-cell">Директор</td>
+			  <td class="align-middle phone">87000010203</td>
+			  <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
+			  <td class="align-middle white-space-nowrap text-end pe-0">
+				<div class="btn-reveal-trigger position-static">
+				<button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+				<span class="fas fa-ellipsis-h fs-10"></span></button>
+					<div class="dropdown-menu dropdown-menu-end py-2">
+					<a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#view">Просмотр</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="#!">Восстановить</a>
 					</div>
 				</div>
 			  </td>
@@ -335,10 +187,8 @@
 						  <ul class="mb-0 pagination"></ul><button class="page-link pe-0" data-list-pagination="next">
 						  <span class="fas fa-chevron-right"></span></button>					  
 						</div>
-					</div>
-        
-<!--    Тут ставить коды основного контента страниц и элементов--> 				
-        <footer class="footer position-absolute">
+					</div>        
+		<footer class="footer position-absolute">
           <div class="row g-0 justify-content-between align-items-center h-100">
             <div class="col-12 col-sm-auto text-center">
               <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2025 &copy;<a class="mx-1" href="https://www.instagram.com/qazqaitajanarty/">Instagram</a></p>
@@ -348,10 +198,7 @@
             </div>
           </div>
         </footer>
-	</div>
-	</div>
-	</div>   
-	   
+      </div>
 <div class="modal fade" id="view" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -407,18 +254,15 @@
       <div class="modal-footer"><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button></div>
     </div>
   </div>
-</div>      
-	  
-	
+</div> 
+      
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
 
-
-
-
+    
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
