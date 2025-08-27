@@ -19,7 +19,7 @@ def webhook(request):
     return JsonResponse({"status": "error"})
 
 
-def child_path1(request):
+def ashana_vent_shaft_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -31,7 +31,7 @@ def child_path1(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path2(request):
+def ashana_slope_vault_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -43,7 +43,7 @@ def child_path2(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path3(request):
+def ashana_external_wall_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -55,7 +55,7 @@ def child_path3(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path4(request):
+def ashana_vent_shaft_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -67,7 +67,7 @@ def child_path4(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path5(request):
+def ashana_external_wall_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -79,7 +79,7 @@ def child_path5(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path6(request):
+def ashana_slope_vault_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -91,7 +91,7 @@ def child_path6(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path7(request):
+def ashana_slope_vault_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -103,7 +103,7 @@ def child_path7(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path8(request):
+def ashana_external_wall_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -115,7 +115,7 @@ def child_path8(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path9(request):
+def ashana_external_wall_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -127,7 +127,7 @@ def child_path9(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path10(request):
+def aqsaray_big_vent_shaft_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -139,7 +139,7 @@ def child_path10(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path11(request):
+def aqsaray_big_slope_vault_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -151,7 +151,7 @@ def child_path11(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path12(request):
+def aqsaray_big_vent_shaft_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -163,7 +163,7 @@ def child_path12(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path13(request):
+def aqsaray_big_slope_vault_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -175,7 +175,7 @@ def child_path13(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path14(request):
+def aqsaray_big_slope_vault_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -187,7 +187,7 @@ def child_path14(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path15(request):
+def enter1_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -199,7 +199,7 @@ def child_path15(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path16(request):
+def enter1_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -211,7 +211,7 @@ def child_path16(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path17(request):
+def enter2_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -223,7 +223,7 @@ def child_path17(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path18(request):
+def enter2_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -235,7 +235,7 @@ def child_path18(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path19(request):
+def gurhana_door_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -247,7 +247,7 @@ def child_path19(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path20(request):
+def gurhana_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -259,7 +259,7 @@ def child_path20(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path21(request):
+def gurhana_door_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -271,7 +271,7 @@ def child_path21(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path22(request):
+def gurhana_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -283,7 +283,7 @@ def child_path22(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path23(request):
+def gurhana_window_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -295,7 +295,7 @@ def child_path23(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path24(request):
+def qazandyq_door_IO(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -307,7 +307,7 @@ def child_path24(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path25(request):
+def qazandyq_north_east_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -319,7 +319,7 @@ def child_path25(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path26(request):
+def qazandyq_north_west_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -331,7 +331,7 @@ def child_path26(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path27(request):
+def qazandyq_south_east_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -343,7 +343,7 @@ def child_path27(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path28(request):
+def qazandyq_south_west_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -355,7 +355,7 @@ def child_path28(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path29(request):
+def qazandyq_south_west_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -367,7 +367,7 @@ def child_path29(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path30(request):
+def qazandyq_north_east_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -379,7 +379,7 @@ def child_path30(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path31(request):
+def qazandyq_north_west_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -391,7 +391,7 @@ def child_path31(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path32(request):
+def qazandyq_south_east_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -403,7 +403,7 @@ def child_path32(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path33(request):
+def qazandyq_south_west_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -415,7 +415,7 @@ def child_path33(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path34(request):
+def qazandyq_south_west_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -427,7 +427,7 @@ def child_path34(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path35(request):
+def qazandyq_dome_vertex_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -439,7 +439,7 @@ def child_path35(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path36(request):
+def qazandyq_dome_vertex_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -451,7 +451,7 @@ def child_path36(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path37(request):
+def qazandyq_dome_north_out_5_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -463,7 +463,7 @@ def child_path37(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path38(request):
+def qazandyq_dome_north_out_5_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -475,7 +475,7 @@ def child_path38(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path39(request):
+def qazandyq_dome_north_out_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -487,7 +487,7 @@ def child_path39(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path40(request):
+def qazandyq_dome_north_out_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -499,7 +499,7 @@ def child_path40(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path41(request):
+def qazandyq_dome_north_in_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -511,7 +511,7 @@ def child_path41(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path42(request):
+def qazandyq_dome_north_in_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -523,7 +523,7 @@ def child_path42(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path43(request):
+def qazandyq_dome_north_center_5_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -535,7 +535,7 @@ def child_path43(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path44(request):
+def qazandyq_dome_north_center_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -547,7 +547,7 @@ def child_path44(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path45(request):
+def qazandyq_dome_south_out_5_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -559,7 +559,7 @@ def child_path45(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path46(request):
+def qazandyq_dome_south_out_5_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -571,7 +571,7 @@ def child_path46(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path47(request):
+def qazandyq_dome_south_out_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -583,7 +583,7 @@ def child_path47(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path48(request):
+def qazandyq_dome_south_out_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -595,7 +595,7 @@ def child_path48(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path49(request):
+def qazandyq_dome_south_in_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -607,7 +607,7 @@ def child_path49(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path50(request):
+def qazandyq_dome_south_in_H(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -619,7 +619,7 @@ def child_path50(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path51(request):
+def qazandyq_dome_south_center_5_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -631,7 +631,7 @@ def child_path51(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path52(request):
+def qazandyq_dome_south_center_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -643,7 +643,7 @@ def child_path52(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path53(request):
+def qazandyq_dome_north_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -655,7 +655,7 @@ def child_path53(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path54(request):
+def qazandyq_dome_south_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -667,7 +667,7 @@ def child_path54(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path55(request):
+def qazandyq_dome_east_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -679,7 +679,7 @@ def child_path55(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path56(request):
+def qazandyq_dome_west_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -691,7 +691,7 @@ def child_path56(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path57(request):
+def library_vent_shaft_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -703,7 +703,7 @@ def child_path57(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path58(request):
+def library_vent_shaft_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -715,7 +715,7 @@ def child_path58(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path59(request):
+def hall2_west_door_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -727,7 +727,7 @@ def child_path59(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path60(request):
+def hall2_west_door_IO(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -739,7 +739,7 @@ def child_path60(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path61(request):
+def hall2_west_door_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -751,7 +751,7 @@ def child_path61(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path62(request):
+def hall4_25_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -763,7 +763,7 @@ def child_path62(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path63(request):
+def hall4_25_CO2(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -775,7 +775,7 @@ def child_path63(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path64(request):
+def hall4_25_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -787,7 +787,7 @@ def child_path64(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path65(request):
+def qydyqhana_vent_shaft_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -799,7 +799,7 @@ def child_path65(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path66(request):
+def qydyqhana_slope_vault_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -811,7 +811,7 @@ def child_path66(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path67(request):
+def qydyqhana_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -823,7 +823,7 @@ def child_path67(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path68(request):
+def qydyqhana_window_IO(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -835,7 +835,7 @@ def child_path68(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path69(request):
+def qydyqhana_vent_shaft_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -847,7 +847,7 @@ def child_path69(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path70(request):
+def qydyqhana_slope_vault_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -859,7 +859,7 @@ def child_path70(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path71(request):
+def qydyqhana_slope_vault_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -871,7 +871,7 @@ def child_path71(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path72(request):
+def qydyqhana_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -883,7 +883,7 @@ def child_path72(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path73(request):
+def qydyqhana_wall_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -895,7 +895,7 @@ def child_path73(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path74(request):
+def aqsaray_small_vent_shaft_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -907,7 +907,7 @@ def child_path74(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path75(request):
+def aqsaray_small_slope_vault_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -919,7 +919,7 @@ def child_path75(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path76(request):
+def aqsaray_small_vent_shaft_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -931,7 +931,7 @@ def child_path76(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path77(request):
+def aqsaray_small_vent_shaft_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -943,7 +943,7 @@ def child_path77(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path78(request):
+def aqsaray_small_slope_vault_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -955,7 +955,7 @@ def child_path78(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path79(request):
+def aqsaray_small_slope_vault_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -967,7 +967,7 @@ def child_path79(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path80(request):
+def room_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -979,7 +979,7 @@ def child_path80(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path81(request):
+def room_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -991,7 +991,7 @@ def child_path81(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path82(request):
+def room_window_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1003,7 +1003,7 @@ def child_path82(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path83(request):
+def terrace_window_V(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1015,7 +1015,7 @@ def child_path83(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path84(request):
+def terrace_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1027,7 +1027,7 @@ def child_path84(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path85(request):
+def terrace_window_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1039,7 +1039,7 @@ def child_path85(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path86(request):
+def hudjara_window_T(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1051,7 +1051,7 @@ def child_path86(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path87(request):
+def hudjara_window_t(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1063,7 +1063,7 @@ def child_path87(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path88(request):
+def others_north_corner_noise(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1075,7 +1075,7 @@ def child_path88(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path89(request):
+def others_east_corner_slope(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1087,7 +1087,7 @@ def child_path89(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path90(request):
+def others_north_corner_slope(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1099,7 +1099,7 @@ def child_path90(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path91(request):
+def others_west_corner_slope(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1111,7 +1111,7 @@ def child_path91(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path92(request):
+def others_south_corner_slope(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1123,7 +1123,7 @@ def child_path92(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path93(request):
+def others_well_water_level(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1135,7 +1135,7 @@ def child_path93(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path94(request):
+def meteodata_meteodata(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Only POST with JSON is allowed")
 
@@ -1147,316 +1147,6 @@ def child_path94(request):
         return HttpResponseBadRequest("Invalid JSON")
 
 
-def child_path95(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path96(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path97(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path98(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path99(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path100(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path101(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path102(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path103(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path104(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path105(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path106(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path107(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path108(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path109(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path110(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path111(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path112(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path113(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path114(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path115(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path116(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path117(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path118(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path119(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
-
-
-def child_path120(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
 
 
 
