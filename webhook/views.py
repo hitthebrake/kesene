@@ -6,7 +6,7 @@ from django.shortcuts import render
 from webhook.models import WebhookRequest
 
 
-# Create your views here.
+@csrf_exempt
 def webhook(request):
     if request.method == "POST":
         try:
