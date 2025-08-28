@@ -3,21 +3,24 @@ import json
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render
 
+from webhook.models import WebhookRequest
+
 
 # Create your views here.
 def webhook(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Only POST with JSON is allowed")
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
 
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-        print(data)
-        return JsonResponse({"status": "success"})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest("Invalid JSON")
+            WebhookRequest.objects.create(
+                data=data,
+            )
 
-    return JsonResponse({"status": "error"})
+            return JsonResponse({"status": "success"})
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest("Invalid JSON")
 
+    return HttpResponseBadRequest("Only POST with JSON is allowed")
 
 def ashana_vent_shaft_V(request):
     if request.method != "POST":
