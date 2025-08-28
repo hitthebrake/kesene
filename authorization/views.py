@@ -73,11 +73,15 @@ def forgot_password(request):
 
 @login_required(login_url='authorization:login')
 def add_organization(request):
+    if request.method == 'POST':
+        print(request.POST)
     return render(request, 'authorization/add-organization.html')
 
 
 @login_required(login_url='authorization:login')
 def add_user(request):
+    if request.method == 'POST':
+        print(request.POST)
     return render(request, 'authorization/add_user.html')
 
 

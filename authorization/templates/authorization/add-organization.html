@@ -71,7 +71,8 @@
     {% include 'core/sidebar.html' %}
     {% include 'core/navbar.html' %}
     <div class="content">
-        <form class="mb-9">
+        <form class="mb-9" method="post" action="{% url 'authorization:add_organization' %}">
+            {% csrf_token %}
             <div class="row justify-content-between align-items-end g-3 mb-5">
                 <div class="col-12 col-sm-auto col-xl-8">
                     <h4 class="mb-0">Добавить организацию</h4>
@@ -84,7 +85,7 @@
                         <div class="col-sm-6 col-md-12">
                             <div class="form-floating">
                                 <input class="form-control" id="floatingEventInput" type="text"
-                                       placeholder="Organization title"/>
+                                       placeholder="Organization title" name="name" required/>
                                 <label for="floatingEventInput">Введите наименование организации</label>
                             </div>
                         </div>
@@ -98,14 +99,15 @@
                                             <div class="col-12 col-sm-6 col-xl-12">
                                                 <div class="mb-5">
                                                     <div class="d-flex flex-wrap flex-between-center mb-2">
-                                                        <h5 class="mb-0 text-body-highlight me-2">Отделы</h5><a
-                                                            class="fw-bold fs-9" href="#!">Добавить отдел</a>
+                                                        <h5 class="mb-0 text-body-highlight me-2">Отделы</h5>
+                                                        <a class="fw-bold fs-9" href="#!" id="addDepartment">Добавить
+                                                            отдел</a>
                                                     </div>
-                                                    <input class="form-control mb-4" type="text"
+                                                    <input class="form-control mb-4" type="text" id="departmentInput"
                                                            placeholder="Введите название отдела...">
 
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>
+                                                    <div id="tableExample">
+{#                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>#}
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
@@ -118,500 +120,36 @@
                                                                     </th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Anna</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Homer</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Oscar</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Emily</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Jara</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Clark</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Jennifer</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Tony</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Tom</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Michael</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Antony</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Raymond</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Marie</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Cohen</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Rowen</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">John</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Emily</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Alice</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">David</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Sullivan Benton
-                                                                    </td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Uriah Nunez</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
+                                                                <tbody class="list" id="departmentTable">
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span>Назад</span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span>Вперед</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
+{#                                                        <div class="d-flex flex-between-center pt-3">#}
+{#                                                            <div class="pagination d-none"></div>#}
+{#                                                            <p class="mb-0 fs-9">#}
+{#                                                                <span class="d-none d-sm-inline-block"#}
+{#                                                                      data-list-info="data-list-info"></span>#}
+{#                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>#}
+{#                                                                <a class="fw-semibold" href="#!" data-list-view="*">#}
+{#                                                                    Все#}
+{#                                                                    <span class="fas fa-angle-right ms-1"#}
+{#                                                                          data-fa-transform="down-1"></span>#}
+{#                                                                </a><a class="fw-semibold d-none" href="#!"#}
+{#                                                                       data-list-view="less">#}
+{#                                                                Сокращенно#}
+{#                                                                <span class="fas fa-angle-right ms-1"#}
+{#                                                                      data-fa-transform="down-1"></span>#}
+{#                                                            </a>#}
+{#                                                            </p>#}
+{#                                                            <div class="d-flex">#}
+{#                                                                <button class="btn btn-sm btn-primary" type="button"#}
+{#                                                                        data-list-pagination="prev"><span>Назад</span>#}
+{#                                                                </button>#}
+{#                                                                <button class="btn btn-sm btn-primary px-4 ms-2"#}
+{#                                                                        type="button" data-list-pagination="next"><span>Вперед</span>#}
+{#                                                                </button>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
                                                     </div>
                                                 </div>
                                             </div>
@@ -626,520 +164,56 @@
                                             <div class="col-12 col-sm-6 col-xl-12">
                                                 <div class="mb-5">
                                                     <div class="d-flex flex-wrap flex-between-center mb-2">
-                                                        <h5 class="mb-0 text-body-highlight me-2">Должности</h5><a
-                                                            class="fw-bold fs-9" href="#!">Добавить должность</a>
+                                                        <h5 class="mb-0 text-body-highlight me-2">Должности</h5>
+                                                        <a class="fw-bold fs-9" href="#!" id="addPosition">Добавить должность</a>
                                                     </div>
-                                                    <input class="form-control mb-4" type="text"
+                                                    <input class="form-control mb-4" type="text" id="positionInput"
                                                            placeholder="Введите название отдела...">
 
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>
+                                                    <div id="tableExample2">
+{#                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>#}
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
                                                                 <tr>
                                                                     <th class="sort border-top border-translucent ps-3"
-                                                                        data-sort="name">Название отдела
+                                                                        data-sort="name">Название должности
                                                                     </th>
                                                                     <th class="sort text-end align-middle pe-0 border-top border-translucent"
                                                                         scope="col">Действия
                                                                     </th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Anna</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Homer</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Oscar</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Emily</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Jara</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Clark</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Jennifer</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Tony</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Tom</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Michael</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Antony</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Raymond</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Marie</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Cohen</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Rowen</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">John</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Emily</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Alice</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">David</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Sullivan Benton
-                                                                    </td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Uriah Nunez</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
+                                                                <tbody class="list" id="positionTable">
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span>Назад</span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span>Вперед</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
+{#                                                        <div class="d-flex flex-between-center pt-3">#}
+{#                                                            <div class="pagination d-none"></div>#}
+{#                                                            <p class="mb-0 fs-9">#}
+{#                                                                <span class="d-none d-sm-inline-block"#}
+{#                                                                      data-list-info="data-list-info"></span>#}
+{#                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>#}
+{#                                                                <a class="fw-semibold" href="#!" data-list-view="*">#}
+{#                                                                    Все#}
+{#                                                                    <span class="fas fa-angle-right ms-1"#}
+{#                                                                          data-fa-transform="down-1"></span>#}
+{#                                                                </a><a class="fw-semibold d-none" href="#!"#}
+{#                                                                       data-list-view="less">#}
+{#                                                                Сокращенно#}
+{#                                                                <span class="fas fa-angle-right ms-1"#}
+{#                                                                      data-fa-transform="down-1"></span>#}
+{#                                                            </a>#}
+{#                                                            </p>#}
+{#                                                            <div class="d-flex">#}
+{#                                                                <button class="btn btn-sm btn-primary" type="button"#}
+{#                                                                        data-list-pagination="prev"><span>Назад</span>#}
+{#                                                                </button>#}
+{#                                                                <button class="btn btn-sm btn-primary px-4 ms-2"#}
+{#                                                                        type="button" data-list-pagination="next"><span>Вперед</span>#}
+{#                                                                </button>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1157,14 +231,14 @@
                                                         <h5 class="mb-0 text-body-highlight me-2">Контактная
                                                             информация</h5>
                                                     </div>
-                                                    <input class="form-control mb-3" type="text" placeholder="Город">
-                                                    <input class="form-control mb-3" type="text" placeholder="Район">
-                                                    <input class="form-control mb-3" type="text" placeholder="Улица">
-                                                    <input class="form-control mb-3" type="text"
+                                                    <input class="form-control mb-3" type="text" name="city" placeholder="Город">
+                                                    <input class="form-control mb-3" type="text" name="district" placeholder="Район">
+                                                    <input class="form-control mb-3" type="text" name="street" placeholder="Улица">
+                                                    <input class="form-control mb-3" type="text" name="building_number"
                                                            placeholder="Номер дома (сооружения)">
-                                                    <input class="form-control mb-3" type="text"
+                                                    <input class="form-control mb-3" type="text" name="contact_phone"
                                                            placeholder="Контактный телефон">
-                                                    <input class="form-control mb-0" type="text" placeholder="@email">
+                                                    <input class="form-control mb-0" type="text" name="email" placeholder="@email">
                                                 </div>
                                             </div>
                                         </div>
@@ -1219,13 +293,103 @@
 <script src='{% static "js/leaflet.js" %}'></script>
 <script src='{% static "js/leaflet.markercluster.js" %}'></script>
 <script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
-<script src='{% static "js/phoenix.js" %}'></script>
 <script src='{% static "js/echarts.min.js" %}'></script>
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 <script src='{% static "js/choices.min.js" %}'></script>
 <script src='{% static "js/dropzone-min.js" %}'></script>
 <script src='{% static "js/flatpickr.min.js" %}'></script>
 
+<script src='{% static "js/phoenix.js" %}'>phoenix.hello();</script>
+<script>
+    const addDepartment = document.getElementById("addDepartment");
+    addDepartment.addEventListener('click', function (event) {
+        const departmentInput = document.getElementById("departmentInput");
+        const departmentTable = document.getElementById("departmentTable");
+        if (departmentInput.value) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <tr>
+                <input hidden name='departments_name' value='${departmentInput.value}'>
+                <td class="align-middle ps-3 name">${departmentInput.value}</td>
+                <td class="align-middle white-space-nowrap text-end pe-0">
+                    <div class="btn-reveal-trigger position-static">
+                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                data-boundary="window"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                data-bs-reference="parent"><span
+                                class="fas fa-ellipsis-h fs-10"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end py-2">
+                            <a class="dropdown-item" href="#!">Редактировать</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger delete-object"
+                               href="#!">Удалить</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            `;
+            departmentTable.appendChild(row);
+            departmentInput.value = "";
+        }
+    });
+
+
+    const addPosition = document.getElementById("addPosition");
+    addPosition.addEventListener('click', function (event) {
+        const positionInput = document.getElementById("positionInput");
+        const positionTable = document.getElementById("positionTable");
+        if (positionInput.value) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <tr>
+                <input hidden name='positions_name' value='${positionInput.value}'>
+                <td class="align-middle ps-3 name">${positionInput.value}</td>
+                <td class="align-middle white-space-nowrap text-end pe-0">
+                    <div class="btn-reveal-trigger position-static">
+                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                data-boundary="window"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                data-bs-reference="parent"><span
+                                class="fas fa-ellipsis-h fs-10"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end py-2">
+                            <a class="dropdown-item" href="#!">Редактировать</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger delete-object"
+                               href="#!">Удалить</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            `;
+            positionTable.appendChild(row);
+            positionInput.value = "";
+        }
+    });
+
+
+    const tables = document.querySelectorAll('tbody'); // or tbody if you prefer
+    tables.forEach(function(table) {
+       table.addEventListener('click', function (e) {
+          if (e.target.classList.contains('delete-object')) {
+            const row = e.target.closest('tr');
+            if (row) {
+              row.remove();
+            }
+          }
+        });
+    });
+
+
+
+</script>
 </body>
 
 </html>

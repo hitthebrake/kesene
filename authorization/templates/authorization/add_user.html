@@ -86,47 +86,51 @@
         </div>
         <div class="row">
             <div class="col-xl-12">
-                <div class="d-flex align-items-end position-relative mb-7">
-                    <input class="d-none" id="upload-avatar" type="file"/>
-                    <div class="hoverbox" style="width: 150px; height: 150px">
-                        <div class="hoverbox-content rounded-circle d-flex flex-center z-1"
-                             style="--phoenix-bg-opacity: .56;"><span
-                                class="fa-solid fa-camera fs-1 text-body-quaternary"></span></div>
-                        <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center mb-xxl-7">
-                            <div class="avatar avatar-5xl"><img class="rounded-circle"
-                                                                src='{% static "images/30.webp" %}'
-                                                                alt=""/></div>
-                            <label class="w-100 h-100 position-absolute z-1" for="upload-avatar"></label>
+                <form class="row g-3 mb-9" enctype="multipart/form-data" method="post"
+                      action="{% url 'authorization:add_user' %}">
+                    {% csrf_token %}
+                    <div class="d-flex align-items-end position-relative mb-7">
+                        <input class="d-none" id="upload-avatar" type="file"/>
+                        <div class="hoverbox" style="width: 150px; height: 150px">
+                            <div class="hoverbox-content rounded-circle d-flex flex-center z-1"
+                                 style="--phoenix-bg-opacity: .56;"><span
+                                    class="fa-solid fa-camera fs-1 text-body-quaternary"></span></div>
+                            <div class="position-relative bg-body-quaternary rounded-circle cursor-pointer d-flex flex-center mb-xxl-7">
+                                <div class="avatar avatar-5xl"><img class="rounded-circle"
+                                                                    src='{% static "images/30.webp" %}'
+                                                                    alt=""/></div>
+                                <label class="w-100 h-100 position-absolute z-1" for="upload-avatar"></label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <h4 class="mb-3">Личная информация</h4>
-                <form class="row g-3 mb-9">
-                    <div class="col-sm-6 col-md-4">
+
+                    <h4 class="mb-1">Личная информация</h4>
+                    <div class="col-sm-6 col-md-4 mb-3">
                         <div class="form-floating">
-                            <input class="form-control" id="floatingInputName" type="text" placeholder="Введите имя"/>
+                            <input class="form-control" id="floatingInputName" type="text"
+                                   placeholder="Введите имя" name="first_name" required/>
                             <label for="floatingInputCompany">Имя</label>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4 mb-3">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInputSurname" type="text"
-                                   placeholder="Ведите фамилию"/>
+                                   placeholder="Ведите фамилию" name="last_name" required/>
                             <label for="floatingInputTitle">Фамилия</label>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4 mb-3">
                         <div class="form-floating">
                             <input class="form-control" id="floatingInputSecond_name" type="text"
-                                   placeholder="Введите отчество"/>
+                                   placeholder="Введите отчество" name="patronym" required/>
                             <label for="floatingInputEmail">Отчество</label>
                         </div>
                     </div>
-                    <h4 class="mb-3">Место работы </h4>
 
+                    <h4 class="mb-1">Место работы </h4>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectIndustry">
+                            <select class="form-select" id="floatingSelectIndustry" name="organization_id" required>
                                 <option selected="selected">Выберите организацию</option>
                                 <option value="1">Головной офис РГП "КазРеставрация"</option>
                                 <option value="2">Головной офис РГП "КазРеставрация"</option>
@@ -137,18 +141,20 @@
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectDepartment">
+                            <select class="form-select" id="floatingSelectDepartment" name="organization_department"
+                                    required>
                                 <option selected="selected">Выерите отдел</option>
                                 <option value="1">Информационный отдел</option>
                                 <option value="2">Информационный отдел</option>
                                 <option value="3">Информационный отдел</option>
                             </select>
-                            <label for="floatingSelectStatus">Отдел </label>
+                            <label for="floatingSelectStatus">Отдел</label>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectLeadStaff">
+                            <select class="form-select" id="floatingSelectLeadStaff" name="organization_position"
+                                    required>
                                 <option selected="selected">Выберите должность</option>
                                 <option value="1">Менеджер проекта</option>
                                 <option value="2">Инженер ТВР</option>
@@ -158,56 +164,68 @@
                         </div>
                     </div>
 
-                    <h4 class="mt-6">Контактные данные</h4>
+                    <h4 class="mt-6 mb-0">Контактные данные</h4>
                     <div class="col-sm-6">
-                        <div class="form-floating"><input class="form-control" type="text"
-                                                          placeholder="Введите номер телефона"><label>Номер
-                            телефона</label></div>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" name="phone_number"
+                                   placeholder="Введите номер телефона" required>
+                            <label>Номер телефона</label>
+                        </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-floating"><input class="form-control" type="text" placeholder="Введите E-mail"><label>E-mail</label>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" placeholder="Введите E-mail"
+                                    name="email" required>
+                            <label>E-mail</label>
                         </div>
                     </div>
                     <h4 class="mt-6">Разрешения</h4>
                     <div class="col-sm-12">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" id="inlineCheckbox1" type="checkbox" value="option1"/>
+                            <input class="form-check-input" id="inlineCheckbox1" type="checkbox" name="permissions" value="admin"/>
                             <label class="form-check-label" for="inlineCheckbox1">Администратор</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox" value="option2"/>
+                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox" name="permissions" value="view"/>
                             <label class="form-check-label" for="inlineCheckbox2">Просмотр</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" id="inlineCheckbox3" type="checkbox" value="option3"/>
+                            <input class="form-check-input" id="inlineCheckbox3" type="checkbox" name="permissions" value="add_user"/>
                             <label class="form-check-label" for="inlineCheckbox3">Добавить пользователей</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" id="inlineCheckbox4" type="checkbox" value="option4"/>
+                            <input class="form-check-input" id="inlineCheckbox4" type="checkbox" name="permissions" value="thresholds"/>
                             <label class="form-check-label" for="inlineCheckbox4">Настройка датчиков</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" id="inlineCheckbox4" type="checkbox" value="option4"/>
+                            <input class="form-check-input" id="inlineCheckbox4" type="checkbox" name="permissions" value="manual_input"/>
                             <label class="form-check-label" for="inlineCheckbox4">Ручной ввод</label>
                         </div>
                     </div>
                     <h4 class="mt-6">Пароль</h4>
                     <div class="col-sm-6">
-                        <div class="form-floating"><input class="form-control" type="text"
-                                                          placeholder="Введите номер телефона"><label>Введите
-                            пароль</label></div>
+                        <div class="form-floating">
+                            <input class="form-control" type="password" name="password"
+                                   placeholder="Введите пароль" required>
+                            <label>Введите пароль</label>
+                        </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-floating"><input class="form-control" type="text" placeholder="Введите E-mail"><label>Повторите
-                            пароль</label></div>
+                        <div class="form-floating">
+                            <input class="form-control" type="password" name="password_2"
+                                   placeholder="Повторите пароль" required>
+                            <label>Повторите пароль</label>
+                        </div>
                     </div>
                     <div class="col-12 d-flex justify-content-end mt-6">
-                        <button class="btn btn-phoenix-primary me-2 px-6">Отмена</button>
-                        <button class="btn btn-primary">Сохранить</button>
+                        <button class="btn btn-phoenix-primary me-2 px-6" type="button"
+                                onclick="window.location.href='{% url "authorization:users" %}'">Отмена</button>
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
                     </div>
                 </form>
             </div>
         </div>
+
         <footer class="footer position-absolute">
             <div class="row g-0 justify-content-between align-items-center h-100">
                 <div class="col-12 col-sm-auto text-center">
