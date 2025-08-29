@@ -231,14 +231,14 @@
                                                         <h5 class="mb-0 text-body-highlight me-2">Контактная
                                                             информация</h5>
                                                     </div>
-                                                    <input class="form-control mb-3" type="text" name="city" placeholder="Город">
-                                                    <input class="form-control mb-3" type="text" name="district" placeholder="Район">
-                                                    <input class="form-control mb-3" type="text" name="street" placeholder="Улица">
+                                                    <input class="form-control mb-3" type="text" name="city" placeholder="Город" required>
+                                                    <input class="form-control mb-3" type="text" name="district" placeholder="Район" required>
+                                                    <input class="form-control mb-3" type="text" name="street" placeholder="Улица" required>
                                                     <input class="form-control mb-3" type="text" name="building_number"
-                                                           placeholder="Номер дома (сооружения)">
+                                                           placeholder="Номер дома (сооружения)" required>
                                                     <input class="form-control mb-3" type="text" name="contact_phone"
-                                                           placeholder="Контактный телефон">
-                                                    <input class="form-control mb-0" type="text" name="email" placeholder="@email">
+                                                           placeholder="Контактный телефон" required>
+                                                    <input class="form-control mb-0" type="text" name="email" placeholder="@email" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -248,8 +248,8 @@
                         </div>
                         <div class="col-12 col-sm-auto col-xl-4">
                             <div class="d-flex">
-                                <button class="btn btn-phoenix-primary px-5 me-2 w-50">Сохранить</button>
-                                <a class="btn btn-primary px-5 w-50 text-nowrap">Отмена</a>
+                                <button class="btn btn-phoenix-primary px-5 me-2 w-50" type="submit">Сохранить</button>
+                                <a class="btn btn-primary px-5 w-50 text-nowrap" href="{% url 'authorization:add_organization' %}">Отмена</a>
                             </div>
                         </div>
                     </div>

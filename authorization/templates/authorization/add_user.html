@@ -40,6 +40,7 @@
     <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
     <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
+    <link href='{% static "css/general.css" %}' type="text/css" rel="stylesheet">
     <script>
         let phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -130,37 +131,31 @@
                     <h4 class="mb-1">Место работы </h4>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectIndustry" name="organization_id" required>
-                                <option selected="selected">Выберите организацию</option>
-                                <option value="1">Головной офис РГП "КазРеставрация"</option>
-                                <option value="2">Головной офис РГП "КазРеставрация"</option>
-                                <option value="3">Головной офис РГП "КазРеставрация"</option>
+                            <select class="form-select" id="organizationSelect" name="organization_id" required>
+                                <option selected disabled>Выберите организацию</option>
+                                {% for organization in organizations %}
+                                    <option value="{{ organization.id }}">{{ organization.name }}</option>
+                                {% endfor %}
                             </select>
-                            <label for="floatingSelectIndustry">Организация</label>
+                            <label for="organizationSelect">Организация</label>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectDepartment" name="organization_department"
+                            <select class="form-select" id="departmentSelect" name="organization_department"
                                     required>
-                                <option selected="selected">Выерите отдел</option>
-                                <option value="1">Информационный отдел</option>
-                                <option value="2">Информационный отдел</option>
-                                <option value="3">Информационный отдел</option>
+                                <option selected disabled>Выерите отдел</option>
                             </select>
-                            <label for="floatingSelectStatus">Отдел</label>
+                            <label for="departmentSelect">Отдел</label>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectLeadStaff" name="organization_position"
+                            <select class="form-select" id="positionSelect" name="organization_position"
                                     required>
-                                <option selected="selected">Выберите должность</option>
-                                <option value="1">Менеджер проекта</option>
-                                <option value="2">Инженер ТВР</option>
-                                <option value="3">Директор</option>
+                                <option selected disabled>Выберите должность</option>
                             </select>
-                            <label for="floatingSelectLeadSource">Должность</label>
+                            <label for="positionSelect">Должность</label>
                         </div>
                     </div>
 
@@ -212,12 +207,19 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-floating">
-                            <input class="form-control" type="password" name="password_2"
+                            <input class="form-control" type="password" name="password2"
                                    placeholder="Повторите пароль" required>
                             <label>Повторите пароль</label>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-end mt-6">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} me-2">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                         <button class="btn btn-phoenix-primary me-2 px-6" type="button"
                                 onclick="window.location.href='{% url "authorization:users" %}'">Отмена</button>
                         <button class="btn btn-primary" type="submit">Сохранить</button>
@@ -267,6 +269,37 @@
 <script src='{% static "js/echarts.min.js" %}'></script>
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
+<script>
+    const organizationSelect = document.getElementById('organizationSelect');
+    organizationSelect.addEventListener('change', function () {
+        const organization_id = organizationSelect.value;
+        const apiUrl = '{% url "authorization:get_organization_details" %}' + `?organization=${organization_id}`;
+
+        fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const departmentSelect = document.getElementById('departmentSelect');
+            const positionSelect = document.getElementById('positionSelect');
+
+            data.departments.forEach(dep => {
+                const option = document.createElement('option');
+                option.value = dep.id;
+                option.textContent = dep.name;
+                departmentSelect.appendChild(option);
+            });
+
+            data.positions.forEach(pos => {
+                const option = document.createElement('option');
+                option.value = pos.id;
+                option.textContent = pos.name;
+                positionSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching organization details:', error);
+        });
+    })
+</script>
 </body>
 
 </html>

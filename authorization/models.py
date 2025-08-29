@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class CustomUser(AbstractUser):
+    patronym = models.CharField(max_length=120, blank=True, default="")
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True, default="")
 
@@ -52,7 +53,7 @@ class Department(models.Model):
 
 class Position(models.Model):
     name = models.CharField(max_length=255)
-    department = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='positions')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='positions')
 
     def __str__(self):
         return self.name
