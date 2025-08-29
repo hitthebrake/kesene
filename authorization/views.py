@@ -197,7 +197,7 @@ def user_delete(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_deleted = True
     user.save()
-    return redirect('authorization:users_view')
+    return redirect('authorization:users')
 
 
 def user_recover(request, user_id):
@@ -205,21 +205,21 @@ def user_recover(request, user_id):
     user.is_deleted = False
     user.is_active = True
     user.save()
-    return redirect('authorization:users_view')
+    return redirect('authorization:users')
 
 
 def user_disable(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = False
     user.save()
-    return redirect('authorization:users_view')
+    return redirect('authorization:users')
 
 
 def user_enable(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = True
     user.save()
-    return redirect('authorization:users_view')
+    return redirect('authorization:users')
 
 
 @login_required(login_url='authorization:login')

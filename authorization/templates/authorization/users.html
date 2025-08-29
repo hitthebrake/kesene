@@ -140,9 +140,9 @@
                                                data-bs-target="#view">Просмотр</a>
                                             <a class="dropdown-item" href="#!" data-bs-toggle="modal"
                                                data-bs-target="#edit">Редактировать</a>
-                                            <a class="dropdown-item" href="#!">Отключить</a>
+                                            <a class="dropdown-item" href="{% url 'authorization:user_disable' user_obj.id %}">Отключить</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                            <a class="dropdown-item text-danger" href="{% url 'authorization:user_delete' user_obj.id %}">Удалить</a>
                                         </div>
                                     </div>
                                 </td>

@@ -118,87 +118,34 @@
                         </tr>
                         </thead>
                         <tbody class="list">
-                        <tr>
-                            <td class="align-middle ps-3 group" hidden>Менеджер проекта</td>
-                            <td class="align-middle ps-3 name">Батырулан</td>
-                            <td class="align-middle surname d-none d-lg-table-cell">Айтжанов</td>
-                            <td class="align-middle secondname">Толепбергенович</td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
-                                "КазРеставрация"
-                            </td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
-                            <td class="align-middle position d-none d-lg-table-cell">Менеджер проекта</td>
-                            <td class="align-middle phone">87012501199</td>
-                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="btn-reveal-trigger position-static">
-                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                           data-bs-target="#view">Просмотр</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                        {% for user_obj in users %}
+                            <tr>
+                                <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
+                                <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
+                                <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
+                                <td class="align-middle secondname">{{ user_obj.patronym }}</td>
+                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__organization__name }}</td>
+                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__name }}</td>
+                                <td class="align-middle position d-none d-lg-table-cell">{{ user_obj.position__name }}</td>
+                                <td class="align-middle phone">{{ user_obj.phone }}</td>
+                                <td class="align-middle mail d-none d-lg-table-cell">{{ user_obj.email }}</td>
+                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                    <div class="btn-reveal-trigger position-static">
+                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                                aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                            <span class="fas fa-ellipsis-h fs-10"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                               data-bs-target="#view">Просмотр</a>
+                                            <a class="dropdown-item" href="{% url 'authorization:user_enable' user_obj.id %}">Подключить</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="{% url 'authorization:user_delete' user_obj.id %}">Удалить</a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle ps-3 group" hidden>Инженер ТВР</td>
-                            <td class="align-middle ps-3 name">Бахытжан</td>
-                            <td class="align-middle surname d-none d-lg-table-cell">Саитов</td>
-                            <td class="align-middle secondname">Болатович</td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
-                                "КазРеставрация"
-                            </td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
-                            <td class="align-middle position d-none d-lg-table-cell">Инженер ТВР</td>
-                            <td class="align-middle phone">87012501199</td>
-                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="btn-reveal-trigger position-static">
-                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                           data-bs-target="#view">Просмотр</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle ps-3 group" hidden>Директор</td>
-                            <td class="align-middle ps-3 name">Олжас</td>
-                            <td class="align-middle surname d-none d-lg-table-cell">Шариазданов</td>
-                            <td class="align-middle secondname">Казбекович</td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Головной офис РГП
-                                "КазРеставрация"
-                            </td>
-                            <td class="align-middle organization d-none d-lg-table-cell">Информационный отдел</td>
-                            <td class="align-middle position d-none d-lg-table-cell">Директор</td>
-                            <td class="align-middle phone">87000010203</td>
-                            <td class="align-middle mail d-none d-lg-table-cell">ansolo5@jeemail.com</td>
-                            <td class="align-middle white-space-nowrap text-end pe-0">
-                                <div class="btn-reveal-trigger position-static">
-                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
-                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                        <span class="fas fa-ellipsis-h fs-10"></span></button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="#!" data-bs-toggle="modal"
-                                           data-bs-target="#view">Просмотр</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#!">Удалить</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
