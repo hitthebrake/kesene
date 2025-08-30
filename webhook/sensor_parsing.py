@@ -263,10 +263,12 @@ def get_sensor_type(full_str):
 def parse_dt(dt_str):
     for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"):
         try:
-            return datetime.strptime(dt_str, fmt)
+            dt = datetime.strptime(dt_str, fmt)
+            return dt
         except ValueError:
             continue
     raise ValueError(f"Invalid datetime format: {dt_str}")
+
 
 def safe_float(x):
     return float(x) if x is not None else None
