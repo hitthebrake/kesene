@@ -6,9 +6,9 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from urllib.parse import quote
 
-from reports.models import Measurement, Sensor
 from reports.extra_functions import *
 
+from webhook.models import MeteoData, Measurement, Sensor
 
 class DownloadExcelReport:
     stat_labeling = {

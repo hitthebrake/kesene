@@ -1,4 +1,4 @@
-from reports.models import Sensor
+from webhook.models import Sensor
 
 def location_list(request):
     locations = Sensor.objects.values_list('location', flat=True).distinct()

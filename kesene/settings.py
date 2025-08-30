@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'authorization',
     'reports',
     'monitoring',
-    'sensors',
     'profiles',
     'maps',
     'webhook',

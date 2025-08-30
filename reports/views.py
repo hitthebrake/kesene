@@ -4,9 +4,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Measurement, Sensor
-from .services.report_details import ReportDetailsView
 from .services.download_excel_report import DownloadExcelReport
+
+from webhook.models import Sensor, Measurement, MeteoData
 
 @login_required(login_url='authorization:login')
 def get_sensors(request):
@@ -18,11 +18,6 @@ def get_sensors(request):
 @login_required(login_url='authorization:login')
 def menu(request):
     return redirect('monitoring:index')
-
-
-@login_required(login_url='authorization:login')
-def report_details(request):
-    return ReportDetailsView(request).report_details()
 
 
 @login_required(login_url='authorization:login')
