@@ -74,7 +74,6 @@
                         </div>
                     </a>
                     </div>
-                    <!-- CHANGE "../user_pages/organizations.html" -->
                     <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "authorization:organizations" %}'
                                                      role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span
@@ -92,8 +91,7 @@
                     </p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
-                    <!-- CHANGE "../user_pages/add_settings.html" -->
-                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="#"
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href='{% url "sensors:add_settings" %}'
                                                      role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                 data-feather="plus-square"></span></span>
@@ -147,9 +145,8 @@
                     </p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
-                    <!-- CHANGE '{ % url "../user_pages/add_dev_settings.html" %}' -->
-                    <div class="nav-item-wrapper"><a class="nav-link label-1"
-                                                     href="#!"
+\                    <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                     href='{% url "sensors:add_dev_settings" %}'
                                                      role="button"
                                                      data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span

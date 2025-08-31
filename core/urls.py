@@ -9,4 +9,5 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),
     path('maps/', include('maps.urls')),
     path('webhook/', include('webhook.urls')),
+    path('sensors/', include('sensors.urls')),
 ]
