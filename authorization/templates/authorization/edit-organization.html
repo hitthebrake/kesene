@@ -71,7 +71,8 @@
     {% include 'core/sidebar.html' %}
     {% include 'core/navbar.html' %}
     <div class="content">
-        <form class="mb-9">
+        <form class="mb-9" method="post" action="{% url 'authorization:edit_organization' organization.id %}">
+        {% csrf_token %}
             <div class="row justify-content-between align-items-end g-3 mb-5">
                 <div class="col-12 col-sm-auto col-xl-8">
                     <h4 class="mb-0">Редактировать организацию</h4>
@@ -83,8 +84,8 @@
                     <div class="row gx-3 gy-4">
                         <div class="col-sm-6 col-md-12">
                             <div class="form-floating">
-                                <input class="form-control" id="floatingEventInput" type="text"
-                                       placeholder="Organization title"/>
+                                <input class="form-control" id="floatingEventInput" type="text" required
+                                       placeholder="Organization title" name="name" value="{{ organization.name }}"/>
                                 <label for="floatingEventInput">Введите наименование организации</label>
                             </div>
                         </div>
@@ -98,14 +99,14 @@
                                             <div class="col-12 col-sm-6 col-xl-12">
                                                 <div class="mb-5">
                                                     <div class="d-flex flex-wrap flex-between-center mb-2">
-                                                        <h5 class="mb-0 text-body-highlight me-2">Отделы</h5><a
-                                                            class="fw-bold fs-9" href="#!">Добавить отдел</a>
+                                                        <h5 class="mb-0 text-body-highlight me-2">Отделы</h5>
+                                                        <a class="fw-bold fs-9" href="#!" id="addDepartment">Добавить
+                                                            отдел</a>
                                                     </div>
-                                                    <input class="form-control mb-4" type="text"
+                                                    <input class="form-control mb-4" type="text" id="departmentInput"
                                                            placeholder="Введите название отдела...">
 
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>
+                                                    <div id="tableExample">
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
@@ -118,29 +119,33 @@
                                                                     </th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Anna</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
+                                                                <tbody class="list" id="departmentTable">
+                                                                {% for department in departments %}
+                                                                    <tr data-name='departments_name' data-value='{{ department }}'>
+                                                                        <input hidden name='departments_name'
+                                                                               value='{{ department }}'>
+                                                                        <td class="align-middle ps-3 name">{{ department }}</td>
+                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                            <div class="btn-reveal-trigger position-static">
+                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                        type="button"
+                                                                                        data-bs-toggle="dropdown"
+                                                                                        data-boundary="window"
+                                                                                        aria-haspopup="true"
+                                                                                        aria-expanded="false"
+                                                                                        data-bs-reference="parent"><span
+                                                                                        class="fas fa-ellipsis-h fs-10"></span>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                    <a class="dropdown-item" href="#!">Редактировать</a>
+                                                                                    <div class="dropdown-divider"></div>
+                                                                                    <a class="dropdown-item text-danger delete-object"
+                                                                                       href="#!">Удалить</a>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
 
                                                                 </tbody>
                                                             </table>
@@ -160,13 +165,13 @@
                                                 <div class="mb-5">
                                                     <div class="d-flex flex-wrap flex-between-center mb-2">
                                                         <h5 class="mb-0 text-body-highlight me-2">Должности</h5><a
-                                                            class="fw-bold fs-9" href="#!">Добавить должность</a>
+                                                            class="fw-bold fs-9" href="#!" id="addPosition">Добавить
+                                                        должность</a>
                                                     </div>
-                                                    <input class="form-control mb-4" type="text"
+                                                    <input class="form-control mb-4" type="text" id="positionInput"
                                                            placeholder="Введите название отдела...">
 
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["name"],"page":3,"pagination":true}'>
+                                                    <div id="tableExample2">
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
@@ -179,29 +184,33 @@
                                                                     </th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-3 name">Anna</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
+                                                                <tbody class="list" id="positionTable">
+                                                                {% for position in positions %}
+                                                                    <tr data-name='positions_name' data-value='{{ position }}'>
+                                                                        <input hidden name='positions_name'
+                                                                               value='{{ position }}'>
+                                                                        <td class="align-middle ps-3 name">{{ position }}</td>
+                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                            <div class="btn-reveal-trigger position-static">
+                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                        type="button"
+                                                                                        data-bs-toggle="dropdown"
+                                                                                        data-boundary="window"
+                                                                                        aria-haspopup="true"
+                                                                                        aria-expanded="false"
+                                                                                        data-bs-reference="parent"><span
+                                                                                        class="fas fa-ellipsis-h fs-10"></span>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                    <a class="dropdown-item" href="#!">Редактировать</a>
+                                                                                    <div class="dropdown-divider"></div>
+                                                                                    <a class="dropdown-item text-danger delete-object"
+                                                                                       href="#!">Удалить</a>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -222,14 +231,23 @@
                                                         <h5 class="mb-0 text-body-highlight me-2">Контактная
                                                             информация</h5>
                                                     </div>
-                                                    <input class="form-control mb-3" type="text" placeholder="Город">
-                                                    <input class="form-control mb-3" type="text" placeholder="Район">
-                                                    <input class="form-control mb-3" type="text" placeholder="Улица">
-                                                    <input class="form-control mb-3" type="text"
-                                                           placeholder="Номер дома (сооружения)">
-                                                    <input class="form-control mb-3" type="text"
-                                                           placeholder="Контактный телефон">
-                                                    <input class="form-control mb-0" type="text" placeholder="@email">
+                                                    <input class="form-control mb-3" type="text" name="city"
+                                                           value="{{ organization.city }}" placeholder="Город" required>
+                                                    <input class="form-control mb-3" type="text" name="district"
+                                                           value="{{ organization.district }}" placeholder="Район"
+                                                           required>
+                                                    <input class="form-control mb-3" type="text" name="street"
+                                                           value="{{ organization.street }}" placeholder="Улица"
+                                                           required>
+                                                    <input class="form-control mb-3" type="text" name="building_number"
+                                                           value="{{ organization.building_number }}"
+                                                           placeholder="Номер дома (сооружения)" required>
+                                                    <input class="form-control mb-3" type="text" name="contact_phone"
+                                                           value="{{ organization.contact_phone }}"
+                                                           placeholder="Контактный телефон" required>
+                                                    <input class="form-control mb-0" type="text" name="contact_email"
+                                                           value="{{ organization.contact_email }}" placeholder="@email"
+                                                           required>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,8 +257,9 @@
                         </div>
                         <div class="col-12 col-sm-auto col-xl-4">
                             <div class="d-flex">
-                                <button class="btn btn-phoenix-primary px-5 me-2 w-50">Сохранить</button>
-                                <a class="btn btn-primary px-5 w-50 text-nowrap">Отмена</a>
+                                <button class="btn btn-phoenix-primary px-5 me-2 w-50" type="submit">Сохранить</button>
+                                <a class="btn btn-primary px-5 w-50 text-nowrap"
+                                   href="{% url 'authorization:organizations' %}">Отмена</a>
                             </div>
                         </div>
                     </div>
@@ -291,6 +310,102 @@
 <script src='{% static "js/flatpickr.min.js" %}'></script>
 <script src='{% static "js/phoenix.js" %}'></script>
 
+<script>
+    const addDepartment = document.getElementById("addDepartment");
+    addDepartment.addEventListener('click', function (event) {
+        const departmentInput = document.getElementById("departmentInput");
+        const departmentTable = document.getElementById("departmentTable");
+        if (departmentInput.value) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <tr data-name='departments_name' data-value='${departmentInput.value}'>
+                <input hidden name='departments_name' value='${departmentInput.value}'>
+                <td class="align-middle ps-3 name">${departmentInput.value}</td>
+                <td class="align-middle white-space-nowrap text-end pe-0">
+                    <div class="btn-reveal-trigger position-static">
+                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                data-boundary="window"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                data-bs-reference="parent"><span
+                                class="fas fa-ellipsis-h fs-10"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end py-2">
+                            <a class="dropdown-item" href="#!">Редактировать</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger delete-object"
+                               href="#!">Удалить</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            `;
+            departmentTable.appendChild(row);
+            departmentInput.value = "";
+        }
+    });
+
+
+    const addPosition = document.getElementById("addPosition");
+    addPosition.addEventListener('click', function (event) {
+        const positionInput = document.getElementById("positionInput");
+        const positionTable = document.getElementById("positionTable");
+        if (positionInput.value) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <tr data-name='positions_name' data-value='${positionInput.value}'>
+                <input hidden name='positions_name' value='${positionInput.value}'>
+                <td class="align-middle ps-3 name">${positionInput.value}</td>
+                <td class="align-middle white-space-nowrap text-end pe-0">
+                    <div class="btn-reveal-trigger position-static">
+                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                data-boundary="window"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                data-bs-reference="parent"><span
+                                class="fas fa-ellipsis-h fs-10"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end py-2">
+                            <a class="dropdown-item" href="#!">Редактировать</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger delete-object"
+                               href="#!">Удалить</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            `;
+            positionTable.appendChild(row);
+            positionInput.value = "";
+        }
+    });
+
+
+    const tables = document.querySelectorAll('tbody'); // or tbody if you prefer
+    tables.forEach(function (table) {
+        table.addEventListener('click', function (e) {
+            if (e.target.classList.contains('delete-object')) {
+                const row = e.target.closest('tr');
+                if (row) {
+                    let inputName = row.dataset.name;
+                    let inputValue = row.dataset.value;
+                    document.getElementsByName(inputName).forEach(function (inp) {
+                        if (inp.value === inputValue) {
+                            inp.value = '';
+                        }
+                    });
+                    row.remove();
+                }
+            }
+        });
+    });
+
+
+</script>
 </body>
 
 </html>

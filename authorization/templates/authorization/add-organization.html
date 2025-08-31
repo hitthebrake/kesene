@@ -308,7 +308,7 @@
         if (departmentInput.value) {
             const row = document.createElement("tr");
             row.innerHTML = `
-            <tr>
+            <tr data-name='departments_name' data-value='${departmentInput.value}'>
                 <input hidden name='departments_name' value='${departmentInput.value}'>
                 <td class="align-middle ps-3 name">${departmentInput.value}</td>
                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -345,7 +345,7 @@
         if (positionInput.value) {
             const row = document.createElement("tr");
             row.innerHTML = `
-            <tr>
+            <tr data-name='positions_name' data-value='${positionInput.value}'>
                 <input hidden name='positions_name' value='${positionInput.value}'>
                 <td class="align-middle ps-3 name">${positionInput.value}</td>
                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -376,14 +376,21 @@
 
 
     const tables = document.querySelectorAll('tbody'); // or tbody if you prefer
-    tables.forEach(function(table) {
-       table.addEventListener('click', function (e) {
-          if (e.target.classList.contains('delete-object')) {
-            const row = e.target.closest('tr');
-            if (row) {
-              row.remove();
+    tables.forEach(function (table) {
+        table.addEventListener('click', function (e) {
+            if (e.target.classList.contains('delete-object')) {
+                const row = e.target.closest('tr');
+                if (row) {
+                    let inputName = row.dataset.name;
+                    let inputValue = row.dataset.value;
+                    document.getElementsByName(inputName).forEach(function (inp) {
+                        if (inp.value === inputValue) {
+                            inp.value = '';
+                        }
+                    });
+                    row.remove();
+                }
             }
-          }
         });
     });
 

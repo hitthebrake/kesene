@@ -236,10 +236,58 @@ def get_organization_details(request):
 
 
 @login_required(login_url='authorization:login')
-def edit_organization(request, organization_id=1):
-    return render(request, 'authorization/edit-organization.html')
+def edit_organization(request, organization_id):
+    try:
+        organization = Organization.objects.get(id=organization_id)
+        departments = list(organization.departments.values_list('name', flat=True))
+        positions = list(organization.positions.values_list('name', flat=True))
+        print(departments)
+        print(positions)
+    except Organization.DoesNotExist:
+        organization = None
+        departments = None
+        positions = None
+
+    if request.method == 'POST' and organization:
+        organization.name = request.POST.get('name')
+        organization.city = request.POST.get('city')
+        organization.district = request.POST.get('district')
+        organization.street = request.POST.get('street')
+        organization.building_number = request.POST.get('building_number')
+        organization.contact_phone = request.POST.get('contact_phone')
+        organization.contact_email = request.POST.get('contact_email')
+        organization.save()
+
+        departments_name = set(request.POST.getlist('departments_name'))
+        positions_name = set(request.POST.getlist('positions_name'))
+
+        positions_to_delete = [position for position in positions if position not in positions_name]
+        departments_to_delete = [department for department in departments if department not in departments_name]
+        Department.objects.filter(organization=organization, name__in=departments_to_delete).delete()
+        Position.objects.filter(organization=organization, name__in=positions_to_delete).delete()
+
+        positions_to_add = [position for position in positions_name if position not in positions]
+        departments_to_add = [department for department in departments_name if department not in departments]
+        for position in positions_to_add:
+            position = Position(organization=organization, name=position)
+            position.save()
+        for department in departments_to_add:
+            department = Department(organization=organization, name=department)
+            department.save()
+
+        return redirect('authorization:organizations')
+
+
+
+    return render(request, 'authorization/edit-organization.html',
+                  {
+                      'organization': organization,
+                      'departments': departments,
+                      'positions': positions,
+                  })
 
 
 @login_required(login_url='authorization:login')
 def organizations_view(request):
-    return render(request, 'authorization/organizations.html')
+    organizations = Organization.objects.all()
+    return render(request, 'authorization/organizations.html', {'organizations': organizations})
