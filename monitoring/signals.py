@@ -4,47 +4,37 @@ from asgiref.sync import async_to_sync
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from webhook.models import ExampleMeasurement, Sensor
 
-# @receiver(post_save, sender=Measurement, dispatch_uid='data_saved')
-# def data_saved(sender, instance, created, **kwargs):
-#     print('Signal fired!!!')
-#     if created:
-#         thresholds = Threshold.objects.select_related('sensor', 'type').values(
-#             'id', 'color',
-#             'sensor__id', 'type__id',
-#             'sensor__name', 'sensor__location',
-#             'type__label', 'type__code',
-#             'description', 'upper_limit', 'lower_limit'
-#         )
-#         sensor_id = int(instance.sensor_id)
-#         type_id = int(instance.type_id)
-#         value = None
-#         if instance.value is not None:
-#             value = float(instance.value)
-#
-#         data = {
-#             'sensor_id': sensor_id,
-#             'type_id': type_id,
-#             'value': value,
-#             'label': instance.type.label,
-#             'code': instance.type.code,
-#             'color' : '#32CD32',
-#             'description': 'Все нормально!',
-#         }
-#         for threshold in thresholds:
-#             print(threshold)
-#             if threshold['sensor__id'] == sensor_id and threshold['type__id'] == type_id:
-#                 if value is not None and threshold['upper_limit'] > value >= threshold['lower_limit']:
-#                     data['color'] = threshold['color']
-#                     data['description'] = threshold['description']
-#
-#         print('signals:', data)
-#
-#         channel_layer = get_channel_layer()
-#         async_to_sync(channel_layer.group_send)(
-#             "monitor",
-#             {
-#                 "type": "send_measurement",
-#                 "data": data,
-#             }
-#         )
+
+@receiver(post_save, sender=ExampleMeasurement, dispatch_uid='monitor_update')
+def monitor_update(sender, instance, created, **kwargs):
+    print('New measurement signal fired!!!')
+    if created:
+        sensor_id = instance.sensor_id
+        value1 = round(float(instance.value1), 2) if instance.value1 is not None else '#NV',
+        value2 = round(float(instance.value2), 2) if instance.value2 is not None else '#NV',
+        value3 = round(float(instance.value3), 2) if instance.value3 is not None else '#NV',
+
+        sensor = Sensor.objects.get(id=sensor_id)
+        data = {
+            'sensor_id': sensor_id,
+            'value1': value1,
+            'value2': value2,
+            'value3': value3,
+            'spot': sensor.spot,
+            'name': sensor.name,
+            'location': sensor.location,
+            'sensor_type': sensor.sensor_type,
+        }
+
+        print('signals:', data)
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "monitor",
+            {
+                "type": "send_measurement",
+                "data": data,
+            }
+        )

@@ -141,271 +141,63 @@
                                     </tr>
                                     </thead>
                                     <tbody class="list">
-                                    {% for sensor_data in values %}
-                                        <tr data-sensor-id="{{ sensor_data.sensor_id }}">
-                                            <td class="align-middle ps-3 group" hidden>{{ sensor_data.location }}</td>
-                                            <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.14</td>
-                                            <td class="align-middle place">{{ sensor_data.location }}. {{ sensor_data.name }}</td>
-                                            <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                            {% for type_data in sensor_data.data %}
-                                                <td class="thresholds"
-                                                    data-threshold-description="{{ type_data.description }}"
-                                                    data-type-id="{{ type_data.id }}"
-                                                    style="background-color: {{ type_data.color }}">
-                                                    {{ type_data.value }}
-                                                </td>
-                                            {% endfor %}
+                                    {% for sensor_id, value in latest_values.items %}
+                                        <tr data-sensor-id="{{ sensor_id }}">
+                                            <td class="align-middle ps-3 group" hidden>{{ value.location }}</td>
+                                            <td class="align-middle ps-3 name d-none d-lg-table-cell">{{ value.spot }}</td>
+                                            <td class="align-middle place">{{ value.location }}. {{ value.name }}</td>
+                                            <td class="align-middle ps-3 type d-none d-lg-table-cell">{{ value.sensor_type }}</td>
 
-                                            {% if sensor_data.data|length == 1 %}
-                                                <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">#NV</td>
-                                                <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">#NV</td>
-                                            {% elif sensor_data.data|length == 2 %}
-                                                <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">#NV</td>
-                                            {% endif %}
+                                            <td class="align-middle ps-3 value-1">
+                                                {% if value.type1 %}{{ value.value1 }}{% if value.value1 != '#NV' %}
+                                                    {{ value.type1 }}{% endif %}{% endif %}</td>
+                                            <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">
+                                                {% if value.type2 %}{{ value.value2 }}{% if value.value1 != '#NV' %}
+                                                    {{ value.type1 }}{% endif %}{% endif %}</td>
+                                            <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">
+                                                {% if value.type3 %}{{ value.value3 }}{% if value.value1 != '#NV' %}
+                                                    {{ value.type1 }}{% endif %}{% endif %}</td>
+
+                                            <td class="align-middle payment text-end py-3 pe-3 status">
+                                                <div class="badge fs-10 badge-phoenix badge-phoenix-success">
+                                                    <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
+                                                            class="ms-1 fas fa-check"
+                                                            data-fa-transform="shrink-2"></span></a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     {% endfor %}
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.14</td>
-                                        <td class="align-middle place">Асхана. Вентиляционная шахта</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">#NV</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">#NV</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">#NV</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
-                                                    <span class="fw-bold">Нет данных</span><span class="ms-1 fas fa-ban"
-                                                                                                 data-fa-transform="shrink-2"></span>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.14</td>
-                                        <td class="align-middle place">Асхана. Вентиляционная шахта</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Vв</td>
-                                        <td class="align-middle ps-3 value-1">0,2 м/с</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge badge-phoenix fs-10 badge-phoenix-info">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#varning"><span
-                                                        class="fw-bold">Предупреждение</span><span
-                                                        class="ms-1 fas fa-alert"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.13</td>
-                                        <td class="align-middle place">Асхана. Внешняя стена +2,5м</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">3,5 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">72,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">0,1 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.5</td>
-                                        <td class="align-middle place">Асхана. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">5,0 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">64,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">2,1 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge badge-phoenix fs-10 badge-phoenix-danger" role="status">
-                                                <!-- CHANGE href="URL" -->
-                                                <a href='#' data-bs-toggle="modal" data-bs-target="#danger"><span
-                                                        class="fw-bold">Тревога</span><span
-                                                        class="ms-1 fas fa-close"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.5</td>
-                                        <td class="align-middle place">Асхана. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Vв</td>
-                                        <td class="align-middle ps-3 value-1">0,0 м/с</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.5</td>
-                                        <td class="align-middle place">Асхана. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Тп.</td>
-                                        <td class="align-middle ps-3 value-1">6,0 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.6</td>
-                                        <td class="align-middle place">Асхана. Наружняя стена</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">4,8 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">65,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">0,4 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.6</td>
-                                        <td class="align-middle place">Асхана. Наружняя стена</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Тп.</td>
-                                        <td class="align-middle ps-3 value-1">5,6 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Асхана</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.6</td>
-                                        <td class="align-middle place">Асхана. Наружняя стена</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ПТП</td>
-                                        <td class="align-middle ps-3 value-1">2 мВт/м2</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Аксарай Большой</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.4</td>
-                                        <td class="align-middle place">Аксарай Большой. Вентиляционная шахта</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">2,5 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">78,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">0,1 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Аксарай Большой</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P1.4</td>
-                                        <td class="align-middle place">Аксарай Большой. Вентиляционная шахта</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Vв</td>
-                                        <td class="align-middle ps-3 value-1">0,1 м/с</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Аксарай Большой</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.3</td>
-                                        <td class="align-middle place">Аксарай Большой. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">5,0 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">65,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">1,1 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Аксарай Большой</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.3</td>
-                                        <td class="align-middle place">Аксарай Большой. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Vв</td>
-                                        <td class="align-middle ps-3 value-1">0,0 м/с</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Аксарай Большой</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.3</td>
-                                        <td class="align-middle place">Аксарай Большой. Наклонный свод</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">Тп.</td>
-                                        <td class="align-middle ps-3 value-1">5,0 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell"></td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle ps-3 group" hidden>Вход №1 (окно)</td>
-                                        <td class="align-middle ps-3 name d-none d-lg-table-cell">P2.3</td>
-                                        <td class="align-middle place">Вход №1 (окно)</td>
-                                        <td class="align-middle ps-3 type d-none d-lg-table-cell">ТвОВв</td>
-                                        <td class="align-middle ps-3 value-1">0,5 °С</td>
-                                        <td class="align-middle ps-3 value-2 d-none d-lg-table-cell">90,0 %</td>
-                                        <td class="align-middle ps-3 value-3 d-none d-lg-table-cell">0,6 'С</td>
-                                        <td class="align-middle payment text-end py-3 pe-3 status">
-                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                        class="ms-1 fas fa-check"
-                                                        data-fa-transform="shrink-2"></span></a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                        <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">#}
+                                    {#                                            <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">#}
+                                    {#                                                <span class="fw-bold">Нет данных</span><span#}
+                                    {#                                                    class="ms-1 fas fa-ban"#}
+                                    {#                                                    data-fa-transform="shrink-2"></span>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </td>#}
+                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                        <div class="badge badge-phoenix fs-10 badge-phoenix-info">#}
+                                    {#                                            <a href="#" data-bs-toggle="modal" data-bs-target="#varning"><span#}
+                                    {#                                                    class="fw-bold">Предупреждение</span><span#}
+                                    {#                                                    class="ms-1 fas fa-alert"></span></a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </td>#}
+                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                        <div class="badge fs-10 badge-phoenix badge-phoenix-success">#}
+                                    {#                                            <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span#}
+                                    {#                                                    class="ms-1 fas fa-check"#}
+                                    {#                                                    data-fa-transform="shrink-2"></span></a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </td>#}
+                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                        <div class="badge badge-phoenix fs-10 badge-phoenix-danger" role="status">#}
+                                    {#                                            <!-- CHANGE href="URL" -->#}
+                                    {#                                            <a href='#' data-bs-toggle="modal" data-bs-target="#danger"><span#}
+                                    {#                                                    class="fw-bold">Тревога</span><span#}
+                                    {#                                                    class="ms-1 fas fa-close"></span></a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </td>#}
                                     </tbody>
                                 </table>
                             </div>
@@ -1058,6 +850,16 @@
 <script src='{% static "js/echarts.min.js" %}'></script>
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
+<script>
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/monitor/');
+    socket.onopen = () => console.log("Connected!");
+    socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        console.log('data:');
+        console.log(data);
+    };
+    socket.onerror = (e) => console.log("Error:", e);
+</script>
 </body>
 
 </html>

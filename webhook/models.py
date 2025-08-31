@@ -44,3 +44,12 @@ class MeteoData(models.Model):
         indexes = [
             models.Index(fields=['-date']),
         ]
+
+
+class ExampleMeasurement(models.Model):
+    date = models.DateTimeField(verbose_name="Дата/время измерения", null=True, blank=True)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, verbose_name="Датчик", blank=True, null=True)
+
+    value1 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 1", blank=True, null=True)
+    value2 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 2", blank=True, null=True)
+    value3 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 3", blank=True, null=True)
