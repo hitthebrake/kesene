@@ -234,3 +234,12 @@ def get_organization_details(request):
         "positions": positions
     })
 
+
+@login_required(login_url='authorization:login')
+def edit_organization(request, organization_id=1):
+    return render(request, 'authorization/edit-organization.html')
+
+
+@login_required(login_url='authorization:login')
+def organizations_view(request):
+    return render(request, 'authorization/organizations.html')

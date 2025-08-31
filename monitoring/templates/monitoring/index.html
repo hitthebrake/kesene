@@ -35,6 +35,7 @@
     <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
     <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
+    <link href='{% static "css/flatpickr.min.css" %}' rel="stylesheet">
     <script>
         let phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -70,6 +71,18 @@
                     <div class="col-xl-8 col-xxl-9">
                         <div class="col-auto">
                             <h3 class="mb-4 text-body-emphasis">Состояние системы</h3>
+                        </div>
+                        <div class="alert alert-subtle-warning alert-dismissible fade show" role="alert">
+                            <h4 class="alert-heading fw-semibold">Асхана. Критический уровень влажности!</h4>
+                            <p>Необходимо ограничить посещение! Включить вентиляторы по направлению к западной стене.
+                                Включить тепловую пушку</p>
+                            <hr class="bg-body-tertiary"/>
+                            <button class="btn btn-danger me-1 mb-1" type="button" data-bs-dismiss="alert"
+                                    aria-label="Close">Принять в работу
+                            </button>
+                            <button class="btn btn-outline-secondary me-1 mb-1" type="button" data-bs-dismiss="alert"
+                                    aria-label="Close">Удалить
+                            </button>
                         </div>
                         <div id="tableExample4"
                              data-list='{"valueNames":["group", "name", "place","type","value-1","value-2","value-3", "status"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
@@ -110,8 +123,8 @@
                                         <th class="sort border-top border-translucent" data-sort="place"
                                             style="min-width:100px;">Место установки
                                         </th>
-                                        <th class="sort border-top border-translucent text-end pe-3 d-none d-lg-table-cell"
-                                            data-sort="type" style="min-width:40px;">Тип дачика
+                                        <th class="sort border-top border-translucent pe-3 d-none d-lg-table-cell"
+                                            data-sort="type" style="min-width:40px;">Тип датчика
                                         </th>
                                         <th class="sort border-top border-translucent ps-3" data-sort="value-1"
                                             style="min-width:40px;">Знач. 1
@@ -119,7 +132,7 @@
                                         <th class="sort border-top border-translucent  d-none d-lg-table-cell"
                                             data-sort="value-2" style="min-width:40px;">Знач. 2
                                         </th>
-                                        <th class="sort border-top border-translucent text-end pe-3 d-none d-lg-table-cell"
+                                        <th class="sort border-top border-translucent pe-3 d-none d-lg-table-cell"
                                             data-sort="value-3" style="min-width:40px;">Знач. 3
                                         </th>
                                         <th class="sort border-top border-translucent text-end pe-3" data-sort="status"
@@ -506,7 +519,7 @@
                             <div class="col-12 col-xl-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-4">Уведомления</h4>
+                                        <h4 class="card-title mb-4">Оповещения системы</h4>
                                         <div class="row g-3">
                                             <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                                                 <li class="nav-item" role="presentation"><a class="nav-link active"
@@ -515,8 +528,8 @@
                                                                                             href="#tab-home" role="tab"
                                                                                             aria-controls="tab-new"
                                                                                             aria-selected="false"
-                                                                                            tabindex="-1">Новые (8)</a>
-                                                </li>
+                                                                                            tabindex="-1">Отложенные
+                                                    (1)</a></li>
                                                 <li class="nav-item" role="presentation"><a class="nav-link"
                                                                                             id="profile-tab"
                                                                                             data-bs-toggle="tab"
@@ -535,31 +548,31 @@
                                                                                             aria-selected="true">Исполненные
                                                     (3)</a></li>
                                                 <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                                            id="contact-tab"
+                                                                                            id="contact-trash"
                                                                                             data-bs-toggle="tab"
                                                                                             href="#tab-trash" role="tab"
                                                                                             aria-controls="tab-trash"
-                                                                                            aria-selected="true">Отложено
-                                                    (0)</a></li>
+                                                                                            aria-selected="true">Корзина
+                                                    (3)</a></li>
                                             </ul>
                                             <div class="tab-content mt-3" id="myTabContent">
                                                 <div class="tab-pane fade active show" id="tab-home" role="tabpanel"
                                                      aria-labelledby="home-new">
                                                     <!--    Начало Новые уведомления-->
                                                     <div id="tableExample"
-                                                         data-list='{"valueNames":["point","type","status"],"page":6,"pagination":true}'>
+                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
                                                                 <tr>
                                                                     <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="point">Точка
+                                                                        data-sort="data">Дата
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="time">Время
                                                                     </th>
                                                                     <th class="sort border-top border-translucent"
-                                                                        data-sort="type">Тип
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent"
-                                                                        data-sort="status">Статус
+                                                                        data-sort="room">Помещение
                                                                     </th>
                                                                     <th class="sort text-end align-middle pe-0 border-top border-translucent"
                                                                         scope="col">Действия
@@ -568,9 +581,9 @@
                                                                 </thead>
                                                                 <tbody class="list">
                                                                 <tr>
-                                                                    <td class="align-middle ps-0 point">P1.14</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Нет данных</td>
+                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                    <td class="align-middle ps-0 time">16:25</td>
+                                                                    <td class="align-middle room">Асхана</td>
                                                                     <td class="align-middle white-space-nowrap text-end pe-0">
                                                                         <div class="btn-reveal-trigger position-static">
                                                                             <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
@@ -585,200 +598,17 @@
                                                                             <div class="dropdown-menu dropdown-menu-end py-2">
                                                                                 <a class="dropdown-item" href="#!"
                                                                                    data-bs-toggle="modal"
-                                                                                   data-bs-target="#view">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
+                                                                                   data-bs-target="#danger_room">Просмотр</a>
+                                                                                <a class="dropdown-item" href="#!">Оповестить
+                                                                                    сотрудников</a>
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P1.14</td>
-                                                                    <td class="align-middle type">Vв</td>
-                                                                    <td class="align-middle status">Предупреждение</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
+                                                                                   href="#!">Удалить</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
 
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle status">Тревога</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -817,69 +647,30 @@
                                                      aria-labelledby="profile-progress">
                                                     <!--    Начало В работе уведомления-->
                                                     <div id="tableExample"
-                                                         data-list='{"valueNames":["point","type"],"page":6,"pagination":true}'>
+                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
                                                         <div class="table-responsive">
                                                             <table class="table table-sm fs-9 mb-0">
                                                                 <thead>
                                                                 <tr>
                                                                     <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="point">Точка
+                                                                        data-sort="data">Дата
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="time">Время
                                                                     </th>
                                                                     <th class="sort border-top border-translucent"
-                                                                        data-sort="type">Тип
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent">
-                                                                        Состояние
+                                                                        data-sort="room">Помещение
                                                                     </th>
                                                                     <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                        scope="col">Действие
+                                                                        scope="col">Действия
                                                                     </th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody class="list">
                                                                 <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle destination pe-2 pe-xxl-2">
-                                                                        <div class="col-auto">
-                                                                            <table class="fs-9">
-                                                                                <tbody>
-                                                                                <tr>
-                                                                                    <th style="width: 100%" colspan="3">
-                                                                                        Включен вентилятор
-                                                                                    </th>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-body-tertiary">
-                                                                                            Начало</h6>
-                                                                                    </td>
-                                                                                    <td class="text-body-tertiary pe-2">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-nowrap fw-semibold text-body-tertiary">
-                                                                                            15:31:04</h6>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-body-tertiary">
-                                                                                            Конец</h6>
-                                                                                    </td>
-                                                                                    <td class="text-body-tertiary pe-2">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-nowrap fw-semibold text-body-tertiary">
-                                                                                            18:00:00</h6>
-                                                                                    </td>
-                                                                                </tr>
-
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </td>
+                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                    <td class="align-middle ps-0 time">16:25</td>
+                                                                    <td class="align-middle room">Асхана</td>
                                                                     <td class="align-middle white-space-nowrap text-end pe-0">
                                                                         <div class="btn-reveal-trigger position-static">
                                                                             <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
@@ -888,89 +679,22 @@
                                                                                     data-boundary="window"
                                                                                     aria-haspopup="true"
                                                                                     aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-end py-2">
                                                                                 <a class="dropdown-item" href="#!"
                                                                                    data-bs-toggle="modal"
-                                                                                   data-bs-target="#view">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
+                                                                                   data-bs-target="#danger_room_end">Просмотр</a>
+                                                                                <a class="dropdown-item" href="#!">Завершить</a>
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
+                                                                                   href="#!">Удалить</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 point">P2.5</td>
-                                                                    <td class="align-middle type">ТвОВв</td>
-                                                                    <td class="align-middle destination pe-2 pe-xxl-2">
-                                                                        <div class="col-auto">
-                                                                            <table class="fs-9">
-                                                                                <tbody>
-                                                                                <tr>
-                                                                                    <th style="width: 100%" colspan="3">
-                                                                                        Ограничено посещение
-                                                                                    </th>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-body-tertiary">
-                                                                                            Начало</h6>
-                                                                                    </td>
-                                                                                    <td class="text-body-tertiary pe-2">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-nowrap fw-semibold text-body-tertiary">
-                                                                                            15:31:04</h6>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-body-tertiary">
-                                                                                            Конец</h6>
-                                                                                    </td>
-                                                                                    <td class="text-body-tertiary pe-2">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <h6 class="mb-0 text-nowrap fw-semibold text-body-tertiary">
-                                                                                            18:00:00</h6>
-                                                                                    </td>
-                                                                                </tr>
 
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent"><span
-                                                                                    class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#view">Просмотр</a><a
-                                                                                    class="dropdown-item " href="#!">В
-                                                                                работу</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Отложить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -1008,19 +732,177 @@
                                                 <div class="tab-pane fade" id="tab-completed" role="tabpanel"
                                                      aria-labelledby="contact-completed">
                                                     <!--    Начало Исполненные уведомления-->
-                                                    Исполненные
+                                                    <div id="tableExample"
+                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm fs-9 mb-0">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="data">Дата
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="time">Время
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent"
+                                                                        data-sort="room">Помещение
+                                                                    </th>
+                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                        scope="col">Действия
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="list">
+                                                                <tr>
+                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                    <td class="align-middle ps-0 time">16:25</td>
+                                                                    <td class="align-middle room">Асхана</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item" href="#!"
+                                                                                   data-bs-toggle="modal"
+                                                                                   data-bs-target="#danger_room_off">Просмотр</a>
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item text-danger"
+                                                                                   href="#!">Удалить</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="d-flex flex-between-center pt-3">
+                                                            <div class="pagination d-none"></div>
+                                                            <p class="mb-0 fs-9">
+                                                                <span class="d-none d-sm-inline-block"
+                                                                      data-list-info="data-list-info"></span>
+                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                                <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                    Все
+                                                                    <span class="fas fa-angle-right ms-1"
+                                                                          data-fa-transform="down-1"></span>
+                                                                </a><a class="fw-semibold d-none" href="#!"
+                                                                       data-list-view="less">
+                                                                Сокращенно
+                                                                <span class="fas fa-angle-right ms-1"
+                                                                      data-fa-transform="down-1"></span>
+                                                            </a>
+                                                            </p>
+                                                            <div class="d-flex">
+                                                                <button class="btn btn-sm btn-primary" type="button"
+                                                                        data-list-pagination="prev"><span
+                                                                        data-feather="arrow-left-circle"></span>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                        type="button" data-list-pagination="next"><span
+                                                                        data-feather="arrow-right-circle"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <!--    Конец Исполненные уведомления-->
                                                 </div>
                                                 <div class="tab-pane fade" id="tab-trash" role="tabpanel"
                                                      aria-labelledby="contact-trash">
                                                     <!--    Начало Корзина уведомления-->
-                                                    Корзина
+                                                    <div id="tableExample"
+                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm fs-9 mb-0">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="data">Дата
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent ps-0"
+                                                                        data-sort="time">Время
+                                                                    </th>
+                                                                    <th class="sort border-top border-translucent"
+                                                                        data-sort="room">Помещение
+                                                                    </th>
+                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                        scope="col">Действия
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="list">
+                                                                <tr>
+                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                    <td class="align-middle ps-0 time">16:25</td>
+                                                                    <td class="align-middle room">Асхана</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item" href="#!"
+                                                                                   data-bs-toggle="modal"
+                                                                                   data-bs-target="#danger_room_deleted">Просмотр</a>
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item text-danger"
+                                                                                   href="#!">Восстановить</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="d-flex flex-between-center pt-3">
+                                                            <div class="pagination d-none"></div>
+                                                            <p class="mb-0 fs-9">
+                                                                <span class="d-none d-sm-inline-block"
+                                                                      data-list-info="data-list-info"></span>
+                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                                <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                    Все
+                                                                    <span class="fas fa-angle-right ms-1"
+                                                                          data-fa-transform="down-1"></span>
+                                                                </a><a class="fw-semibold d-none" href="#!"
+                                                                       data-list-view="less">
+                                                                Сокращенно
+                                                                <span class="fas fa-angle-right ms-1"
+                                                                      data-fa-transform="down-1"></span>
+                                                            </a>
+                                                            </p>
+                                                            <div class="d-flex">
+                                                                <button class="btn btn-sm btn-primary" type="button"
+                                                                        data-list-pagination="prev"><span
+                                                                        data-feather="arrow-left-circle"></span>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                        type="button" data-list-pagination="next"><span
+                                                                        data-feather="arrow-right-circle"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <!--    Конец Корзина уведомления-->
                                                 </div>
                                             </div>
                                             <hr style="margin: 20px 0;color: var(--phoenix-border-color-translucent);border: 0;border-top: var(--phoenix-border-width) solid;opacity: 1;">
                                         </div>
-                                        <button class="btn btn-phoenix-primary w-100" type="button">Журнал уведомлении
+                                        <button class="btn btn-phoenix-primary w-100" type="button">Журнал оповещении
                                         </button>
                                     </div>
                                 </div>

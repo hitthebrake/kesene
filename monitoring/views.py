@@ -27,7 +27,6 @@ def can_add_threshold(user):
 def table(request):
     data = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat=43.2975&lon=68.2708&appid={settings.WEATHER_API_KEY}&lang=ru')
     locations = set(sensor.location for sensor in Sensor.objects.all())
-
     return redirect()
     return render(request, 'monitoring/monitoring.html', {'locations': locations})
 
@@ -37,7 +36,7 @@ def index(request):
     data = requests.get(
         f'https://api.openweathermap.org/data/2.5/weather?lat=43.2975&lon=68.2708&appid={settings.WEATHER_API_KEY}&lang=ru'
     )
-
+    print(data.json())
     return render(request, 'monitoring/index.html')
 
 

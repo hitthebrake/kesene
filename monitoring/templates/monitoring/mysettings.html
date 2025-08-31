@@ -62,7 +62,6 @@
 
 
 <body>
-
 <!-- ===============================================-->
 <!--    Main Content-->
 <!-- ===============================================-->
@@ -70,46 +69,209 @@
     {% include 'core/sidebar.html' %}
     {% include 'core/navbar.html' %}
     <div class="content">
-
-        <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none"/>2025 &copy;<a class="mx-1"
-                                                             href="https://www.instagram.com/qazqaitajanarty/">Instagram</a>
-                    </p>
+        <div class="pb-5">
+            <!--    Тут ставить коды основного контента страниц и элементов-->
+            <div class="row">
+                <div class="col-sm-7 col-md-8 col-xxl-8 mb-md-3 mb-lg-0">
+                    <h3>Статистика по установленным датчикам</h3>
+                    <p class="text-body-tertiary">Датчики автоматического измерения параметров</p>
+                    <div class="row g-0">
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100 border-1 border-bottom border-end border-translucent">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-primary"
+                                        data-fa-transform="up-2"></span><span class="mb-0 fs-9 text-body">Температура и влажность</span>
+                                </div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">35</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100 border-1 border-bottom border-end-md-0 border-end-xl border-translucent">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-success"
+                                        data-fa-transform="up-2"></span><span
+                                        class="mb-0 fs-9 text-body">Скорость ветра</span></div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">32</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100 border-1 border-bottom border-end border-end-md border-end-xl-0 border-translucent">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-info" data-fa-transform="up-2"></span><span
+                                        class="mb-0 fs-9 text-body">Температура поверхности</span></div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">19</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100 border-1 border-end-xl border-bottom border-bottom-xl-0 border-translucent">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-info-light"
+                                        data-fa-transform="up-2"></span><span class="mb-0 fs-9 text-body">Плотность теплового потока</span>
+                                </div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">7</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100 border-1 border-end border-translucent">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-danger-lighter"
+                                        data-fa-transform="up-2"></span><span class="mb-0 fs-9 text-body">Направление ветра</span>
+                                </div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">4</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-4">
+                            <div class="d-flex flex-column flex-center align-items-sm-start flex-md-row justify-content-md-between flex-xxl-column p-3 ps-sm-3 ps-md-4 p-md-3 h-100">
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="fa-solid fa-square fs-11 me-2 text-warning-light"
+                                        data-fa-transform="up-2"></span><span class="mb-0 fs-9 text-body">Концентратор СО2</span>
+                                </div>
+                                <h3 class="fw-semibold ms-xl-3 ms-xxl-0 pe-md-2 pe-xxl-0 mb-0 mb-sm-3">1</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
+                <div class="col-sm-5 col-md-4 col-xxl-4 my-3 my-sm-0">
+                    <div class="position-relative d-flex flex-center mb-sm-4 mb-xl-0 echart-contact-by-source-container mt-sm-7 mt-lg-4 mt-xl-0">
+                        <div class="echart-contact-by-source" style="min-height:245px;width:100%"></div>
+                        <div class="position-absolute rounded-circle bg-primary-subtle top-50 start-50 translate-middle d-flex flex-center"
+                             style="height:100px; width:100px;">
+                            <h3 class="mb-0 text-primary-dark fw-bolder" data-label="data-label"></h3>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
+
+            <div class="row gy-3 mb-6 justify-content-between">
+                <div class="col-md-9 col-auto">
+                    <h3 class="mb-2 text-body-emphasis">Общие данные</h3>
+                    <h5 class="text-body-tertiary fw-semibold">по системе Online контроля за Мазволеем</h5>
+                </div>
+            </div>
+            <div class="row mb-3 gy-6">
+                <div class="col-12 col-xxl-2">
+                    <div class="row align-items-center g-3 g-xxl-0 h-100 align-content-between">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
+                            <div class="d-flex align-items-center"><span
+                                    class="fs-4 lh-1 uil uil-books text-primary-dark"></span>
+                                <div class="ms-2">
+                                    <div class="d-flex align-items-end">
+                                        <h2 class="mb-0 me-2">2</h2><span
+                                            class="fs-7 fw-semibold text-body">Организации</span>
+                                    </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Непрерывного мониторинга</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
+                            <div class="d-flex align-items-center"><span
+                                    class="fs-4 lh-1 uil uil-users-alt text-success-dark"></span>
+                                <div class="ms-2">
+                                    <div class="d-flex align-items-end">
+                                        <h2 class="mb-0 me-2">19</h2><span class="fs-7 fw-semibold text-body">Пользователей</span>
+                                    </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Хранителей Мавзолея</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
+                            <div class="d-flex align-items-center"><span
+                                    class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
+                                <div class="ms-2">
+                                    <div class="d-flex align-items-end">
+                                        <h2 class="mb-0 me-2">63</h2><span
+                                            class="fs-7 fw-semibold text-body">Сценария</span>
+                                    </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Оперативного реагирования</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
+                            <div class="d-flex align-items-center"><span
+                                    class="fs-4 lh-1 uil uil-refresh text-danger-dark"></span>
+                                <div class="ms-2">
+                                    <div class="d-flex align-items-end">
+                                        <h2 class="mb-0 me-2">2</h2><span
+                                            class="fs-7 fw-semibold text-body">Минуты</span>
+                                    </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Интервал обновления данных</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 h-100">
+                    <div class="col-12 col-md-4 col-xxl-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 col-xxl-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 col-xxl-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--    Тут конец коды основного контента страниц и элементов-->
+            <footer class="footer position-absolute">
+                <div class="row g-0 justify-content-between align-items-center h-100">
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
+                                class="d-none d-sm-inline-block"></span><span
+                                class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none"/>2025 &copy;<a
+                                class="mx-1" href="https://www.instagram.com/qazqaitajanarty/">Instagram</a></p>
+                    </div>
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
+
+
 </main>
 <!-- ===============================================-->
 <!--    End of Main Content-->
 <!-- ===============================================-->
 
 
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
-    <script src='{% static "js/popper.min.js" %}'></script>
-    <script src='{% static "js/bootstrap.min.js" %}'></script>
-    <script src='{% static "js/anchor.min.js" %}'></script>
-    <script src='{% static "js/is.min.js" %}'></script>
-    <script src='{% static "js/all.min.js" %}'></script>
-    <script src='{% static "js/lodash.min.js" %}'></script>
-    <script src='{% static "js/list.min.js" %}'></script>
-    <script src='{% static "js/feather.min.js" %}'></script>
-    <script src='{% static "js/dayjs.min.js" %}'></script>
-    <script src='{% static "js/leaflet.js" %}'></script>
-    <script src='{% static "js/leaflet.markercluster.js" %}'></script>
-    <script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
-    <script src='{% static "js/phoenix.js" %}'></script>
-    <script src='{% static "js/echarts.min.js" %}'></script>
-    <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
+<!-- ===============================================-->
+<!--    JavaScripts-->
+<!-- ===============================================-->
+<script src='{% static "js/popper.min.js" %}'></script>
+<script src='{% static "js/bootstrap.min.js" %}'></script>
+<script src='{% static "js/anchor.min.js" %}'></script>
+<script src='{% static "js/is.min.js" %}'></script>
+<script src='{% static "js/all.min.js" %}'></script>
+<script src='{% static "js/lodash.min.js" %}'></script>
+<script src='{% static "js/list.min.js" %}'></script>
+<script src='{% static "js/feather.min.js" %}'></script>
+<script src='{% static "js/dayjs.min.js" %}'></script>
+<script src='{% static "js/leaflet.js" %}'></script>
+<script src='{% static "js/leaflet.markercluster.js" %}'></script>
+<script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
+<script src='{% static "js/phoenix.js" %}'></script>
+<script src='{% static "js/echarts.min.js" %}'></script>
+<script src='{% static "js/ecommerce-dashboard.js" %}'></script>
+
+
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
     <div class="navbar-logo">
 
-        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
+        <button id="navbarToggleButton" class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse"
                 aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                 class="toggle-line"></span></span></button>
@@ -25,8 +25,7 @@
                 <ul class="dropdown-menu navbar-dropdown-caret">
                     <li>
                         <a class="dropdown-item active" href="{% url 'monitoring:index' %}">
-                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Состояние
-                                системы
+                            <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="cast"></span>Главная
                             </div>
                         </a>
                     </li>
@@ -43,96 +42,11 @@
                    data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span
                         class="uil fs-8 me-2 uil-cube"></span>Аналитика</a>
                 <ul class="dropdown-menu navbar-dropdown-caret">
-                    <!-- CHANGE href='{ % static "set/ashana.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="coffee"></span>Асхана
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/aksarai_small.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="user"></span>Аксарай
-                            малый
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/aksarai_big.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="users"></span>Аксарай
-                            большой
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/enter_1.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход
-                            №1
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/entar_2.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="log-in"></span>Вход
-                            №2
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/gurkhana.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="inbox"></span>Гурхана
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/kazandyk.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="disc"></span>Казандык
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/kazandyk_mkp.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="database"></span>Казандык.
-                            МКП
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/kitapkhana.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="book-open"></span>Китапхна
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/hall_2.html" %}'-->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор
-                            2
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/hall_4.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="navigation"></span>Коридор
-                            4
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/kudukkhana.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="droplet"></span>Кудукхана
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/mechet.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="clock"></span>Мечеть
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/room_1.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="square"></span>Помещение
-                            1
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/terassa_1.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="maximize"></span>Терраса
-                            1
-                        </div>
-                    </a></li>
-                    <!-- CHANGE href='{ % static "set/hudzhra_1.html" %}' -->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="watch"></span>Худжара
-                            1
-                        </div>
-                    </a></li>
+                    <!-- CHANGE "set/analityca.html" -->
+                    <li><a class="dropdown-item" href="#">
+						<div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="file-plus"></span>Конструктор</div>
+					</a>
+				</li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -265,3 +179,12 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    const navbarToggleButton = document.getElementById("navbarToggleButton");
+    const navbarVerticalCollapse = document.getElementById("navbarVerticalCollapse");
+    if (navbarToggleButton && navbarVerticalCollapse) {
+        navbarToggleButton.setAttribute("data-bs-target", "#navbarVerticalCollapse");
+        navbarToggleButton.setAttribute("aria-controls", "navbarVerticalCollapse");
+    }
+</script>

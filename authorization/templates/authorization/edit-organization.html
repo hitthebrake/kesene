@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr" data-navigation-type="combo" data-navbar-horizontal-shape="default">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>МХАЯ</title>
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href='{% static "images/favicon-32x32.png" %}'>
+    <link rel="icon" type="image/png" sizes="16x16" href='{% static "images/favicon-16x16.png" %}'>
+    <link rel="shortcut icon" type="image/x-icon" href='{% static "images/favicon.svg" %}'>
+    <link rel="manifest" href='{% static "images/manifest.json" %}'>
+    <meta name="msapplication-TileImage" content='{% static "images/mstile-150x150.png" %}'>
+    <meta name="theme-color" content="#ffffff">
+    <script src='{% static "js/simplebar.min.js" %}'></script>
+    <script src='{% static "js/config.js" %}'></script>
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
+          rel="stylesheet">
+    <link href='{% static "css/simplebar.min.css" %}' rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link href='{% static "css/theme-rtl.min.css" %}' type="text/css" rel="stylesheet" id="style-rtl">
+    <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
+    <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
+    <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
+    <link href="{% static 'css/flatpickr.min.css' %}" rel="stylesheet">
+    <script>
+        let phoenixIsRTL = window.config.config.phoenixIsRTL;
+        if (phoenixIsRTL) {
+            let linkDefault = document.getElementById('style-default');
+            let userLinkDefault = document.getElementById('user-style-default');
+            linkDefault.setAttribute('disabled', true);
+            userLinkDefault.setAttribute('disabled', true);
+            document.querySelector('html').setAttribute('dir', 'rtl');
+        } else {
+            let linkRTL = document.getElementById('style-rtl');
+            let userLinkRTL = document.getElementById('user-style-rtl');
+            linkRTL.setAttribute('disabled', true);
+            userLinkRTL.setAttribute('disabled', true);
+        }
+    </script>
+    <link href='{% static "css/leaflet.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.css" %}' rel="stylesheet">
+    <link href='{% static "css/MarkerCluster.Default.css" %}' rel="stylesheet">
+</head>
+
+
+<body>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<main class="main" id="top">
+    {% include 'core/sidebar.html' %}
+    {% include 'core/navbar.html' %}
+    <div class="content">
+        <form class="mb-9">
+            <div class="row justify-content-between align-items-end g-3 mb-5">
+                <div class="col-12 col-sm-auto col-xl-8">
+                    <h4 class="mb-0">Редактировать организацию</h4>
+                </div>
+
+            </div>
+            <div class="row g-5">
+                <div class="col-xl-12">
+                    <div class="row gx-3 gy-4">
+                        <div class="col-sm-6 col-md-12">
+                            <div class="form-floating">
+                                <input class="form-control" id="floatingEventInput" type="text"
+                                       placeholder="Organization title"/>
+                                <label for="floatingEventInput">Введите наименование организации</label>
+                            </div>
+                        </div>
+
+
+                        <div class="row g-3 h-100">
+                            <div class="col-12 col-md-4 col-xxl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-12 col-sm-6 col-xl-12">
+                                                <div class="mb-5">
+                                                    <div class="d-flex flex-wrap flex-between-center mb-2">
+                                                        <h5 class="mb-0 text-body-highlight me-2">Отделы</h5><a
+                                                            class="fw-bold fs-9" href="#!">Добавить отдел</a>
+                                                    </div>
+                                                    <input class="form-control mb-4" type="text"
+                                                           placeholder="Введите название отдела...">
+
+                                                    <div id="tableExample"
+                                                         data-list='{"valueNames":["name","email","age"],"page":3,"pagination":true}'>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm fs-9 mb-0">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="sort border-top border-translucent ps-3"
+                                                                        data-sort="name">Название отдела
+                                                                    </th>
+                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                        scope="col">Действия
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="list">
+                                                                <tr>
+                                                                    <td class="align-middle ps-3 name">Anna</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent"><span
+                                                                                    class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item text-danger"
+                                                                                   href="#!">Удалить</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-xxl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-12 col-sm-6 col-xl-12">
+                                                <div class="mb-5">
+                                                    <div class="d-flex flex-wrap flex-between-center mb-2">
+                                                        <h5 class="mb-0 text-body-highlight me-2">Должности</h5><a
+                                                            class="fw-bold fs-9" href="#!">Добавить должность</a>
+                                                    </div>
+                                                    <input class="form-control mb-4" type="text"
+                                                           placeholder="Введите название отдела...">
+
+                                                    <div id="tableExample"
+                                                         data-list='{"valueNames":["name"],"page":3,"pagination":true}'>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm fs-9 mb-0">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="sort border-top border-translucent ps-3"
+                                                                        data-sort="name">Название отдела
+                                                                    </th>
+                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                        scope="col">Действия
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="list">
+                                                                <tr>
+                                                                    <td class="align-middle ps-3 name">Anna</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent"><span
+                                                                                    class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item" href="#!">Редактировать</a>
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item text-danger"
+                                                                                   href="#!">Удалить</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-xxl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-12 col-sm-6 col-xl-12">
+                                                <div class="mb-0">
+                                                    <div class="d-flex flex-wrap flex-between-center mb-2">
+                                                        <h5 class="mb-0 text-body-highlight me-2">Контактная
+                                                            информация</h5>
+                                                    </div>
+                                                    <input class="form-control mb-3" type="text" placeholder="Город">
+                                                    <input class="form-control mb-3" type="text" placeholder="Район">
+                                                    <input class="form-control mb-3" type="text" placeholder="Улица">
+                                                    <input class="form-control mb-3" type="text"
+                                                           placeholder="Номер дома (сооружения)">
+                                                    <input class="form-control mb-3" type="text"
+                                                           placeholder="Контактный телефон">
+                                                    <input class="form-control mb-0" type="text" placeholder="@email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-auto col-xl-4">
+                            <div class="d-flex">
+                                <button class="btn btn-phoenix-primary px-5 me-2 w-50">Сохранить</button>
+                                <a class="btn btn-primary px-5 w-50 text-nowrap">Отмена</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <footer class="footer position-absolute">
+            <div class="row g-0 justify-content-between align-items-center h-100">
+                <div class="col-12 col-sm-auto text-center">
+                    <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
+                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
+                            class="d-sm-none"/>2025 &copy;<a class="mx-1"
+                                                             href="https://www.instagram.com/qazqaitajanarty/">Instagram</a>
+                    </p>
+                </div>
+                <div class="col-12 col-sm-auto text-center">
+                    <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+
+<!-- ===============================================-->
+<!--    JavaScripts-->
+<!-- ===============================================-->
+<script src='{% static "js/popper.min.js" %}'></script>
+<script src='{% static "js/bootstrap.min.js" %}'></script>
+<script src='{% static "js/anchor.min.js" %}'></script>
+<script src='{% static "js/is.min.js" %}'></script>
+<script src='{% static "js/all.min.js" %}'></script>
+<script src='{% static "js/lodash.min.js" %}'></script>
+<script src='{% static "js/list.min.js" %}'></script>
+<script src='{% static "js/feather.min.js" %}'></script>
+<script src='{% static "js/dayjs.min.js" %}'></script>
+<script src='{% static "js/leaflet.js" %}'></script>
+<script src='{% static "js/leaflet.markercluster.js" %}'></script>
+<script src='{% static "js/leaflet-tilelayer-colorfilter.min.js" %}'></script>
+<script src='{% static "js/echarts.min.js" %}'></script>
+<script src='{% static "js/ecommerce-dashboard.js" %}'></script>
+<script src='{% static "js/choices.min.js" %}'></script>
+<script src='{% static "js/dropzone-min.js" %}'></script>
+<script src='{% static "js/flatpickr.min.js" %}'></script>
+<script src='{% static "js/phoenix.js" %}'></script>
+
+</body>
+
+</html>
