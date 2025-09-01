@@ -277,8 +277,6 @@ def edit_organization(request, organization_id):
 
         return redirect('authorization:organizations')
 
-
-
     return render(request, 'authorization/edit-organization.html',
                   {
                       'organization': organization,

@@ -12,6 +12,7 @@ cryptography==45.0.5
 daphne==4.2.1
 dj-database-url==3.0.1
 Django==5.2.4
+django-redis==6.0.0
 et_xmlfile==2.0.0
 gunicorn==23.0.0
 hyperlink==21.0.0

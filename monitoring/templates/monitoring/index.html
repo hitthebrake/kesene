@@ -240,10 +240,10 @@
                                                             Направление ветра
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            86° С-В
+                                                            {{ latest_local_meteo.wind_direction }}° {{ latest_local_meteo.wind_direction_sign }}
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            89° С-В
+                                                            {{ latest_api_meteo.wind_direction }}° {{ latest_api_meteo.wind_direction_sign }}
                                                         </td>
                                                     </tr>
                                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -251,10 +251,10 @@
                                                             Температура
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            5,0 °С
+                                                            {{ latest_local_meteo.temperature }} °С
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            8,0 °С
+                                                            {{ latest_api_meteo.temperature }} °С
                                                         </td>
                                                     </tr>
                                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -262,10 +262,10 @@
                                                             Влажность
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            72,0 %
+                                                            {{ latest_local_meteo.humidity }} %
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            42,0 %
+                                                            {{ latest_api_meteo.humidity }} %
                                                         </td>
                                                     </tr>
                                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -273,10 +273,10 @@
                                                             Точка росы
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            2,1 'С
+                                                            {{ latest_local_meteo.dewpoint }} 'С
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            1,7 'С
+                                                            {{ latest_api_meteo.dewpoint }} 'С
                                                         </td>
                                                     </tr>
                                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -284,10 +284,10 @@
                                                             Атм.давление, mmHg
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            65,0
+                                                            {{ latest_local_meteo.pressure }}
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            61,0
+                                                            {{ latest_api_meteo.pressure }}
                                                         </td>
                                                     </tr>
                                                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -295,10 +295,10 @@
                                                             Уровень жидких осадков
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            32 мм
+                                                            {{ latest_local_meteo.precipitation }} мм
                                                         </td>
                                                         <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            11 мм
+                                                            {{ latest_api_meteo.precipitation }} мм
                                                         </td>
                                                     </tr>
                                                     </tbody>

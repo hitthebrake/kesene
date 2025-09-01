@@ -148,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
 
-WEATHER_API_KEY = 'd267e2eb44ad988921a291b61667cc36'
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY", '')
 
 AUTH_USER_MODEL = 'authorization.CustomUser'
 
@@ -159,4 +159,11 @@ CHANNEL_LAYERS = {
             "hosts": [(os.getenv('REDIS_URL', "redis://127.0.0.1:6379/0"))],
         },
     },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
 }
