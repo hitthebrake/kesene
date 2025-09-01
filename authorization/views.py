@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required
 
-from .models import CustomUser, Department, Position, Organization
+from authorization.models import CustomUser, Department, Position, Organization
 
 
 # Create your views here.
