@@ -12555,7 +12555,8 @@ textarea.form-control-lg {
 
 .bg-body-tertiary {
   --phoenix-bg-opacity: 1;
-  background-color: rgba(var(--phoenix-tertiary-bg-rgb), var(--phoenix-bg-opacity)) !important;
+
+  background-color: rgb(73 115 225) !important
 }
 
 .bg-body-quaternary {
@@ -28531,7 +28532,7 @@ h3,
 }
 
 .alert-dismissible {
-  padding-right: 4.5rem;
+  padding-right: 1.5rem;
 }
 .alert-dismissible .btn-close {
   position: absolute;
@@ -29254,7 +29255,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical.navbar-expand-xs .navbar-v
   font-size: 0.64rem;
   color: var(--phoenix-navbar-vertical-label-color);
   margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
+  margin-top: 1.0rem;
   padding-left: 2rem;
 }
 .navbar-vertical .navbar-vertical-content .navbar-nav {
