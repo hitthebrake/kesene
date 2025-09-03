@@ -272,6 +272,14 @@
 <script src='{% static "js/echarts.min.js" %}'></script>
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
+<script>
+    const div = document.querySelector(".off-users-link");
+    if (div) {
+        div.classList.add("active");
+    } else {
+        console.log('not found');
+    }
+</script>
 </body>
 
 </html>
