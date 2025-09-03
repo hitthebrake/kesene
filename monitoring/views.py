@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.utils import timezone
 
+from webhook.sensor_parsing import sensor_types as sensor_types_dict
 from webhook.models import Measurement, ExampleMeasurement
 from monitoring.services.index import LatestData
 
@@ -16,6 +17,28 @@ def can_add_threshold(user):
 @login_required(login_url='authorization:login')
 def index(request):
     context = LatestData().get_data()
+
+    for sensor_id, values in context['latest_values'].items():
+        cnt = 1 if values['value1'] == '#NV' else 0
+        cnt = cnt+1 if values['value2'] == '#NV' else cnt
+        cnt = cnt+1 if values['value3'] == '#NV' else cnt
+        sensor_types = sensor_types_dict[values['sensor_type']]
+        cnt -= (3-len(sensor_types))
+        if len(sensor_types) == 1 and cnt > 0:
+            context['latest_values'][sensor_id]['status'] = 'Нет данных'
+        elif len(sensor_types) == 2:
+            if cnt == 1:
+                context['latest_values'][sensor_id]['status'] = 'Тревога'
+            if cnt == 2:
+                context['latest_values'][sensor_id]['status'] = 'Нет данных'
+        elif len(sensor_types) == 3:
+            if cnt == 1:
+                context['latest_values'][sensor_id]['status'] = 'Предупреждение'
+            elif cnt == 2:
+                context['latest_values'][sensor_id]['status'] = 'Тревога'
+            elif cnt == 3:
+                context['latest_values'][sensor_id]['status'] = 'Нет данных'
+
     return render(request, 'monitoring/index.html', context)
 
 

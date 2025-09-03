@@ -72,7 +72,12 @@
                         <div class="col-auto">
                             <h3 class="mb-4 text-body-emphasis">Состояние системы</h3>
                         </div>
-                        <div class="alert alert-subtle-warning alert-dismissible fade show" role="alert">
+
+                        <audio id="alert-sound" src="{% static 'sounds/mixkit-warning-alarm-buzzer-991.wav' %}"
+                               preload="auto" loop></audio>
+
+                        <div class="alert alert-subtle-warning alert-dismissible fade show"
+                             id="critical-alert" role="alert">
                             <h4 class="alert-heading fw-semibold">Асхана. Критический уровень влажности!</h4>
                             <p>Необходимо ограничить посещение! Включить вентиляторы по направлению к западной стене.
                                 Включить тепловую пушку</p>
@@ -159,11 +164,41 @@
                                                     {{ value.type3 }}{% endif %}{% endif %}</td>
 
                                             <td class="align-middle payment text-end py-3 pe-3 status">
-                                                <div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                                                    <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span
-                                                            class="ms-1 fas fa-check"
-                                                            data-fa-transform="shrink-2"></span></a>
-                                                </div>
+                                                {% if value.status == 'Нет данных' %}
+                                                    <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
+                                                            <span class="fw-bold">Нет данных</span>
+                                                            <span class="ms-1 fas fa-ban" data-fa-transform="shrink-2">
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                {% elif value.status == 'Предупреждение' %}
+                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-info">
+                                                        <a href="#" data-bs-toggle="modal"
+                                                           data-bs-target="#varning">
+                                                            <span class="fw-bold">Предупреждение</span>
+                                                            <span class="ms-1 fas fa-alert"></span>
+                                                        </a>
+                                                    </div>
+                                                {% elif value.status == 'Тревога' %}
+                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-danger"
+                                                         role="status">
+                                                        <a href='#' data-bs-toggle="modal" data-bs-target="#danger">
+                                                            <span class="fw-bold">Тревога</span>
+                                                            <span class="ms-1 fas fa-close"></span>
+                                                        </a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="badge fs-10 badge-phoenix badge-phoenix-success">
+                                                        <a data-bs-target="#nodata">
+                                                            <span class="fw-bold">Норма</span>
+                                                            <span class="ms-1 fas fa-check"
+                                                                  data-fa-transform="shrink-2">
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -859,6 +894,29 @@
         console.log(data);
     };
     socket.onerror = (e) => console.log("Error:", e);
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let alertBox = document.getElementById("critical-alert");
+        let audio = document.getElementById("alert-sound");
+        alertBox.addEventListener('click', function () {
+            audio.currentTime = 0;
+            audio.loop = true;
+            audio.play();
+        })
+
+        if (alertBox.classList.contains("show")) {
+            audio.currentTime = 0;
+            audio.loop = true;
+            audio.play();
+        }
+
+        alertBox.addEventListener("closed.bs.alert", function () {
+            audio.pause();
+            audio.currentTime = 0;
+        });
+    });
+
 </script>
 </body>
 
