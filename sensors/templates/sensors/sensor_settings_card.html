@@ -1,0 +1,153 @@
+<form class="col-12 col-md-4 col-xxl-4" method="post" action="{% url 'sensors:add_dev_settings' %}">
+    {% csrf_token %}
+    <input hidden name="sensor_id" value="{{ sensor_id }}">
+    <input hidden name="type_name" value="{{ t.name }}">
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-3">
+                <div class="col-12 col-sm-6 col-xl-12">
+                    <div class="margin-bottom: 0rem !important;">
+                        <div class="d-flex flex-wrap flex-between-center mb-2">
+                            <h5 class="mb-0 text-body-highlight me-2">{{ t.name }}, {{ t.sign }}</h5>
+                            <button class="btn btn-sm btn-phoenix-success" type="submit">
+                                <span class="fas fa-save"></span>
+                            </button>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">от и до</span>
+                            <input class="form-control" type="text" aria-label="First" name="from" required/>
+                            <input class="form-control" type="text" aria-label="Last" name="to" required/>
+                        </div>
+                        <select class="form-select mb-1" aria-label="Default select example" name="status" required>
+                            <option selected="">Укажите статус</option>
+                            <option value="Нет данных">Нет данных</option>
+                            <option value="Предупреждение">Предупреждение</option>
+                            <option value="Тревога">Тревога</option>
+                        </select>
+                        <div class="mb-3">
+                            <label class="form-label" for="exampleTextarea">Рекомендуемые действия</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="3" name="action" required> </textarea>
+                        </div>
+                        <div id="tableExample" data-list='{"valueNames":["name"]}'>
+                            <div class="table-responsive">
+                                <table class="table table-sm fs-9 mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="sort border-top border-translucent ps-0"
+                                            data-sort="name">Статус
+                                        </th>
+                                        <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                            scope="col">Действия
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                    <tr>
+                                        <td class="align-middle ps-3 name">Нет данных</td>
+                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                            <div class="btn-reveal-trigger position-static">
+                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        data-boundary="window"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        data-bs-reference="parent">
+                                                    <svg class="svg-inline--fa fa-ellipsis fs-10"
+                                                         aria-hidden="true"
+                                                         focusable="false"
+                                                         data-prefix="fas"
+                                                         data-icon="ellipsis"
+                                                         role="img"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         viewBox="0 0 448 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                                    </svg>
+                                                    <!-- <span class="fas fa-ellipsis-h fs-10"></span> Font Awesome fontawesome.com -->
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                    <a class="dropdown-item" href="#!">Редактировать</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle ps-3 name">Предупреждение</td>
+                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                            <div class="btn-reveal-trigger position-static">
+                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        data-boundary="window"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        data-bs-reference="parent">
+                                                    <svg class="svg-inline--fa fa-ellipsis fs-10"
+                                                         aria-hidden="true"
+                                                         focusable="false"
+                                                         data-prefix="fas"
+                                                         data-icon="ellipsis"
+                                                         role="img"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         viewBox="0 0 448 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                                    </svg>
+                                                    <!-- <span class="fas fa-ellipsis-h fs-10"></span> Font Awesome fontawesome.com -->
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                    <a class="dropdown-item" href="#!">Редактировать</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle ps-3 name">Тревога</td>
+                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                            <div class="btn-reveal-trigger position-static">
+                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        data-boundary="window"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        data-bs-reference="parent">
+                                                    <svg class="svg-inline--fa fa-ellipsis fs-10"
+                                                         aria-hidden="true"
+                                                         focusable="false"
+                                                         data-prefix="fas"
+                                                         data-icon="ellipsis"
+                                                         role="img"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         viewBox="0 0 448 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                                    </svg>
+                                                    <!-- <span class="fas fa-ellipsis-h fs-10"></span> Font Awesome fontawesome.com -->
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                    <a class="dropdown-item" href="#!">Редактировать</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="#!">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

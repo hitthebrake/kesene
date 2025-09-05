@@ -80,6 +80,44 @@
 
 
                 <div class="accordion" id="accordionExample">
+                    {% for sensor_id, sensor_info in sensors.items %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                    {{ sensor_info.spot }}. {{ sensor_info.location }}.
+                                    {{ sensor_info.name }}. {{ sensor_info.sensor_type }}
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse" id="collapse{{ forloop.counter }}" aria-labelledby="heading{{ forloop.counter }}"
+                                 data-bs-parent="#accordionExample">
+                                <div class="accordion-body pt-0">
+                                    <div class="mb-3">
+                                        <input class="form-control form-control-sm" id="customFileSm" type="file"/>
+                                    </div>
+                                    <div class="row g-3 h-100">
+                                        {% if sensor_info.type1 %}
+                                            {% with sensor_info.type1 as t %}
+                                                {% include 'sensors/sensor_settings_card.html' %}
+                                            {% endwith %}
+                                        {% endif %}
+
+                                        {% if sensor_info.type2 %}
+                                            {% with sensor_info.type2 as t %}
+                                                {% include 'sensors/sensor_settings_card.html' %}
+                                            {% endwith %}
+                                        {% endif %}
+
+                                        {% if sensor_info.type3 %}
+                                            {% with sensor_info.type3 as t %}
+                                                {% include 'sensors/sensor_settings_card.html' %}
+                                            {% endwith %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                     <div class="accordion-item border-top">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -94,7 +132,7 @@
                                     <input class="form-control form-control-sm" id="customFileSm" type="file"/>
                                 </div>
                                 <div class="row g-3 h-100">
-                                    <div class="col-12 col-md-4 col-xxl-4">
+                                    <form class="col-12 col-md-4 col-xxl-4">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row gx-3">
@@ -259,9 +297,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-4 col-xxl-4">
+                                    </form>
+                                    <form class="col-12 col-md-4 col-xxl-4">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row gx-3">
@@ -426,8 +463,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-md-4 col-xxl-4">
+                                    </form>
+                                    <form class="col-12 col-md-4 col-xxl-4">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row gx-3">
@@ -592,13 +629,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
