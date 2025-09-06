@@ -179,7 +179,7 @@ sensors = {
     'Малый Аксарай': aqsaray_small,
     'Помещение 1': room,
     'Мечеть': mosque,
-    'Террасса 1 ': terrace,
+    'Террасса 1': terrace,
     'Худжара 1': hudjara,
     'Прочие': others,
     'Данные метеостанции': meteodata,
