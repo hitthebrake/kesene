@@ -4199,7 +4199,9 @@
 
   var phoenix = {
     utils,
-    BulkSelect
+      listInit,
+    BulkSelect,
+
   };
 
   return phoenix;

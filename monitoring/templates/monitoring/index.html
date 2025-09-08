@@ -36,6 +36,7 @@
     <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
     <link href='{% static "css/flatpickr.min.css" %}' rel="stylesheet">
+    <link href='{% static "css/general.css" %}' rel="stylesheet">
     <script>
         let phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -89,8 +90,8 @@
                                     aria-label="Close">Удалить
                             </button>
                         </div>
-                        <div id="tableExample4"
-                             data-list='{"valueNames":["group", "name", "place","type","value-1","value-2","value-3", "status"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
+                        <div id="tableExample4">
+                            {#                             data-list='{"valueNames":["group", "name", "place", "type", "value-1", "value-2", "value-3", "status"],"page":150,"pagination":false,"filter":{"key":"group"}}'>#}
                             <div class="row align-items-end justify-content-between pb-3 g-2">
                                 <!-- dropdown location -->
                                 <div class="col-auto d-flex gap-2">
@@ -104,7 +105,7 @@
                                 <div class="col-auto">
                                     <div class="d-flex flex-wrap gap-2">
                                         <button class="btn btn-phoenix-secondary bg-body-emphasis btn-sm px-md-4"><span
-                                                class="fa-solid fa-print"> </span><span class="d-none d-md-inline ms-2"> Печать</span>
+                                                class="fa-solid fa-print"> </span><span class="d-none d-md-inline ms-2">Печать</span>
                                         </button>
                                         <button class="btn btn-phoenix-secondary text-body"><span
                                                 class="fa-solid fa-file-export fs-9 me-2"></span>Экспорт в Excel
@@ -119,8 +120,11 @@
                                 <table class="table table-sm fs-9 mb-0">
                                     <thead>
                                     <tr class="bg-body-highlight">
-                                        <th class="sort border-top border-translucent ps-3" data-sort="name"
+                                        <th class="sort border-top border-translucent ps-3" data-sort="group"
                                             style="min-width:40px;" hidden>Группа датчиков
+                                        </th>
+                                        <th class="sort border-top border-translucent ps-3" data-sort="sensor-id"
+                                            hidden>Номер датчика
                                         </th>
                                         <th class="sort border-top border-translucent ps-3 d-none d-lg-table-cell"
                                             data-sort="name" style="min-width:40px;">Точка
@@ -145,10 +149,11 @@
                                         </th>
                                     </tr>
                                     </thead>
-                                    <tbody class="list">
+                                    <tbody class="list" id="mainTableBody">
                                     {% for sensor_id, value in latest_values.items %}
                                         <tr data-sensor-id="{{ sensor_id }}">
                                             <td class="align-middle ps-3 group" hidden>{{ value.location }}</td>
+                                            <td class="align-middle ps-3 sensor-id" hidden>{{ sensor_id }}</td>
                                             <td class="align-middle ps-3 name d-none d-lg-table-cell">{{ value.spot }}</td>
                                             <td class="align-middle place">{{ value.location }}. {{ value.name }}</td>
                                             <td class="align-middle ps-3 type d-none d-lg-table-cell">{{ value.sensor_type }}</td>
@@ -202,37 +207,37 @@
                                             </td>
                                         </tr>
                                     {% endfor %}
-                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
-                                    {#                                        <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">#}
-                                    {#                                            <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">#}
-                                    {#                                                <span class="fw-bold">Нет данных</span><span#}
-                                    {#                                                    class="ms-1 fas fa-ban"#}
-                                    {#                                                    data-fa-transform="shrink-2"></span>#}
-                                    {#                                            </a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </td>#}
-                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
-                                    {#                                        <div class="badge badge-phoenix fs-10 badge-phoenix-info">#}
-                                    {#                                            <a href="#" data-bs-toggle="modal" data-bs-target="#varning"><span#}
-                                    {#                                                    class="fw-bold">Предупреждение</span><span#}
-                                    {#                                                    class="ms-1 fas fa-alert"></span></a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </td>#}
-                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
-                                    {#                                        <div class="badge fs-10 badge-phoenix badge-phoenix-success">#}
-                                    {#                                            <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span#}
-                                    {#                                                    class="ms-1 fas fa-check"#}
-                                    {#                                                    data-fa-transform="shrink-2"></span></a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </td>#}
-                                    {#                                    <td class="align-middle payment text-end py-3 pe-3 status">#}
-                                    {#                                        <div class="badge badge-phoenix fs-10 badge-phoenix-danger" role="status">#}
-                                    {#                                            <!-- CHANGE href="URL" -->#}
-                                    {#                                            <a href='#' data-bs-toggle="modal" data-bs-target="#danger"><span#}
-                                    {#                                                    class="fw-bold">Тревога</span><span#}
-                                    {#                                                    class="ms-1 fas fa-close"></span></a>#}
-                                    {#                                        </div>#}
-                                    {#                                    </td>#}
+                                    {#                                                                        <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                                                            <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">#}
+                                    {#                                                                                <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">#}
+                                    {#                                                                                    <span class="fw-bold">Нет данных</span><span#}
+                                    {#                                                                                        class="ms-1 fas fa-ban"#}
+                                    {#                                                                                        data-fa-transform="shrink-2"></span>#}
+                                    {#                                                                                </a>#}
+                                    {#                                                                            </div>#}
+                                    {#                                                                        </td>#}
+                                    {#                                                                        <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                                                            <div class="badge badge-phoenix fs-10 badge-phoenix-info">#}
+                                    {#                                                                                <a href="#" data-bs-toggle="modal" data-bs-target="#varning"><span#}
+                                    {#                                                                                        class="fw-bold">Предупреждение</span><span#}
+                                    {#                                                                                        class="ms-1 fas fa-alert"></span></a>#}
+                                    {#                                                                            </div>#}
+                                    {#                                                                        </td>#}
+                                    {#                                                                        <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                                                            <div class="badge fs-10 badge-phoenix badge-phoenix-success">#}
+                                    {#                                                                                <a data-bs-target="#nodata"><span class="fw-bold">Норма</span><span#}
+                                    {#                                                                                        class="ms-1 fas fa-check"#}
+                                    {#                                                                                        data-fa-transform="shrink-2"></span></a>#}
+                                    {#                                                                            </div>#}
+                                    {#                                                                        </td>#}
+                                    {#                                                                        <td class="align-middle payment text-end py-3 pe-3 status">#}
+                                    {#                                                                            <div class="badge badge-phoenix fs-10 badge-phoenix-danger" role="status">#}
+                                    {#                                                                                <!-- CHANGE href="URL" -->#}
+                                    {#                                                                                <a href='#' data-bs-toggle="modal" data-bs-target="#danger"><span#}
+                                    {#                                                                                        class="fw-bold">Тревога</span><span#}
+                                    {#                                                                                        class="ms-1 fas fa-close"></span></a>#}
+                                    {#                                                                            </div>#}
+                                    {#                                                                        </td>#}
                                     </tbody>
                                 </table>
                             </div>
@@ -886,14 +891,244 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
-    const socket = new WebSocket('ws://' + window.location.host + '/ws/monitor/');
+    const camelize = str => {
+        const text = str.replace(/[-_\s.]+(.)?/g, (_, c) =>
+            c ? c.toUpperCase() : ''
+        );
+        return `${text.substr(0, 1).toLowerCase()}${text.substr(1)}`;
+    };
+
+    const getData = (el, data) => {
+        try {
+            return JSON.parse(el.dataset[camelize(data)]);
+        } catch (e) {
+            return el.dataset[camelize(data)];
+        }
+    };
+
+
+    const socket = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
     socket.onopen = () => console.log("Connected!");
     socket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        console.log('data:');
-        console.log(data);
+        updateTable(data);
     };
     socket.onerror = (e) => console.log("Error:", e);
+
+
+    function statusSorter(a, b) {
+        const order = {
+            "Тревога": 1,
+            "Предупреждение": 2,
+            "Нет данных": 3,
+            "Норма": 4
+        };
+
+        const cleanText = html => {
+            let div = document.createElement("div");
+            div.innerHTML = html;
+            return div.textContent.trim();
+        };
+
+        const aStatus = cleanText(a.values().status || "");
+        const bStatus = cleanText(b.values().status || "");
+
+        return (order[aStatus] || 999) - (order[bStatus] || 999);
+    }
+
+
+    function updateTable(data) {
+        window.myList.remove('sensor-id', data.sensor_id);
+        window.myList.add({
+            group: data.location,
+            "sensor-id": data.sensor_id,
+            name: data.spot,
+            place: `${data.location}. ${data.name}`,
+            type: data.sensor_type,
+            "value-1": data.value1,
+            "value-2": data.value2,
+            "value-3": data.value3,
+            status: `<div class="badge fs-10 badge-phoenix badge-phoenix-success">
+                        <a data-bs-target="#nodata">
+                            <span class="fw-bold">Норма</span>
+                            <span class="ms-1 fas fa-check"
+                                  data-fa-transform="shrink-2">
+                            </span>
+                        </a>
+                    </div>`
+        });
+        const lastItem = myList.items.pop();   // remove last
+        myList.items.unshift(lastItem);
+        myList.update();
+        myList.sort("status", {sortFunction: statusSorter});
+
+    }
+
+
+    const togglePaginationButtonDisable = (button, disabled) => {
+        button.disabled = disabled;
+        button.classList[disabled ? 'add' : 'remove']('disabled');
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const mainTable = document.getElementById("tableExample4");
+        mainTable.setAttribute('data-list', '')
+        const myList = new List(mainTable, {
+            valueNames: ["group", "sensor-id", "name", "place", "type", "value-1", "value-2", "value-3", "status"],
+            page: 25,
+            pagination: true,
+            filter: {"key": "group"}
+        });
+
+        let totalItem = myList.items.length;
+        const itemsPerPage = myList.page;
+        const btnDropdownClose = myList.listContainer.querySelector('.btn-close');
+        let pageQuantity = Math.ceil(myList.size() / myList.page);
+        let pageCount = 1;
+        let numberOfcurrentItems =
+            (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+        let isSearching = false;
+        const paginationButtonNext = mainTable.querySelector(
+            '[data-list-pagination="next"]'
+        );
+        const paginationButtonPrev = mainTable.querySelector(
+            '[data-list-pagination="prev"]'
+        );
+        const viewAll = mainTable.querySelector('[data-list-view="*"]');
+        const viewLess = mainTable.querySelector('[data-list-view="less"]');
+        const listInfo = mainTable.querySelector('[data-list-info]');
+
+        btnDropdownClose &&
+        btnDropdownClose.addEventListener('search.close', () => {
+            myList.fuzzySearch('');
+        });
+
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+
+        const listFilter = mainTable.querySelector('[data-list-filter]');
+        listFilter.addEventListener('change', e => {
+            myList.filter(item => {
+                if (e.target.value === '') {
+                    return true;
+                }
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+                pageCount = 1;
+                updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, myList, totalItem);
+                return item.values()["group"].toLowerCase() === e.target.value.toLowerCase();
+            });
+        });
+
+        if (paginationButtonNext) {
+            paginationButtonNext.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount += 1;
+                const nextInitialIndex = myList.i + itemsPerPage;
+                nextInitialIndex <= myList.size() &&
+                myList.show(nextInitialIndex, itemsPerPage);
+            });
+        }
+
+        if (paginationButtonPrev) {
+            paginationButtonPrev.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount -= 1;
+                const prevItem = myList.i - itemsPerPage;
+                prevItem > 0 && myList.show(prevItem, itemsPerPage);
+            });
+        }
+
+        const toggleViewBtn = () => {
+            viewLess.classList.toggle('d-none');
+            viewAll.classList.toggle('d-none');
+        };
+
+        if (viewAll) {
+            viewAll.addEventListener('click', () => {
+                myList.show(1, totalItem);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        if (viewLess) {
+            viewLess.addEventListener('click', () => {
+                myList.show(1, itemsPerPage);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        // numbering pagination
+        mainTable.querySelector('.pagination').addEventListener('click', e => {
+            if (e.target.classList[0] === 'page') {
+                const pageNum = Number(e.target.getAttribute('data-i'));
+                if (pageNum) {
+                    myList.show(itemsPerPage * (pageNum - 1) + 1, myList.page);
+                    pageCount = pageNum;
+                }
+            }
+        });
+
+        myList.on('searchStart', () => {
+            isSearching = true;
+        });
+        myList.on('searchComplete', () => {
+            isSearching = false;
+        });
+
+        myList.on('updated', item => {
+            if (!myList.matchingItems.length) {
+                pageQuantity = Math.ceil(myList.size() / myList.page);
+            } else {
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            }
+            numberOfcurrentItems =
+                (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+            updateListControls();
+
+            // -------search-----------
+            if (isSearching) {
+                if (myList.matchingItems.length === 0) {
+                    pageCount = 0;
+                } else {
+                    pageCount = 1;
+                }
+                totalItem = myList.matchingItems.length;
+                numberOfcurrentItems =
+                    (pageCount === 0 ? 1 : pageCount - 1) * Number(myList.page) +
+                    myList.visibleItems.length;
+
+                updateListControls();
+                listInfo &&
+                (listInfo.innerHTML = `${
+                    myList.matchingItems.length === 0 ? 0 : myList.i
+                } to ${
+                    myList.matchingItems.length === 0 ? 0 : numberOfcurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                    myList.matchingItems.length
+                }`);
+            }
+        });
+        window.myList = myList;
+    });
 
 
     document.addEventListener("DOMContentLoaded", function () {

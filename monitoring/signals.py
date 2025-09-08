@@ -4,10 +4,10 @@ from asgiref.sync import async_to_sync
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from webhook.models import ExampleMeasurement, Sensor
+from webhook.models import Measurement, Sensor
 
 
-@receiver(post_save, sender=ExampleMeasurement, dispatch_uid='monitor_update')
+@receiver(post_save, sender=Measurement, dispatch_uid='monitor_update')
 def monitor_update(sender, instance, created, **kwargs):
     print('New measurement signal fired!!!')
     if created:

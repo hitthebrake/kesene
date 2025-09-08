@@ -43,7 +43,7 @@ def index(request):
 
 
 def fire_signal(request):
-    instance = Measurement.objects.get(id=6001)
+    instance = Measurement.objects.get(id=6501)
     new_instance = ExampleMeasurement(
         date=instance.date,
         sensor_id=instance.sensor_id,
