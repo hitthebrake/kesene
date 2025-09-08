@@ -203,7 +203,6 @@
                                                         </a>
                                                     </div>
                                                 {% endif %}
-
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -256,510 +255,496 @@
 
                     <!--    Начало боковой колонки-->
                     <div class="col-xl-4 col-xxl-3">
-                        <div class="row g-2">
-                            <div class="col-12 col-xl-12">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-4">Метеостанция</h4>
-                                        <div class="row gx-3">
-                                            <div class="table-responsive scrollbar">
-                                                <table class="reports-details-chart-table table table-sm fs-9 mb-0">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
-                                                            scope="col" style="width:35%;"><b>Параметры</b></th>
-                                                        <th class="align-middle text-end ps-4 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
-                                                            scope="col" style="width:35%;"><b>Local</b></th>
-                                                        <th class="align-middle text-end ps-4 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>GISMeteo</b></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="list" id="report-data-body">
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Направление ветра
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.wind_direction }}° {{ latest_local_meteo.wind_direction_sign }}
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.wind_direction }}° {{ latest_api_meteo.wind_direction_sign }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.temperature }} °С
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.temperature }} °С
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Влажность
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.humidity }} %
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.humidity }} %
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Точка росы
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.dewpoint }} 'С
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.dewpoint }} 'С
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Атм.давление, mmHg
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.pressure }}
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.pressure }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Уровень жидких осадков
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                            {{ latest_local_meteo.precipitation }} мм
-                                                        </td>
-                                                        <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
-                                                            {{ latest_api_meteo.precipitation }} мм
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        <div class="sticky-leads-sidebar">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">Метеостанция</h4>
+                                    <div class="row gx-3">
+                                        <div class="table-responsive scrollbar">
+                                            <table class="reports-details-chart-table table table-sm fs-9 mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
+                                                        scope="col" style="width:35%;"><b>Параметры</b></th>
+                                                    <th class="align-middle text-end ps-4 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
+                                                        scope="col" style="width:35%;"><b>Local</b></th>
+                                                    <th class="align-middle text-end ps-4 text-body-tertiary fw-bold fs-10 text-uppercase"
+                                                        scope="col" style="width:30%;"><b>GISMeteo</b></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="list" id="report-data-body">
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Направление ветра
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.wind_direction }}° {{ latest_local_meteo.wind_direction_sign }}
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.wind_direction }}° {{ latest_api_meteo.wind_direction_sign }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Температура
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.temperature }} °С
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.temperature }} °С
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Влажность
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.humidity }} %
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.humidity }} %
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Точка росы
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.dewpoint }} 'С
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.dewpoint }} 'С
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Атм.давление, mmHg
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.pressure }}
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.pressure }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Уровень жидких осадков
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.precipitation }} мм
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.precipitation }} мм
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-xl-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-4">Оповещения системы</h4>
-                                        <div class="row g-3">
-                                            <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                                                <li class="nav-item" role="presentation"><a class="nav-link active"
-                                                                                            id="home-tab"
-                                                                                            data-bs-toggle="tab"
-                                                                                            href="#tab-home" role="tab"
-                                                                                            aria-controls="tab-new"
-                                                                                            aria-selected="false"
-                                                                                            tabindex="-1">Отложенные
-                                                    (1)</a></li>
-                                                <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                                            id="profile-tab"
-                                                                                            data-bs-toggle="tab"
-                                                                                            href="#tab-progress"
-                                                                                            role="tab"
-                                                                                            aria-controls="tab-progress"
-                                                                                            aria-selected="false"
-                                                                                            tabindex="-1">В работе
-                                                    (1)</a></li>
-                                                <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                                            id="contact-tab"
-                                                                                            data-bs-toggle="tab"
-                                                                                            href="#tab-completed"
-                                                                                            role="tab"
-                                                                                            aria-controls="tab-completed"
-                                                                                            aria-selected="true">Исполненные
-                                                    (3)</a></li>
-                                                <li class="nav-item" role="presentation"><a class="nav-link"
-                                                                                            id="contact-trash"
-                                                                                            data-bs-toggle="tab"
-                                                                                            href="#tab-trash" role="tab"
-                                                                                            aria-controls="tab-trash"
-                                                                                            aria-selected="true">Корзина
-                                                    (3)</a></li>
-                                            </ul>
-                                            <div class="tab-content mt-3" id="myTabContent">
-                                                <div class="tab-pane fade active show" id="tab-home" role="tabpanel"
-                                                     aria-labelledby="home-new">
-                                                    <!--    Начало Новые уведомления-->
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm fs-9 mb-0">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="data">Дата
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="time">Время
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent"
-                                                                        data-sort="room">Помещение
-                                                                    </th>
-                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                        scope="col">Действия
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                    <td class="align-middle ps-0 time">16:25</td>
-                                                                    <td class="align-middle room">Асхана</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent">
-                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#danger_room">Просмотр</a>
-                                                                                <a class="dropdown-item" href="#!">Оповестить
-                                                                                    сотрудников</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">Оповещения системы</h4>
+                                    <div class="row g-3">
+                                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                                   href="#tab-home" role="tab" aria-controls="tab-new"
+                                                   aria-selected="false" tabindex="-1">Отложенные (1)</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                                   href="#tab-progress" role="tab" aria-controls="tab-progress"
+                                                   aria-selected="false" tabindex="-1">В работе (1)</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                                   href="#tab-completed" role="tab" aria-controls="tab-completed"
+                                                   aria-selected="true">Исполненные (3)</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" id="contact-trash" data-bs-toggle="tab"
+                                                   href="#tab-trash" role="tab" aria-controls="tab-trash"
+                                                   aria-selected="true">Корзина (3)</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content mt-3" id="myTabContent">
+                                            <div class="tab-pane fade active show" id="tab-home" role="tabpanel"
+                                                 aria-labelledby="home-new">
+                                                <!--    Начало Новые уведомления-->
+                                                <div id="tableExample"
+                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm fs-9 mb-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="data">Дата
+                                                                </th>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="time">Время
+                                                                </th>
+                                                                <th class="sort border-top border-translucent"
+                                                                    data-sort="room">Помещение
+                                                                </th>
+                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                    scope="col">Действия
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody class="list">
+                                                            <tr>
+                                                                <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                <td class="align-middle ps-0 time">16:25</td>
+                                                                <td class="align-middle room">Асхана</td>
+                                                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                    <div class="btn-reveal-trigger position-static">
+                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                type="button"
+                                                                                data-bs-toggle="dropdown"
+                                                                                data-boundary="window"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                                data-bs-reference="parent">
+                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                            <a class="dropdown-item" href="#!"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#danger_room">Просмотр</a>
+                                                                            <a class="dropdown-item" href="#!">Оповестить
+                                                                                сотрудников</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item text-danger"
+                                                                               href="#!">Удалить</a>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
 
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="d-flex flex-between-center pt-3">
+                                                        <div class="pagination d-none"></div>
+                                                        <p class="mb-0 fs-9">
                                                                 <span class="d-none d-sm-inline-block"
                                                                       data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
+                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                            <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                Все
                                                                 <span class="fas fa-angle-right ms-1"
                                                                       data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span
-                                                                        data-feather="arrow-left-circle"></span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span
-                                                                        data-feather="arrow-right-circle"></span>
-                                                                </button>
-                                                            </div>
+                                                            </a><a class="fw-semibold d-none" href="#!"
+                                                                   data-list-view="less">
+                                                            Сокращенно
+                                                            <span class="fas fa-angle-right ms-1"
+                                                                  data-fa-transform="down-1"></span>
+                                                        </a>
+                                                        </p>
+                                                        <div class="d-flex">
+                                                            <button class="btn btn-sm btn-primary" type="button"
+                                                                    data-list-pagination="prev"><span
+                                                                    data-feather="arrow-left-circle"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                    type="button" data-list-pagination="next"><span
+                                                                    data-feather="arrow-right-circle"></span>
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                    <!--    Конец Новые уведомления-->
                                                 </div>
-                                                <div class="tab-pane fade" id="tab-progress" role="tabpanel"
-                                                     aria-labelledby="profile-progress">
-                                                    <!--    Начало В работе уведомления-->
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm fs-9 mb-0">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="data">Дата
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="time">Время
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent"
-                                                                        data-sort="room">Помещение
-                                                                    </th>
-                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                        scope="col">Действия
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                    <td class="align-middle ps-0 time">16:25</td>
-                                                                    <td class="align-middle room">Асхана</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent">
-                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#danger_room_end">Просмотр</a>
-                                                                                <a class="dropdown-item" href="#!">Завершить</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span
-                                                                        data-feather="arrow-left-circle"></span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span
-                                                                        data-feather="arrow-right-circle"></span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--    Конец В работе уведомления-->
-                                                </div>
-                                                <div class="tab-pane fade" id="tab-completed" role="tabpanel"
-                                                     aria-labelledby="contact-completed">
-                                                    <!--    Начало Исполненные уведомления-->
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm fs-9 mb-0">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="data">Дата
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="time">Время
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent"
-                                                                        data-sort="room">Помещение
-                                                                    </th>
-                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                        scope="col">Действия
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                    <td class="align-middle ps-0 time">16:25</td>
-                                                                    <td class="align-middle room">Асхана</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent">
-                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#danger_room_off">Просмотр</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Удалить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span
-                                                                        data-feather="arrow-left-circle"></span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span
-                                                                        data-feather="arrow-right-circle"></span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--    Конец Исполненные уведомления-->
-                                                </div>
-                                                <div class="tab-pane fade" id="tab-trash" role="tabpanel"
-                                                     aria-labelledby="contact-trash">
-                                                    <!--    Начало Корзина уведомления-->
-                                                    <div id="tableExample"
-                                                         data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
-                                                        <div class="table-responsive">
-                                                            <table class="table table-sm fs-9 mb-0">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="data">Дата
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent ps-0"
-                                                                        data-sort="time">Время
-                                                                    </th>
-                                                                    <th class="sort border-top border-translucent"
-                                                                        data-sort="room">Помещение
-                                                                    </th>
-                                                                    <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                        scope="col">Действия
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody class="list">
-                                                                <tr>
-                                                                    <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                    <td class="align-middle ps-0 time">16:25</td>
-                                                                    <td class="align-middle room">Асхана</td>
-                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                        <div class="btn-reveal-trigger position-static">
-                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                    type="button"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    data-boundary="window"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                    data-bs-reference="parent">
-                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item" href="#!"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#danger_room_deleted">Просмотр</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item text-danger"
-                                                                                   href="#!">Восстановить</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="d-flex flex-between-center pt-3">
-                                                            <div class="pagination d-none"></div>
-                                                            <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                                <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                    Все
-                                                                    <span class="fas fa-angle-right ms-1"
-                                                                          data-fa-transform="down-1"></span>
-                                                                </a><a class="fw-semibold d-none" href="#!"
-                                                                       data-list-view="less">
-                                                                Сокращенно
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a>
-                                                            </p>
-                                                            <div class="d-flex">
-                                                                <button class="btn btn-sm btn-primary" type="button"
-                                                                        data-list-pagination="prev"><span
-                                                                        data-feather="arrow-left-circle"></span>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                        type="button" data-list-pagination="next"><span
-                                                                        data-feather="arrow-right-circle"></span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--    Конец Корзина уведомления-->
-                                                </div>
+                                                <!--    Конец Новые уведомления-->
                                             </div>
-                                            <hr style="margin: 20px 0;color: var(--phoenix-border-color-translucent);border: 0;border-top: var(--phoenix-border-width) solid;opacity: 1;">
+                                            <div class="tab-pane fade" id="tab-progress" role="tabpanel"
+                                                 aria-labelledby="profile-progress">
+                                                <!--    Начало В работе уведомления-->
+                                                <div id="tableExample"
+                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm fs-9 mb-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="data">Дата
+                                                                </th>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="time">Время
+                                                                </th>
+                                                                <th class="sort border-top border-translucent"
+                                                                    data-sort="room">Помещение
+                                                                </th>
+                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                    scope="col">Действия
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody class="list">
+                                                            <tr>
+                                                                <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                <td class="align-middle ps-0 time">16:25</td>
+                                                                <td class="align-middle room">Асхана</td>
+                                                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                    <div class="btn-reveal-trigger position-static">
+                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                type="button"
+                                                                                data-bs-toggle="dropdown"
+                                                                                data-boundary="window"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                                data-bs-reference="parent">
+                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                            <a class="dropdown-item" href="#!"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#danger_room_end">Просмотр</a>
+                                                                            <a class="dropdown-item"
+                                                                               href="#!">Завершить</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item text-danger"
+                                                                               href="#!">Удалить</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="d-flex flex-between-center pt-3">
+                                                        <div class="pagination d-none"></div>
+                                                        <p class="mb-0 fs-9">
+                                                                <span class="d-none d-sm-inline-block"
+                                                                      data-list-info="data-list-info"></span>
+                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                            <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                Все
+                                                                <span class="fas fa-angle-right ms-1"
+                                                                      data-fa-transform="down-1"></span>
+                                                            </a><a class="fw-semibold d-none" href="#!"
+                                                                   data-list-view="less">
+                                                            Сокращенно
+                                                            <span class="fas fa-angle-right ms-1"
+                                                                  data-fa-transform="down-1"></span>
+                                                        </a>
+                                                        </p>
+                                                        <div class="d-flex">
+                                                            <button class="btn btn-sm btn-primary" type="button"
+                                                                    data-list-pagination="prev"><span
+                                                                    data-feather="arrow-left-circle"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                    type="button" data-list-pagination="next"><span
+                                                                    data-feather="arrow-right-circle"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--    Конец В работе уведомления-->
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-completed" role="tabpanel"
+                                                 aria-labelledby="contact-completed">
+                                                <!--    Начало Исполненные уведомления-->
+                                                <div id="tableExample"
+                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm fs-9 mb-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="data">Дата
+                                                                </th>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="time">Время
+                                                                </th>
+                                                                <th class="sort border-top border-translucent"
+                                                                    data-sort="room">Помещение
+                                                                </th>
+                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                    scope="col">Действия
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody class="list">
+                                                            <tr>
+                                                                <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                <td class="align-middle ps-0 time">16:25</td>
+                                                                <td class="align-middle room">Асхана</td>
+                                                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                    <div class="btn-reveal-trigger position-static">
+                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                type="button"
+                                                                                data-bs-toggle="dropdown"
+                                                                                data-boundary="window"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                                data-bs-reference="parent">
+                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                            <a class="dropdown-item" href="#!"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#danger_room_off">Просмотр</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item text-danger"
+                                                                               href="#!">Удалить</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="d-flex flex-between-center pt-3">
+                                                        <div class="pagination d-none"></div>
+                                                        <p class="mb-0 fs-9">
+                                                                <span class="d-none d-sm-inline-block"
+                                                                      data-list-info="data-list-info"></span>
+                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                            <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                Все
+                                                                <span class="fas fa-angle-right ms-1"
+                                                                      data-fa-transform="down-1"></span>
+                                                            </a><a class="fw-semibold d-none" href="#!"
+                                                                   data-list-view="less">
+                                                            Сокращенно
+                                                            <span class="fas fa-angle-right ms-1"
+                                                                  data-fa-transform="down-1"></span>
+                                                        </a>
+                                                        </p>
+                                                        <div class="d-flex">
+                                                            <button class="btn btn-sm btn-primary" type="button"
+                                                                    data-list-pagination="prev"><span
+                                                                    data-feather="arrow-left-circle"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                    type="button" data-list-pagination="next"><span
+                                                                    data-feather="arrow-right-circle"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--    Конец Исполненные уведомления-->
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-trash" role="tabpanel"
+                                                 aria-labelledby="contact-trash">
+                                                <!--    Начало Корзина уведомления-->
+                                                <div id="tableExample"
+                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm fs-9 mb-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="data">Дата
+                                                                </th>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="time">Время
+                                                                </th>
+                                                                <th class="sort border-top border-translucent"
+                                                                    data-sort="room">Помещение
+                                                                </th>
+                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"
+                                                                    scope="col">Действия
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody class="list">
+                                                            <tr>
+                                                                <td class="align-middle ps-0 data">21.09.2025</td>
+                                                                <td class="align-middle ps-0 time">16:25</td>
+                                                                <td class="align-middle room">Асхана</td>
+                                                                <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                    <div class="btn-reveal-trigger position-static">
+                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                type="button"
+                                                                                data-bs-toggle="dropdown"
+                                                                                data-boundary="window"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                                data-bs-reference="parent">
+                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                            <a class="dropdown-item" href="#!"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#danger_room_deleted">Просмотр</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item text-danger"
+                                                                               href="#!">Восстановить</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="d-flex flex-between-center pt-3">
+                                                        <div class="pagination d-none"></div>
+                                                        <p class="mb-0 fs-9">
+                                                                <span class="d-none d-sm-inline-block"
+                                                                      data-list-info="data-list-info"></span>
+                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>
+                                                            <a class="fw-semibold" href="#!" data-list-view="*">
+                                                                Все
+                                                                <span class="fas fa-angle-right ms-1"
+                                                                      data-fa-transform="down-1"></span>
+                                                            </a><a class="fw-semibold d-none" href="#!"
+                                                                   data-list-view="less">
+                                                            Сокращенно
+                                                            <span class="fas fa-angle-right ms-1"
+                                                                  data-fa-transform="down-1"></span>
+                                                        </a>
+                                                        </p>
+                                                        <div class="d-flex">
+                                                            <button class="btn btn-sm btn-primary" type="button"
+                                                                    data-list-pagination="prev"><span
+                                                                    data-feather="arrow-left-circle"></span>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-primary px-4 ms-2"
+                                                                    type="button" data-list-pagination="next"><span
+                                                                    data-feather="arrow-right-circle"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--    Конец Корзина уведомления-->
+                                            </div>
                                         </div>
-                                        <button class="btn btn-phoenix-primary w-100" type="button">Журнал оповещении
-                                        </button>
+                                        <hr style="margin: 20px 0;color: var(--phoenix-border-color-translucent);border: 0;border-top: var(--phoenix-border-width) solid;opacity: 1;">
                                     </div>
+                                    <button class="btn btn-phoenix-primary w-100" type="button">
+                                        Журнал оповещении
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--    Конец боковой колонки-->
-                <!--    Тут ставить коды основного контента страниц и элементов-->
             </div>
-
-            <footer class="footer position-absolute">
-                <div class="row g-0 justify-content-between align-items-center h-100">
-                    <div class="col-12 col-sm-auto text-center">
-                        <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
-                                class="d-none d-sm-inline-block"></span><span
-                                class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none"/>2025 &copy;<a
-                                class="mx-1" href="https://www.instagram.com/qazqaitajanarty/">Instagram</a></p>
-                    </div>
-                    <div class="col-12 col-sm-auto text-center">
-                        <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
-                    </div>
-                </div>
-            </footer>
+            <!--    Конец боковой колонки-->
+            <!--    Тут ставить коды основного контента страниц и элементов-->
         </div>
+
+        <footer class="footer position-absolute">
+            <div class="row g-0 justify-content-between align-items-center h-100">
+                <div class="col-12 col-sm-auto text-center">
+                    <p class="mb-0 mt-2 mt-sm-0 text-body">Разработка ТОО "Казреставрация"<span
+                            class="d-none d-sm-inline-block"></span><span
+                            class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none"/>2025 &copy;<a
+                            class="mx-1" href="https://www.instagram.com/qazqaitajanarty/">Instagram</a></p>
+                </div>
+                <div class="col-12 col-sm-auto text-center">
+                    <p class="mb-0 text-body-tertiary text-opacity-85">v0.01.0</p>
+                </div>
+            </div>
+        </footer>
     </div>
     <div class="modal fade" id="varning" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
          aria-hidden="true">
@@ -945,17 +930,10 @@
             name: data.spot,
             place: `${data.location}. ${data.name}`,
             type: data.sensor_type,
-            "value-1": data.value1,
-            "value-2": data.value2,
-            "value-3": data.value3,
-            status: `<div class="badge fs-10 badge-phoenix badge-phoenix-success">
-                        <a data-bs-target="#nodata">
-                            <span class="fw-bold">Норма</span>
-                            <span class="ms-1 fas fa-check"
-                                  data-fa-transform="shrink-2">
-                            </span>
-                        </a>
-                    </div>`
+            "value-1": `${data.value1}${data.type1}`,
+            "value-2": `${data.value2}${data.type2}`,
+            "value-3": `${data.value3}${data.type3}`,
+            status: data.status
         });
         const lastItem = myList.items.pop();   // remove last
         myList.items.unshift(lastItem);
