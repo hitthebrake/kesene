@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
@@ -37,6 +38,12 @@
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
     <link href='{% static "css/flatpickr.min.css" %}' rel="stylesheet">
     <link href='{% static "css/general.css" %}' rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+
     <script>
         let phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -95,7 +102,8 @@
                             <div class="row align-items-end justify-content-between pb-3 g-2">
                                 <!-- dropdown location -->
                                 <div class="col-auto d-flex gap-2">
-                                    <select class="form-select form-select-sm mb-1" data-list-filter="data-list-filter">
+                                    <select class="form-select form-select-sm mb-1" id="locationSelect"
+                                            data-list-filter="data-list-filter">
                                         <option selected="" value="">Выберите место установки</option>
                                         {% for location in location_list %}
                                             <option value="{{ location }}">{{ location }}</option>
@@ -103,16 +111,21 @@
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button class="btn btn-phoenix-secondary bg-body-emphasis btn-sm px-md-4"><span
-                                                class="fa-solid fa-print"> </span><span class="d-none d-md-inline ms-2">Печать</span>
-                                        </button>
-                                        <button class="btn btn-phoenix-secondary text-body"><span
-                                                class="fa-solid fa-file-export fs-9 me-2"></span>Экспорт в Excel
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <div class="px-md-0">
+                                            <div class="needs-validation">
+                                                <input class="form-control datetimepicker" id="timepicker2" type="text"
+                                                       placeholder="Выберите промежуток"
+                                                       data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true, "locale":"ru"}'/>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-phoenix-secondary bg-body-emphasis btn-sm px-md-4"
+                                                type="button" id="exportToPdfButton">
+                                            <span class="fa-solid fa-file-export"></span>
+                                            <span class="d-none d-md-inline ms-2">Экспорт в Excel</span>
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
 
                             <!-- table itself -->
@@ -240,14 +253,16 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between mt-3"><span class="d-none d-sm-inline-block"
-                                                                                   data-list-info="data-list-info"></span>
+                            <div class="d-flex justify-content-between mt-3">
+                                <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
                                 <div class="d-flex">
-                                    <button class="page-link" data-list-pagination="prev"><span
-                                            class="fas fa-chevron-left"></span></button>
+                                    <button class="page-link" data-list-pagination="prev">
+                                        <span class="fas fa-chevron-left"></span>
+                                    </button>
                                     <ul class="mb-0 pagination"></ul>
-                                    <button class="page-link pe-0" data-list-pagination="next"><span
-                                            class="fas fa-chevron-right"></span></button>
+                                    <button class="page-link pe-0" data-list-pagination="next">
+                                        <span class="fas fa-chevron-right"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -282,6 +297,17 @@
                                                     </td>
                                                     <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
                                                         {{ latest_api_meteo.wind_direction }}° {{ latest_api_meteo.wind_direction_sign }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                        Скорость ветра
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                        {{ latest_local_meteo.wind_speed }} м\с
+                                                    </td>
+                                                    <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                        {{ latest_api_meteo.wind_speed }} м\с
                                                     </td>
                                                 </tr>
                                                 <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -1129,6 +1155,85 @@
             audio.currentTime = 0;
         });
     });
+
+
+    const exportToPdfButton = document.getElementById('exportToPdfButton');
+    exportToPdfButton.addEventListener("click", function (e) {
+        const timepicker2 = document.getElementById('timepicker2');
+        const locationSelect = document.getElementById('locationSelect');
+        if (timepicker2.value && locationSelect.value) {
+            downloadFile(e, '{% url "monitoring:export-excel" %}', {
+                'date-range': timepicker2.value,
+                'location': locationSelect.value
+            });
+        }
+    })
+
+    function downloadFile(e, apiUrl, data) {
+        e.preventDefault()
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        return fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "X-CSRFToken": csrfToken
+            },
+            body: JSON.stringify(data),
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('Content-Type') || '';
+                if (contentType.includes('application/json')) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    return null;
+                }
+
+                const contentDisposition = response.headers.get('Content-Disposition');
+                console.log("File contentDisposition", contentDisposition);
+                let filename = 'downloaded-file'; // Default name in case header is missing
+
+                if (contentDisposition) {
+                    let match = contentDisposition.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+                    if (!match) {
+                        match = contentDisposition.match(/filename="?([^"]+)"?/);
+                    }
+                    filename = decodeURIComponent(match[1]);
+                }
+
+                return response.blob().then(blob => ({blob, filename}));
+            })
+            .then(response => {
+                if (!response) return;
+                const {blob, filename} = response;
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename; // Set filename
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url); // Clean up URL objec
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+
+    }
+
 
 </script>
 </body>

@@ -105,7 +105,7 @@ class LatestData:
 
         if not data:  # no cache or expired
             response = requests.get(
-                f"https://api.openweathermap.org/data/3.0/onecall?lat=43.2975&lon=68.2708&&appid={settings.WEATHER_API_KEY}")  # your weather API
+                f"https://api.openweathermap.org/data/3.0/onecall?lat=43.2975&lon=68.2708&exclude=hourly,alerts&appid={settings.WEATHER_API_KEY}")  # your weather API
             if response.status_code == 200:
                 data = response.json()
                 cache.set(cache_key, data, timeout=360)  # cache for 360 seconds (6 minutes)

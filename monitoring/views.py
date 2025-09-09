@@ -1,4 +1,7 @@
+import json
 import pandas
+
+from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -7,8 +10,9 @@ from django.conf import settings
 from django.utils import timezone
 
 from webhook.sensor_parsing import sensor_types as sensor_types_dict
-from webhook.models import Measurement, ExampleMeasurement
+from webhook.models import Measurement, ExampleMeasurement, Sensor
 from monitoring.services.index import LatestData
+from monitoring.services.export_to_excel import ExportToExcel
 
 def can_add_threshold(user):
     return user.can_add_threshold or user.is_superuser
@@ -81,3 +85,7 @@ def add_data_manually(request):
 @login_required(login_url='authorization:login')
 def settings_view(request):
     return render(request, 'monitoring/mysettings.html')
+
+
+def export_to_excel(request):
+    return ExportToExcel().export(request)
