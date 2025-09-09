@@ -1028,6 +1028,7 @@
                 togglePaginationButtonDisable(paginationButtonPrev, false);
             }
         };
+        updateListControls();
 
         const listFilter = mainTable.querySelector('[data-list-filter]');
         listFilter.addEventListener('change', e => {

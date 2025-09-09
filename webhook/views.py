@@ -27,15 +27,18 @@ def webhook(request):
 
 def copy_all_data(request):
     objects = WebhookRequest.objects.all()
-    existing_sensors = list(
-        Sensor.objects.all().values_list('name', 'location', 'spot', 'sensor_type', 'id')
-    )
-    existing_measurements = [
+    existing_sensors = {
+        (name, location, spot, sensor_type): sid
+        for name, location, spot, sensor_type, sid in Sensor.objects.values_list(
+            'name', 'location', 'spot', 'sensor_type', 'id'
+        )
+    }
+    existing_measurements = set(
         (date, safe_float(v1), safe_float(v2), safe_float(v3), sensor)
         for date, v1, v2, v3, sensor in Measurement.objects
         .values_list('date', 'value1', 'value2', 'value3', 'sensor_id')
-    ]
-    existing_meteo_data = list(
+    )
+    existing_meteo_data = set(
         (date, safe_float(v1), safe_float(v2), safe_float(v3), safe_float(v4), safe_float(v5),
          safe_float(v6), safe_float(v7))
         for date, v1, v2, v3, v4, v5, v6, v7 in MeteoData.objects.values_list(
@@ -76,23 +79,23 @@ def copy_all_data(request):
                     )
                     meteo_instances_to_create.append(obj)
                     print('repeatAAA')
-                    existing_meteo_data.append((date, temperature, dewpoint, pressure, humidity, wind_speed, wind_direction, precipitation))
+                    existing_meteo_data.add((date, temperature, dewpoint, pressure, humidity, wind_speed, wind_direction, precipitation))
                 else:
                     print("DONOt not not")
                 continue
 
             # creates sensor
-            if not (sensor_data['name'], sensor_data['location'], sensor_data['spot'],
-                    sensor_data['type']) in existing_sensors:
-                Sensor.objects.get_or_create(
+            key_tuple = (sensor_data['name'], sensor_data['location'], sensor_data['spot'], sensor_data['type'])
+            sensor_id = existing_sensors.get(key_tuple)
+            if not sensor_id:
+                sensor = Sensor.objects.create(
                     name=sensor_data['name'],
                     location=sensor_data['location'],
                     spot=sensor_data['spot'],
                     sensor_type=sensor_data['type'],
                 )
-                existing_sensors = list(
-                    Sensor.objects.all().values_list('name', 'location', 'spot', 'sensor_type', 'id')
-                )
+                existing_sensors[key_tuple] = sensor.id
+                sensor_id = sensor.id
 
             date, *measurement_values = value
             dt = parse_dt(date)
@@ -104,11 +107,6 @@ def copy_all_data(request):
                 if values[i] > 10000 or values[i] < -10000:
                     values[i] = None
 
-            # find sensor id
-            sensor_id = None
-            for sensor in existing_sensors:
-                if (sensor_data['name'], sensor_data['location'], sensor_data['spot'], sensor_data['type']) == sensor[:4]:
-                    sensor_id = sensor[4]
 
             # create measurement if it does not exist
             if not (dt, values[0], values[1], values[2], sensor_id) in existing_measurements:
@@ -116,7 +114,7 @@ def copy_all_data(request):
                     date=str(dt), value1=values[0], value2=values[1], value3=values[2], sensor_id=sensor_id,
                 )
                 instances_to_create.append(obj)
-                existing_measurements.append((dt, values[0], values[1], values[2], sensor_id))
+                existing_measurements.add((dt, values[0], values[1], values[2], sensor_id))
                 print('RepeatBBB')
             else:
                 print("DONOt")
