@@ -89,3 +89,7 @@ def settings_view(request):
 
 def export_to_excel(request):
     return ExportToExcel().export(request)
+
+
+def add_data(request):
+    return render(request, 'monitoring/add_data.html')

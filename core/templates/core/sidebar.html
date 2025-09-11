@@ -115,7 +115,42 @@
                 </li>
                 <li class="nav-item">
                     <!-- label-->
-                    <p class="navbar-vertical-label">Настройка датчиков</p>
+                    <p class="navbar-vertical-label">Ручные измерения
+                    </p>
+                    <hr class="navbar-vertical-line"/>
+                    <!-- parent pages-->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link label-1 add-data-link" href="{% url 'monitoring:add-data' %}"
+                           role="button" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon">
+                                    <span data-feather="plus-square"></span>
+                                </span>
+                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text">Добавить данные</span>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- CHANGE href="../user_pages/data_list.html" -->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link label-1 data-list-link" href="#" role="button"
+                           data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon">
+                                    <span data-feather="book-open"></span>
+                                </span>
+                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text">Журнал измерении</span>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- parent pages-->
+                </li>
+                <li class="nav-item">
+                    <!-- label-->
+                    <p class="navbar-vertical-label">Настройка сценариев</p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
                     <div class="nav-item-wrapper">
