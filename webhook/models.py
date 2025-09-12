@@ -10,7 +10,7 @@ class Sensor(models.Model):
     location = models.CharField(max_length=255, default="Не указан", verbose_name="Местонахождение датчика")
     spot = models.CharField(max_length=100, default="", verbose_name="Точка", null=True, blank=True)
     sensor_type = models.CharField(max_length=50, default='', null=True, blank=True, verbose_name='Тип сенсора')
-
+    image = models.ImageField(upload_to='sensor_images/', null=True, blank=True)
     def __str__(self):
         return self.name
 
