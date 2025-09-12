@@ -16,8 +16,36 @@ def add_settings(request):
     return render(request, 'sensors/add_settings.html')
 
 
+def check_limits(from_value, to_value, sensor_id, type_name):
+    sensor_settings = SensorSettings.objects.filter(sensor__id=sensor_id, type_name=type_name)
+
+    if from_value is None and to_value is None:
+        if sensor_settings.filter(from_value=from_value, to_value=to_value).exists():
+            return "error", "Данные существуют !!!"
+        return 'success', 'Данные сохранены'
+
+    if from_value is None or to_value is None:
+        return "error", "Оба значения должны быть одинакого типа !!!"
+
+    try:
+        f, t = float(from_value), float(to_value)
+    except:
+        return "error", "Введите число либо #NV !!!"
+
+    if f >= t:
+        return "error", "Первая значение должна быть меньше второго!!!"
+    else:
+        for obj in sensor_settings:
+            if not (obj.from_value is None and obj.to_value is None):
+                if float(obj.from_value) <= f < float(obj.to_value) or \
+                        float(obj.from_value) < t <= float(obj.to_value):
+                    return "error", f"Пересечение с диапазоном [{obj.from_value} - {obj.to_value}]"
+    return 'success', 'Данные сохранены'
+
+
 def add_dev_settings(request):
     sensors = Sensor.objects.all().order_by('location', 'name')
+
     if request.method == 'POST':
         submit_action = request.POST.get('submit_action')
         sensor_id = request.POST.get('sensor_id')
@@ -31,6 +59,11 @@ def add_dev_settings(request):
             from_value = None
         if to_value.lower() in "#nv":
             to_value = None
+
+        check_status, check_message = check_limits(from_value, to_value, sensor_id, type_name)
+        if check_status == 'error':
+            messages.error(request, check_message)
+            return redirect(request.META.get('HTTP_REFERER', 'sensors:add_dev_settings'))
 
         if submit_action == 'update':
             setting_id = request.POST.get('setting_id')
@@ -52,6 +85,7 @@ def add_dev_settings(request):
 
         try:
             instance.save()
+            messages.success(request, check_message)
         except SensorSettings.DoesNotExist:
             messages.error(request, 'Настройка не найдена')
         except Exception as e:

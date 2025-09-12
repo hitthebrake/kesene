@@ -294,6 +294,7 @@
 
     document.querySelectorAll('.edit-settings-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
+            console.log('here');
             const row = btn.closest('tr');
             const form = btn.closest('form');
             const submitBtn = form.querySelector('button[name="submit_action"]');

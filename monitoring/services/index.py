@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.conf import settings
 from django.db import connection
 
+from sensors.models import SensorSettings
 from webhook.sensor_parsing import sensor_types as sensor_types_dict
 from webhook.models import Sensor, MeteoData
 
@@ -28,6 +29,28 @@ def wind_direction_sign(degrees: float) -> str:
     elif 292.5 <= degrees < 337.5:
         return "С-З"
     return ""
+
+
+def check_limits(setting, value):
+
+    if setting.from_value is None and setting.to_value is None and value == "#NV":
+        return setting.status
+    if (setting.from_value is None and setting.to_value is None) or value == "#NV":
+        return ""
+
+    if float(setting.from_value) < float(value) <= float(setting.to_value):
+        return setting.status
+    return ""
+
+
+def compare_status(value1, value2):
+    priorities = {
+        'Норма': 0,
+        'Нет данных': 1,
+        'Предупреждение': 2,
+        'Тревога': 3
+    }
+    return value1 if priorities.get(value1, 0) > priorities.get(value2, 0) else value2
 
 
 class LatestData:
@@ -72,10 +95,19 @@ class LatestData:
                         'name': sensor.name,
                         'location': sensor.location,
                         'sensor_type': sensor.sensor_type,
+                        'status': 'Норма'
                     }
                     sensor_types = sensor_types_dict[sensor.sensor_type]
+                    sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id)
                     for i in range(len(sensor_types)):
                         latest_values[sensor_id][f'type{i + 1}'] = sensor_types[i][1]
+                        for s in sensor_settings:
+                            if s.type_name == sensor_types[i][0]:
+                                status = check_limits(s, latest_values[sensor_id][f'value{i+1}'])
+                                print(status)
+                                if status:
+                                    latest_values[sensor_id]['status'] = compare_status(latest_values[sensor_id]['status'], status)
+
         return latest_values
 
     @staticmethod

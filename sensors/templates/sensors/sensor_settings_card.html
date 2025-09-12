@@ -9,7 +9,8 @@
                     <div class="margin-bottom: 0rem !important;">
                         <div class="d-flex flex-wrap flex-between-center mb-2">
                             <h5 class="mb-0 text-body-highlight me-2">{{ t.name }}, {{ t.sign }}</h5>
-                            <button class="btn btn-sm btn-phoenix-success" type="submit" name="submit_action" value="create">
+                            <button class="btn btn-sm btn-phoenix-success" type="submit" name="submit_action"
+                                    value="create">
                                 <span class="fas fa-save"></span>
                             </button>
                         </div>
@@ -19,7 +20,7 @@
                             <input class="form-control" type="text" aria-label="Last" name="to" required/>
                         </div>
                         <select class="form-select mb-1" aria-label="Default select example" name="status" required>
-                            <option selected="">Укажите статус</option>
+                            <option selected value="">Укажите статус</option>
                             <option value="Нет данных">Нет данных</option>
                             <option value="Предупреждение">Предупреждение</option>
                             <option value="Тревога">Тревога</option>
@@ -27,7 +28,7 @@
                         <div class="mb-3">
                             <label class="form-label" for="exampleTextarea">Рекомендуемые действия</label>
                             <textarea class="form-control" id="exampleTextarea" rows="3" name="action"
-                                      required> </textarea>
+                                      required></textarea>
                         </div>
                         <div id="tableExample" data-list='{"valueNames":["name"]}'>
                             <div class="table-responsive">
