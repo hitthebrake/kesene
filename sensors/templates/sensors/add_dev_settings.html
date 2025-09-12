@@ -300,6 +300,12 @@
             submitBtn.value = 'update';
             form.querySelector('input[name="from"]').value = row.dataset.fromValue;
             form.querySelector('input[name="to"]').value = row.dataset.toValue;
+            if (!row.dataset.fromValue || row.dataset.fromValue === "None") {
+                form.querySelector('input[name="from"]').value = "#NV";
+            }
+            if (!row.dataset.toValue || row.dataset.toValue === "None") {
+                form.querySelector('input[name="to"]').value = "#NV";
+            }
             form.querySelector('textarea[name="action"]').value = row.dataset.action;
             form.querySelector('select[name="status"]').value = row.dataset.status;
 

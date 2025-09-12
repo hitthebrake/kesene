@@ -9,8 +9,8 @@ class SensorSettings(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     type_name = models.CharField(max_length=255)
 
-    from_value = models.DecimalField(max_digits=10, decimal_places=2)
-    to_value = models.DecimalField(max_digits=10, decimal_places=2)
+    from_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    to_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     action = models.CharField(max_length=510)
     status = models.CharField(max_length=55)
 

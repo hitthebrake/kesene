@@ -22,10 +22,15 @@ def add_dev_settings(request):
         submit_action = request.POST.get('submit_action')
         sensor_id = request.POST.get('sensor_id')
         type_name = request.POST.get('type_name')
-        from_value = request.POST.get('from').replace(',', '.')
-        to_value = request.POST.get('to').replace(',', '.')
         action = request.POST.get('action')
         status = request.POST.get('status')
+
+        from_value = request.POST.get('from').replace(',', '.')
+        to_value = request.POST.get('to').replace(',', '.')
+        if from_value.lower() in "#nv":
+            from_value = None
+        if to_value.lower() in "#nv":
+            to_value = None
 
         if submit_action == 'update':
             setting_id = request.POST.get('setting_id')
@@ -50,6 +55,7 @@ def add_dev_settings(request):
         except SensorSettings.DoesNotExist:
             messages.error(request, 'Настройка не найдена')
         except Exception as e:
+            print(e)
             messages.error(request, 'Неправильные значения введены')
         return redirect(request.META.get('HTTP_REFERER', 'sensors:add_dev_settings'))
 
