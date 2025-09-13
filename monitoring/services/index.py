@@ -34,13 +34,13 @@ def wind_direction_sign(degrees: float) -> str:
 def check_limits(setting, value):
 
     if setting.from_value is None and setting.to_value is None and value == "#NV":
-        return setting.status
+        return True
     if (setting.from_value is None and setting.to_value is None) or value == "#NV":
-        return ""
+        return False
 
     if float(setting.from_value) < float(value) <= float(setting.to_value):
-        return setting.status
-    return ""
+        return True
+    return False
 
 
 def compare_status(value1, value2):
@@ -95,7 +95,8 @@ class LatestData:
                         'name': sensor.name,
                         'location': sensor.location,
                         'sensor_type': sensor.sensor_type,
-                        'status': 'Норма'
+                        'setting': {'status': 'Норма'},
+                        'sensor_image': sensor.image
                     }
                     sensor_types = sensor_types_dict[sensor.sensor_type]
                     sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id)
@@ -103,10 +104,14 @@ class LatestData:
                         latest_values[sensor_id][f'type{i + 1}'] = sensor_types[i][1]
                         for s in sensor_settings:
                             if s.type_name == sensor_types[i][0]:
-                                status = check_limits(s, latest_values[sensor_id][f'value{i+1}'])
-                                print(status)
-                                if status:
-                                    latest_values[sensor_id]['status'] = compare_status(latest_values[sensor_id]['status'], status)
+                                if check_limits(s, latest_values[sensor_id][f'value{i+1}']):
+                                    status = compare_status(latest_values[sensor_id]['setting']['status'], s.status)
+                                    if status == s.status:
+                                        latest_values[sensor_id]['setting'] = {
+                                            'status': s.status,
+                                            'id': s.id,
+                                            'action': s.action,
+                                        }
 
         return latest_values
 

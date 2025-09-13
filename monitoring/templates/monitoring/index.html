@@ -164,7 +164,16 @@
                                     </thead>
                                     <tbody class="list" id="mainTableBody">
                                     {% for sensor_id, value in latest_values.items %}
-                                        <tr data-sensor-id="{{ sensor_id }}">
+                                        <tr data-sensor-id="{{ sensor_id }}"
+                                            data-location="{{ value.location }}"
+                                            data-spot="{{ value.spot }}"
+                                            data-name="{{ value.name }}"
+                                            data-sensor-type="{{ value.sensor_type }}"
+                                            {% if value.sensor_image %}
+                                                data-sensor-image-url="{{ value.sensor_image.url }}"
+                                            {% endif %}
+                                            data-status="{{ value.setting.status }}"
+                                            data-setting-action="{{ value.setting.action }}">
                                             <td class="align-middle ps-3 group" hidden>{{ value.location }}</td>
                                             <td class="align-middle ps-3 sensor-id" hidden>{{ sensor_id }}</td>
                                             <td class="align-middle ps-3 name d-none d-lg-table-cell">{{ value.spot }}</td>
@@ -182,26 +191,26 @@
                                                     {{ value.type3 }}{% endif %}{% endif %}</td>
 
                                             <td class="align-middle payment text-end py-3 pe-3 status">
-                                                {% if value.status == 'Нет данных' %}
-                                                    <div class="badge fs-10 badge-phoenix badge-phoenix-secondary">
+                                                {% if value.setting.status == 'Нет данных' %}
+                                                    <div class="badge fs-10 badge-phoenix badge-phoenix-secondary modal-data">
                                                         <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
                                                             <span class="fw-bold">Нет данных</span>
                                                             <span class="ms-1 fas fa-ban" data-fa-transform="shrink-2">
                                                             </span>
                                                         </a>
                                                     </div>
-                                                {% elif value.status == 'Предупреждение' %}
-                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-info">
+                                                {% elif value.setting.status == 'Предупреждение' %}
+                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-info modal-data">
                                                         <a href="#" data-bs-toggle="modal"
-                                                           data-bs-target="#varning">
+                                                           data-bs-target="#nodata">
                                                             <span class="fw-bold">Предупреждение</span>
                                                             <span class="ms-1 fas fa-alert"></span>
                                                         </a>
                                                     </div>
-                                                {% elif value.status == 'Тревога' %}
-                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-danger"
+                                                {% elif value.setting.status == 'Тревога' %}
+                                                    <div class="badge badge-phoenix fs-10 badge-phoenix-danger modal-data"
                                                          role="status">
-                                                        <a href='#' data-bs-toggle="modal" data-bs-target="#danger">
+                                                        <a href='#' data-bs-toggle="modal" data-bs-target="#nodata">
                                                             <span class="fw-bold">Тревога</span>
                                                             <span class="ms-1 fas fa-close"></span>
                                                         </a>
@@ -772,105 +781,27 @@
             </div>
         </footer>
     </div>
-    <div class="modal fade" id="varning" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between" style="background-color:#c7ebff">
-                    <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная шахта:
-                        Предупреждение</h5>
-                </div>
-                <div class="modal-body">
-                    <p class="text-body-tertiary lh-lg mb-0">Большая вероятность скопления влажности изза потока ветра.
-                        Закройте двери во избежании образования сквозняков</p>
-                </div>
-                <div class="modal-body">
-                    <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                    <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                        <h4 class="text-white">Вентиляционная шахта-P1.14-Vв</h4>
-                        <p class="mb-0 text-secondary-lighter text-capitalize">Скорость воздушного потока, м/с</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-warning me-1 mb-1" type="button">К исполнению</button>
-                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Подождать</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="nodata" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header justify-content-between" style="background-color:#eff2f6">
-                    <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная шахта:
+                    <h5 class="modal-title dark__text-gray-1100" id="nodataLabel">Асхана. Вентиляционная шахта:
                         Нет данных</h5>
                 </div>
                 <div class="modal-body">
-                    <p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с
+                    <p class="text-body-tertiary lh-lg mb-0" id="nodataAction">Возможно это происходит изза неполадки в линии связи с
                         датчиком. Необходимо проверить физическое состояние данного датчика на месте ее установки.</p>
                 </div>
                 <div class="modal-body">
-                    <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
+                    <img class="rounded-2 w-100 h-100 object-fit-cover" id="nodataImage" src='{% static "images/91.png" %}' alt="">
                     <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                        <h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
-                        <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
+                        <h4 class="text-white" id="nodataSensor">Вентиляционная шахта-P1.14-ТвОВв</h4>
+                        <p class="mb-0 text-secondary-lighter text-capitalize" id="nodataTypes">Температура, влажность, точка росы</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" type="button">К исполнению</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="view" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between" style="background-color:#eff2f6">
-                    <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная шахта:
-                        Нет данных</h5>
-                </div>
-                <div class="modal-body">
-                    <p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с
-                        датчиком. Необходимо проверить физическое состояние данного датчика на месте ее установки.</p>
-                </div>
-                <div class="modal-body">
-                    <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                    <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                        <h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
-                        <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" type="button">В работу</button>
                     <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="danger" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between" style="background-color:#FFE0DB">
-                    <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Наклонный свод:
-                        Тревога</h5>
-                </div>
-                <div class="modal-body">
-                    <p class="text-body-tertiary lh-lg mb-0">Включить вентиляторы по направлению выдува к двери.
-                        Ограничить посщение на 2 часа!</p>
-                </div>
-                <div class="modal-body">
-                    <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                    <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                        <h4 class="text-white">Вентиляционная шахта-P2.5-ТвОВв</h4>
-                        <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка росы</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger me-1 mb-1" type="button">К исполнению</button>
                 </div>
             </div>
         </div>
@@ -902,6 +833,46 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.modal-data');
+        if (btn) {
+            e.preventDefault();
+            const row = btn.closest('tr');
+
+            const nodataLabel = document.getElementById('nodataLabel');
+            const nodataAction = document.getElementById('nodataAction');
+            const nodataImage = document.getElementById('nodataImage');
+            const nodataSensor = document.getElementById('nodataSensor');
+            const nodataTypes = document.getElementById('nodataTypes');
+            nodataLabel.innerText = `${row.dataset.location}. ${row.dataset.name}: ${row.dataset.status}`;
+            nodataAction.innerText = `${row.dataset.settingAction}`;
+            if (row.dataset.sensorImageUrl) {
+                nodataImage.src = row.dataset.sensorImageUrl + '?t=' + Date.now();
+            }
+            nodataSensor.innerText = `${row.dataset.name}-${row.dataset.spot}-${row.dataset.sensorType}`;
+            if (row.dataset.sensorType === 'ТвОВв') {
+                nodataTypes.innerText = 'Температура, влажность, точка росы';
+            } else if (row.dataset.sensorType === 'Vв') {
+                nodataTypes.innerText = 'Скорость ветра';
+            } else if (row.dataset.sensorType === 'ПТП') {
+                nodataTypes.innerText = 'Плотность теплового потока';
+            } else if (row.dataset.sensorType === 'Тп.') {
+                nodataTypes.innerText = 'Температура';
+            } else if (row.dataset.sensorType === 'НВ') {
+                nodataTypes.innerText = 'Направление ветра';
+            } else if (row.dataset.sensorType === 'Уровень шума') {
+                nodataTypes.innerText = 'Уровень шума';
+            } else if (row.dataset.sensorType === 'Конц. СО2') {
+                nodataTypes.innerText = 'Концентрация CO2';
+            } else if (row.dataset.sensorType === 'Уровень грунтовых вод') {
+                nodataTypes.innerText = 'Уровень грунтовых вод, уровень заряда батареи';
+            } else if (row.dataset.sensorType === 'Угол наклона') {
+                nodataTypes.innerText = 'Наклон по Х, наклон по У';
+            }
+        }
+    });
+
+
     const camelize = str => {
         const text = str.replace(/[-_\s.]+(.)?/g, (_, c) =>
             c ? c.toUpperCase() : ''
@@ -961,6 +932,16 @@
             "value-3": `${data.value3}${data.type3}`,
             status: data.status
         });
+        let lastRow = window.myList.list[window.myList.list.length - 1].elm;
+        lastRow.dataset.sensorId = data.sensor_id;
+        lastRow.dataset.location = data.location;
+        lastRow.dataset.spot = data.spot;
+        lastRow.dataset.name = data.name;
+        lastRow.dataset.sensor_type = data.sensor_type;
+        lastRow.dataset.sensorImageUrl = data.sensor_image;
+        lastRow.dataset.status = data.setting.status;
+        lastRow.dataset.settingAction = data.setting.action;
+        console.log("new data arrived!");
         const lastItem = myList.items.pop();   // remove last
         myList.items.unshift(lastItem);
         myList.update();
@@ -1133,6 +1114,7 @@
             }
         });
         window.myList = myList;
+        window.myList.sort("status", {sortFunction: statusSorter});
     });
 
 
@@ -1169,6 +1151,7 @@
             });
         }
     })
+
 
     function downloadFile(e, apiUrl, data) {
         e.preventDefault()
@@ -1234,6 +1217,8 @@
             });
 
     }
+
+
 
 
 </script>
