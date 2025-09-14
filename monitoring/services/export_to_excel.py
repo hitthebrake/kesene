@@ -37,21 +37,24 @@ class ExportToExcel:
             sheet.title = str(sensor_name)[:31]
 
             # writing types/date header
-            sheet.cell(row=1, column=1).value = "Дата/Время"
-            sheet.column_dimensions['A'].width = 25
+            sheet.cell(row=1, column=1).value = "Дата"
+            sheet.cell(row=1, column=2).value = "Время"
+            sheet.column_dimensions['A'].width = 20
+            sheet.column_dimensions['B'].width = 20
             types = data.get("types")
             for i in range(len(types)):
-                sheet.column_dimensions[get_column_letter(i+2)].width = 25
-                sheet.cell(row=1, column=i+2).value = f'{types[i][0]} {types[i][1]}'
+                sheet.column_dimensions[get_column_letter(i+3)].width = 25
+                sheet.cell(row=1, column=i+3).value = f'{types[i][0]}, {types[i][1]}'
 
             # writing data
             row = 2
             objects = data.get("values")
             for obj in objects:
-                sheet.cell(row=row, column=1).value = obj.date.strftime("%Y-%m-%d %H:%M:%S")
-                sheet.cell(row=row, column=2).value = "#NV" if (obj.value1 is None and len(types)>0) else obj.value1
-                sheet.cell(row=row, column=3).value = "#NV" if (obj.value2 is None and len(types)>1) else obj.value2
-                sheet.cell(row=row, column=4).value = "#NV" if (obj.value3 is None and len(types)>2) else obj.value3
+                sheet.cell(row=row, column=1).value = obj.date.strftime("%Y-%m-%d")
+                sheet.cell(row=row, column=2).value = obj.date.strftime("%H:%M:%S")
+                sheet.cell(row=row, column=3).value = "#NV" if (obj.value1 is None and len(types)>0) else obj.value1
+                sheet.cell(row=row, column=4).value = "#NV" if (obj.value2 is None and len(types)>1) else obj.value2
+                sheet.cell(row=row, column=5).value = "#NV" if (obj.value3 is None and len(types)>2) else obj.value3
                 row += 1
         del workbook['Sheet']
         return workbook
