@@ -92,4 +92,6 @@ def export_to_excel(request):
 
 
 def add_data(request):
-    return render(request, 'monitoring/add_data.html')
+    latest_local_meteo = LatestData().get_latest_local_meteo_data()
+
+    return render(request, 'monitoring/add_data.html', {'latest_local_meteo': latest_local_meteo})

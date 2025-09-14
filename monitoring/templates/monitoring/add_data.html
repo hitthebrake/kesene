@@ -82,12 +82,14 @@
                 </div>
 
                 <div class="col-auto my-0">
-                    <div class="d-flex justify-content-end align-items-center gap-2 mb-2"><span
-                            class="fa-regular fa-clock text-body"> </span><span
-                            class="text-body fw-semibold">08:26</span></div>
-                    <div class="d-flex justify-content-end gap-2"><span class="text-body" data-feather="calendar"
-                                                                        style="width:16px; height:16px"></span><span
-                            class="text-body fw-semibold">Пятница, 06.09.2025</span></div>
+                    <div class="d-flex justify-content-end align-items-center gap-2 mb-2" id="timeField">
+                        <span class="fa-regular fa-clock text-body"></span>
+                        <span class="text-body fw-semibold">08:26</span>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2" id="dateField">
+                        <span class="text-body" data-feather="calendar" style="width:16px; height:16px"></span>
+                        <span class="text-body fw-semibold">06.09.2025</span>
+                    </div>
                 </div>
 
             </div>
@@ -2632,7 +2634,15 @@
                                                     Направление ветра
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    86° С-В
+                                                    {{ latest_local_meteo.wind_direction }}° {{ latest_local_meteo.wind_direction_sign }}
+                                                </td>
+                                            </tr>
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                    Скорость ветра
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap ps-4 fw-semibold text-body-highlight">
+                                                    {{ latest_local_meteo.wind_speed }} м\с
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -2640,7 +2650,7 @@
                                                     Температура
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    5,0 °С
+                                                    {{ latest_local_meteo.temperature }} °С
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -2648,7 +2658,7 @@
                                                     Влажность
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    72,0 %
+                                                    {{ latest_local_meteo.humidity }} %
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -2656,7 +2666,7 @@
                                                     Точка росы
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    2,1 'С
+                                                    {{ latest_local_meteo.dewpoint }} 'С
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -2664,7 +2674,7 @@
                                                     Атм.давление, mmHg
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    65,0
+                                                    {{ latest_local_meteo.pressure }}
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -2672,7 +2682,7 @@
                                                     Уровень жидких осадков
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    32 мм
+                                                    {{ latest_local_meteo.precipitation }} мм
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -2725,8 +2735,6 @@
         </div>
 
     </div>
-    </div>
-    </div>
 
 </main>
 <!-- ===============================================-->
@@ -2762,6 +2770,23 @@
     if (div) {
         div.classList.add("active");
     }
+
+
+    function updateDateTime() {
+        const now = new Date();
+
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+        document.getElementById("dateField").textContent = `${day}.${month}.${year}`;
+
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById("timeField").textContent = `${hours}:${minutes}`;
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 </script>
 </body>
 
