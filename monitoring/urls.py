@@ -8,4 +8,5 @@ urlpatterns = [
     # path('signal/', views.fire_signal, name='signal'),
     path('export_to_excel/', views.export_to_excel, name='export-excel'),
     path('add_data/', views.add_data, name='add-data'),
+    path('manual_data_list/', views.data_list, name='manual-data-list'),
 ]
