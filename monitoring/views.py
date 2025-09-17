@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.utils import timezone
 
+from core import extra_functions
+from sensors.models import ManualData, InstanceManualData
 from webhook.sensor_parsing import sensor_types as sensor_types_dict
 from webhook.models import Measurement, ExampleMeasurement, Sensor
 from monitoring.services.index import LatestData
@@ -93,8 +95,44 @@ def export_to_excel(request):
 
 def add_data(request):
     latest_local_meteo = LatestData().get_latest_local_meteo_data()
+    numbers = [n for n in range(1, 11)]
 
-    return render(request, 'monitoring/add_data.html', {'latest_local_meteo': latest_local_meteo})
+    if request.method == 'POST':
+        location = request.POST.get('location')
+        spot = request.POST.get('spot')
+        button_action = request.POST.get('button_action')
+        wind_speed_in_room = request.POST.get('wind_speed_in_room')
+
+        if button_action == 'save':
+            manual_data = ManualData(
+                location=location,
+                spot=spot,
+                local_temperature=latest_local_meteo['temperature'],
+                wind_speed_in_room = wind_speed_in_room,
+                user=request.user,
+            )
+            manual_data.save()
+
+            instances_to_create = []
+            for i in range(1, 10):
+                temperature = request.POST.get(f't{i}') or None
+                humidity = request.POST.get(f'h{i}') or None
+                img = request.FILES.get(f'img{i}')
+
+                check = extra_functions.is_image(img)
+                if img and not isinstance(check, bool):
+                    messages.error(request, 'Неправильный формат или размер фото')
+                    return redirect('monitoring:add-data')
+                instance = InstanceManualData(
+                    temperature=temperature,
+                    humidity=humidity,
+                    img=img,
+                    number=str(i),
+                    manual_data=manual_data,
+                )
+                instances_to_create.append(instance)
+            InstanceManualData.objects.bulk_create(instances_to_create)
+    return render(request, 'monitoring/add_data.html', {'latest_local_meteo': latest_local_meteo, 'numbers': numbers})
 
 
 def data_list(request):

@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
+from core import extra_functions
 from sensors.models import SensorSettings
 from webhook.models import Sensor
 from webhook.sensor_parsing import sensor_types
@@ -131,15 +132,9 @@ def add_dev_settings(request):
 def upload_sensor_image(request, sensor_id):
     if request.method == 'POST':
         uploaded_file = request.FILES.get('image')
-        if not uploaded_file:
-            return JsonResponse({'status': 'error', 'message': 'No file provided'}, status=400)
-
-        if not uploaded_file.content_type.startswith('image/'):
-            return JsonResponse({'status': 'error', 'message': 'Only image files allowed'}, status=400)
-
-        # ✅ Optionally check file size (example: max 10MB)
-        if uploaded_file.size > 10 * 1024 * 1024:
-            return JsonResponse({'status': 'error', 'message': 'File too large'}, status=400)
+        check = extra_functions.is_image(uploaded_file)
+        if not isinstance(check, bool):
+            return check
 
         sensor = Sensor.objects.get(id=sensor_id)
         if sensor.image:
