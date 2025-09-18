@@ -87,22 +87,22 @@
                 <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-7 border-y">
                     <div data-list='{"valueNames":["data","time","pic","location","place","auth","t_street","t_wall","humidity","w_speed"],"page":10}'>
                         <div class="row align-items-end justify-content-between pb-5 g-3">
-                            <div class="col-auto">
+                            <form class="col-auto" method="get" action="{% url 'monitoring:manual-data-list' %}">
                                 <div class="col-auto d-flex gap-2">
-                                    <select class="form-select form-select-sm mb-1" id="locationSelect"
-                                            data-list-filter="data-list-filter">
-                                        <option selected="" value="">Выберите локацию</option>
-                                        <option value="Perimetr">Периметр</option>
-                                        <option value="rooms">Помещения</option>
-                                        <option value="roof">Кровля</option>
+                                    <select class="form-select form-select-sm mb-1" id="locationSelect" name="location"
+                                            data-list-filter="data-list-filter" required>
+                                        <option selected disabled value="">Выберите локацию</option>
+                                        <option value="Периметер">Периметр</option>
+                                        <option value="Помещения">Помещения</option>
+                                        <option value="Кровля">Кровля</option>
                                     </select>
-                                    <select class="form-select form-select-sm mb-1" id="locationSelect"
-                                            data-list-filter="data-list-filter">
-                                        <option selected="" value="">Выберите место</option>
+                                    <select class="form-select form-select-sm mb-1" id="spotSelect" name="spot"
+                                            data-list-filter="data-list-filter" required>
+                                        <option selected disabled value="">Выберите место</option>
                                     </select>
-                                    <button class="btn btn-phoenix-secondary me-1 mb-1" type="button">Показать</button>
+                                    <button class="btn btn-phoenix-secondary me-1 mb-1" type="submit">Показать</button>
                                 </div>
-                            </div>
+                            </form>
                             <div class="col-12 col-md-auto">
                                 <div class="col-auto">
                                     <div class="d-flex flex-wrap gap-1">
@@ -145,7 +145,7 @@
                                     </th>
                                     <th class="sort align-middle" scope="col" data-sort="t_wall"
                                         style=" min-width:85px;"> <!--data-sort="review"-->
-                                    Пов.°С
+                                        Пов.°С
                                     </th>
                                     <th class="sort text-start" scope="col" data-sort="humidity"
                                         style=" min-width:85px;">Пов.%
@@ -157,115 +157,90 @@
                                 </thead>
 
                                 <tbody class="list" id="table-latest-review-body">
-
-                                <tr>
-                                    <td class="ps-0 py-1 align-middle text-center data">09.11</td>
-                                    <td class="ps-0 py-1 align-middle text-center time">10.36</td>
-                                    <td class="ps-0 py-1 align-middle pic">
-                                        <a class="d-block" href="#" data-bs-toggle="modal"
-                                           data-bs-target="#status">
-                                            <img src="{% static 'images/30.webp' %}" alt="" width="53"/>
-                                        </a>
-                                    </td>
-                                    <td class="ps-2 py-1 align-middle location">
-                                        <a class="fw-semibold" href="#" data-bs-toggle="modal" data-bs-target="#status">
-                                            Периметр
-                                        </a>
-                                    </td>
-                                    <td class="ps-2 py-1 align-middle place">
-                                        <h6 class="mb-0 ms-0 text-body">№1. Север</h6>
-                                    </td>
-                                    <td class="ps-0 py-1 align-middle auth">
-                                        <h6 class="mb-0 ms-0 text-body">Айтжанов Батырулан</h6>
-                                    </td>
-                                    <td class="ps-0 py-1 align-middle text-center t_street">
-                                        <h6 class="mb-0 ms-0 text-body">14.4</h6>
-                                    </td>
-                                    <td class="ps-0 py-1 align-middle text-center t_wall">
-                                        <h6 class="mb-0 ms-0 text-body">9.1</h6>
-                                    </td>
-                                    <td class="ps-0 py-1 align-middle text-center humidity">
-                                        <h6 class="mb-0 ms-0 text-body">0.1</h6>
-                                    </td>
-                                    <td class="ps-0 py-1 align-middle text-center w_speed">
-                                        <h6 class="mb-0 ms-0 text-body">--</h6>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="ps-0 py-1 align-middle text-center data">09.11</td>
-                                    <td class="ps-0 py-1 align-middle text-center time">10.21</td>
-                                    <td class="ps-0 py-1 align-middle pic"><a class="d-block" href="#"
-                                                                              data-bs-toggle="modal"
-                                                                              data-bs-target="#status"><img
-                                            src="{% static 'images/30.webp' %}" alt="" width="53"/></a></td>
-                                    <td class="ps-2 py-1 align-middle location"><a class="fw-semibold" href="#"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#status">Асхана</a>
-                                    </td>
-                                    <td class="ps-2 py-1 align-middle place"><h6 class="mb-0 ms-0 text-body">№1.
-                                        Сечение</h6></td>
-                                    <td class="ps-0 py-1 align-middle auth"><h6 class="mb-0 ms-0 text-body">Айтжанов
-                                        Батырулан</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center t_street"><h6
-                                            class="mb-0 ms-0 text-body">14.4</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center t_wall"><h6
-                                            class="mb-0 ms-0 text-body">12.1</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center humidity"><h6
-                                            class="mb-0 ms-0 text-body">0.3</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center w_speed"><h6
-                                            class="mb-0 ms-0 text-body">2.2</h6></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="ps-0 py-1 align-middle text-center data">09.11</td>
-                                    <td class="ps-0 py-1 align-middle text-center time">10.00</td>
-                                    <td class="ps-0 py-1 align-middle pic"><a class="d-block" href="#"
-                                                                              data-bs-toggle="modal"
-                                                                              data-bs-target="#status"><img
-                                            src="{% static 'images/30.webp' %}" alt="" width="53"/></a></td>
-                                    <td class="ps-2 py-1 align-middle location"><a class="fw-semibold" href="#"
-                                                                                   data-bs-toggle="modal"
-                                                                                   data-bs-target="#status">Кровля</a>
-                                    </td>
-                                    <td class="ps-2 py-1 align-middle place"><h6 class="mb-0 ms-0 text-body">№1.
-                                        Север</h6></td>
-                                    <td class="ps-0 py-1 align-middle auth"><h6 class="mb-0 ms-0 text-body">Айтжанов
-                                        Батырулан</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center t_street"><h6
-                                            class="mb-0 ms-0 text-body">14.4</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center t_wall"><h6
-                                            class="mb-0 ms-0 text-body">5.1</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center humidity"><h6
-                                            class="mb-0 ms-0 text-body">4.3</h6></td>
-                                    <td class="ps-0 py-1 align-middle text-center w_speed"><h6
-                                            class="mb-0 ms-0 text-body">--</h6></td>
-                                </tr>
-
+                                {% for instance in instances %}
+                                    <tr>
+                                        <td class="ps-0 py-1 align-middle text-center data">{{ instance.manual_data.created_date|date:"m.d" }}</td>
+                                        <td class="ps-0 py-1 align-middle text-center time">{{ instance.created_time|date:"H:i" }}</td>
+                                        <td class="ps-0 py-1 align-middle pic">
+                                            <a class="d-block" href="#" data-bs-toggle="modal"
+                                               data-bs-target="#status">
+                                                {% if instance.img %}
+                                                    <img src="{{ instance.img.url }}" alt="" width="53"/>
+                                                {% else %}
+                                                    <img src="{% static 'images/30.webp' %}" alt="" width="53"/>
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                        <td class="ps-2 py-1 align-middle location">
+                                            <a class="fw-semibold" href="#" data-bs-toggle="modal"
+                                               data-bs-target="#status">
+                                                {{ instance.manual_data.location }}
+                                            </a>
+                                        </td>
+                                        <td class="ps-2 py-1 align-middle place">
+                                            <h6 class="mb-0 ms-0 text-body">
+                                                №{{ instance.number }}. {{ instance.manual_data.spot }}</h6>
+                                        </td>
+                                        <td class="ps-0 py-1 align-middle auth">
+                                            <h6 class="mb-0 ms-0 text-body">{{ instance.user.last_name }} {{ instance.user.first_name }}</h6>
+                                        </td>
+                                        <td class="ps-0 py-1 align-middle text-center t_street">
+                                            <h6 class="mb-0 ms-0 text-body">
+                                                {% if instance.manual_data.local_temperature %}
+                                                    {{ instance.manual_data.local_temperature }}
+                                                {% else %}--{% endif %}
+                                            </h6>
+                                        </td>
+                                        <td class="ps-0 py-1 align-middle text-center t_wall">
+                                            <h6 class="mb-0 ms-0 text-body">
+                                                {% if instance.temperature %}
+                                                    {{ instance.temperature }}
+                                                {% else %}--{% endif %}
+                                            </h6>
+                                        </td>
+                                        <td class="ps-0 py-1 align-middle text-center humidity">
+                                            <h6 class="mb-0 ms-0 text-body">
+                                                {% if instance.humidity %}
+                                                    {{ instance.humidity }}
+                                                {% else %}--{% endif %}</h6>
+                                        </td>
+                                        <td class="ps-0 py-1 align-middle text-center w_speed">
+                                            <h6 class="mb-0 ms-0 text-body">
+                                                {% if instance.manual_data.wind_speed_in_room %}
+                                                    {{ instance.manual_data.wind_speed_in_room }}
+                                                {% else %}--{% endif %}</h6>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row align-items-center py-1">
-                            <div class="pagination d-none"></div>
-                            <div class="col d-flex fs-9">
-                                <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body"
-                                   data-list-info="data-list-info"></p>
-                                <a class="fw-semibold" href="#!" data-list-view="*">Все
-                                    <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                                </a>
-                                <a class="fw-semibold d-none" href="#!" data-list-view="less">Сокращенно</a>
-                            </div>
-                            <div class="col-auto d-flex">
-                                <button class="btn btn-link px-1 me-1" type="button" title="Previous"
-                                        data-list-pagination="prev">
-                                    <span class="fas fa-chevron-left me-2"></span>
-                                    Назад
-                                </button>
-                                <button class="btn btn-link px-1 ms-1" type="button" title="Next"
-                                        data-list-pagination="next">
-                                    Вперед
-                                    <span class="fas fa-chevron-right ms-2"></span>
-                                </button>
+                        <div class="d-flex justify-content-between mt-3">
+                            {#                            <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>#}
+                            <span class="d-none d-sm-inline-block"></span>
+
+                            <div class="d-flex">
+                                <ul class="pagination">
+                                    {% if instances.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?{{ url | safe }}&page={{ instances.previous_page_number }}">
+                                                <span class="fas fa-chevron-left"></span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    <div class="pagination mb-0" id="pageNumerization"></div>
+
+                                    {% if instances.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?{{ url | safe }}&page={{ instances.next_page_number }}">
+                                                <span class="fas fa-chevron-right"></span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -355,6 +330,72 @@
     if (div) {
         div.classList.add("active");
     }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const currPage = {{ instances.number }};
+        const totalPages = {{ instances.paginator.num_pages }};
+        const container = document.getElementById('pageNumerization');
+
+        let start = 1;
+        let end = totalPages;
+
+        if (totalPages > 5) {
+            if (currPage <= 3) {
+                start = 1;
+                end = 5;
+            } else if (currPage >= totalPages - 2) {
+                start = totalPages - 4;
+                end = totalPages;
+            } else {
+                start = currPage - 2;
+                end = currPage + 2;
+            }
+        }
+
+        for (let page = start; page <= end; page++) {
+            const li = document.createElement('li');
+            li.className = 'page-item' + (page === currPage ? ' active' : '');
+
+            const a = document.createElement('a');
+            a.className = 'page-link';
+            a.href = `?{{ url | safe }}&page=${page}`;
+            a.textContent = page;
+
+            li.appendChild(a);
+            container.appendChild(li);
+        }
+    });
+
+
+    const locationSelect = document.getElementById('locationSelect');
+    const spotSelect = document.getElementById('spotSelect');
+    locationSelect.addEventListener('change', function () {
+        if (locationSelect.value === 'Помещения') {
+            spotSelect.innerHTML = `<option selected disabled value="">Выберите место установки</option>
+                                        <option value="Асхана">Асхана</option>
+                                        <option value="Аксарай Большой">Аксарай Большой</option>
+                                        <option value="Аксарай Малый">Аксарай Малый</option>
+                                        <option value="Вход №1 (окно)">Вход №1 (окно)</option>
+                                        <option value="Вход №2 (окно)">Вход №2 (окно)</option>
+                                        <option value="Гурхана">Гурхана</option>
+                                        <option value="Казандык">Казандык</option>
+                                        <option value="Китапхана">Китапхана</option>
+                                        <option value="Коридор №2 (западный проем)">Коридор №2 (западный проем)</option>
+                                        <option value="Коридор №4">Коридор №4</option>
+                                        <option value="Кудукхана">Кудукхана</option>
+                                        <option value="Мечеть">Мечеть</option>
+                                        <option value="Помещение №1">Помещение №1</option>
+                                        <option value="Терасса №1">Терасса №1</option>
+                                        <option value="Худжара">Худжара</option>`;
+        } else {
+            spotSelect.innerHTML = `<option selected disabled value="">Выберите место установки</option>
+                                        <option value="Север">Север</option>
+                                        <option value="Юг">Юг</option>
+                                        <option value="Запад">Запад</option>
+                                        <option value="Восток">Восток</option>`;
+        }
+    })
 </script>
 
 </body>

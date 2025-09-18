@@ -4,6 +4,7 @@ import pandas
 from datetime import datetime, timedelta, date
 
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -130,7 +131,8 @@ def add_data(request):
             if img and not isinstance(check, bool):
                 messages.error(request, 'Неправильный формат или размер фото')
                 return redirect('monitoring:add-data')
-
+            if not (temperature or humidity or img):
+                continue
             if existing_instances and existing_instances.filter(number=str(i)).exists():
                 obj = existing_instances.filter(number=str(i)).first()
                 obj.temperature = temperature if not obj.temperature else obj.temperature
@@ -172,7 +174,30 @@ def add_data(request):
 
 
 def data_list(request):
-    return render(request, 'monitoring/data_list.html')
+    instances = InstanceManualData.objects.select_related('manual_data', 'manual_data__user').filter(manual_data__is_draft=False) \
+        .order_by('manual_data__created_date', 'created_time')
+
+    location = request.GET.get('location')
+    spot = request.GET.get('spot')
+    if location and spot:
+        if location == 'Помещения':
+            instances = instances.filter(manual_data__location=spot)
+        elif location == 'Периметр' or location == 'Кровля':
+            instances = instances.filter(manual_data__location=location, manual_data__spot=spot)
+
+    paginator = Paginator(instances, 30)
+    page = request.GET.get('page')
+    instances = paginator.get_page(page)
+
+    request_copy = request.GET.copy()
+    if 'page' in request_copy:
+        del request_copy['page']
+
+    context = {
+        'url': request_copy.urlencode(),
+        'instances': instances
+    }
+    return render(request, 'monitoring/data_list.html', context)
 
 
 def get_draft_data(request, location):
