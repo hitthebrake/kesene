@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr" data-navigation-type="combo" data-navbar-horizontal-shape="default">
+<html lang="ru-Ru" dir="ltr" data-navigation-type="combo" data-navbar-horizontal-shape="default">
 
 <head>
     <meta charset="utf-8">
@@ -40,7 +40,14 @@
     <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
     <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
-    <link href="{% static 'css/flatpickr.min.css' %}" rel="stylesheet">
+    <link href='{% static "css/flatpickr.min.css" %}' rel="stylesheet">
+    <link href='{% static "css/general.css" %}' rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+
     <link href='{% static "css/dropzone.css" %}' rel="stylesheet">
     <link href='{% static "css/choices.min.css" %}' rel="stylesheet">
     <script>
@@ -158,12 +165,16 @@
 
                                 <tbody class="list" id="table-latest-review-body">
                                 {% for instance in instances %}
-                                    <tr>
+                                    <tr data-datetime="{{ instance.manual_data.created_date|date:"m.d.Y" }}, {{ instance.created_time|date:"H:i" }}"
+                                        data-image="
+                                                {% if instance.img %}{{ instance.img.url }}{% else %}{% static 'images/30.webp' %}{% endif %}"
+                                        data-location="{{ instance.manual_data.location }}. №{{ instance.number }}. {{ instance.manual_data.spot }}"
+                                        data-user="{{ instance.user.last_name }} {{ instance.user.first_name }}">
                                         <td class="ps-0 py-1 align-middle text-center data">{{ instance.manual_data.created_date|date:"m.d" }}</td>
                                         <td class="ps-0 py-1 align-middle text-center time">{{ instance.created_time|date:"H:i" }}</td>
                                         <td class="ps-0 py-1 align-middle pic">
-                                            <a class="d-block" href="#" data-bs-toggle="modal"
-                                               data-bs-target="#status">
+                                            <a class="d-block modalOpen" href="#" data-bs-toggle="modal"
+                                               data-bs-target="#statusModal">
                                                 {% if instance.img %}
                                                     <img src="{{ instance.img.url }}" alt="" width="53"/>
                                                 {% else %}
@@ -172,8 +183,8 @@
                                             </a>
                                         </td>
                                         <td class="ps-2 py-1 align-middle location">
-                                            <a class="fw-semibold" href="#" data-bs-toggle="modal"
-                                               data-bs-target="#status">
+                                            <a class="fw-semibold modalOpen" href="#" data-bs-toggle="modal"
+                                               data-bs-target="#statusModal">
                                                 {{ instance.manual_data.location }}
                                             </a>
                                         </td>
@@ -246,7 +257,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="status" tabindex="-1" aria-hidden="true">
+                <div class="modal fade" id="statusModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -255,11 +266,15 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <img class="rounded-2 w-100 h-100 object-fit-cover" id="statusImage"
+                                <img class="rounded-2 w-100 h-100 object-fit-cover modal-image" id="statusImage"
                                      src="{% static 'images/30.webp' %}" alt="">
-                                <p class="text-body-tertiary lh-lg mb-0 py-2">
-                                    <b>Локация:</b> Кровля. №1. Север<br/>
-                                    <b>Фотография от:</b> 09.11.2025, 10:00 <br/>
+                                <p class="text-body-tertiary lh-lg mb-0 pt-2 modal-location">
+                                    <b>Локация:</b> Кровля. №1. Север
+                                </p>
+                                <p class="text-body-tertiary lh-lg mb-0 modal-datetime">
+                                    <b>Фотография от:</b> 09.11.2025, 10:00
+                                </p>
+                                <p class="text-body-tertiary lh-lg mb-0 pb-2 modal-user">
                                     <b>Специалист:</b> Айтжанов Батырулан
                                 </p>
                             </div>
@@ -322,7 +337,6 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 <script src='{% static "js/choices.min.js" %}'></script>
 <script src='{% static "js/dropzone-min.js" %}'></script>
-<script src='{% static "js/flatpickr.min.js" %}'></script>
 <script src='{% static "js/tinymce.min.js" %}'></script>
 
 <script>
@@ -396,6 +410,62 @@
                                         <option value="Восток">Восток</option>`;
         }
     })
+
+
+    const exportToPdfButton = document.getElementById('exportToPdfButton');
+    const timepicker2 = document.getElementById('timepicker2');
+    exportToPdfButton.addEventListener('click', function () {
+        const params = new URLSearchParams(window.location.search);
+        const location = params.get('location');
+        const spot = params.get('spot');
+        if (!location || !spot) {
+            alert('Выберите локацию и место');
+            return;
+        }
+        if (!timepicker2.value || !timepicker2.value.includes("—")) {
+            alert("Выберите промежуток");
+            return;
+        }
+        console.log('date', timepicker2.value);
+    })
+
+
+    document.querySelectorAll('.modalOpen').forEach(
+        btn => btn.addEventListener('click', function () {
+            const row = btn.closest('tr');
+            let locationLine = row.dataset.location;
+            let imgUrl = row.dataset.image;
+            let user = row.dataset.user;
+            let dateTime = row.dataset.dateTime;
+
+            console.log("here");
+            const modal = document.getElementById('statusModal');
+            modal.querySelector('.modal-image').src = imgUrl;
+            modal.querySelector('.modal-location').innerHTML = `<b>Локация:</b> ${locationLine}`;
+            modal.querySelector('.modal-user').innerHTML = `<b>Специалист:</b> ${user}`;
+            modal.querySelector('.modal-datetime').innerHTML = `<b>Фотография от:</b> ${dateTime}`;
+        })
+    )
+
+    document.addEventListener('click', (e) => {
+        const modal = e.target.closest('.modalOpen');
+        if (modal) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let locationLine = row.dataset.location;
+            let imgUrl = row.dataset.image;
+            let user = row.dataset.user || '';
+            let dateTime = row.dataset.datetime;
+
+            console.log("here");
+            const modal = document.getElementById('statusModal');
+            modal.querySelector('.modal-image').src = imgUrl;
+            modal.querySelector('.modal-location').innerHTML = `<b>Локация:</b> ${locationLine}`;
+            modal.querySelector('.modal-user').innerHTML = `<b>Специалист:</b> ${user}`;
+            modal.querySelector('.modal-datetime').innerHTML = `<b>Фотография от:</b> ${dateTime}`;
+        }
+    });
 </script>
 
 </body>

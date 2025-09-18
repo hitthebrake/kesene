@@ -293,7 +293,7 @@
                                                                                for="perimeter_south_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none"
+                                                                        <input class="d-none image-input"
                                                                                id="perimeter_south_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
@@ -375,7 +375,7 @@
                                                                                for="perimeter_west_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none"
+                                                                        <input class="d-none image-input"
                                                                                id="perimeter_west_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
@@ -456,7 +456,7 @@
                                                                                for="perimeter_east_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none"
+                                                                        <input class="d-none image-input"
                                                                                id="perimeter_east_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
@@ -662,7 +662,7 @@
                                                                                for="roof_north_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none" id="roof_north_{{ n }}"
+                                                                        <input class="d-none image-input" id="roof_north_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -742,7 +742,7 @@
                                                                                for="roof_south_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none" id="roof_south_{{ n }}"
+                                                                        <input class="d-none image-input" id="roof_south_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -822,7 +822,7 @@
                                                                                for="roof_west_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none" id="roof_west_{{ n }}"
+                                                                        <input class="d-none image-input" id="roof_west_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -901,7 +901,7 @@
                                                                     {% if obj.img %}
                                                                         <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="roof_east_{{ n }}"
+                                                                        <input class="d-none image-input" id="roof_east_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -1298,8 +1298,15 @@
                     const inp = row.querySelector('.image-input');
                     const preview = row.querySelector('.image-input-preview');
                     if (label) label.style.display = 'block';
-                    if (inp) inp.disabled = false;
-                    if (preview) preview.style.display = 'none';
+                    if (inp) {
+                        inp.disabled = false;
+                        inp.value = '';
+                    }
+
+                    if (preview) {
+                        preview.style.display = 'none';
+                        preview.removeAttribute('src');
+                    }
 
                     if (n && n in data) {
                         if ('temperature' in data[n] && data[n]['temperature']) {
@@ -1346,13 +1353,13 @@
     }
 
     document.querySelectorAll('.image-input').forEach(
-        inp => inp.addEventListener('change', function (event) {
+        inp => inp.addEventListener('input', function (event) {
             const file = event.target.files[0];
             if (file) {
                 const url = URL.createObjectURL(file);
                 const div = inp.closest('div');
-                console.log(div);
                 div.querySelector('.image-input-preview').src = url;
+                div.querySelector('.image-input-preview').style.display = 'block';
             }
         })
     );
