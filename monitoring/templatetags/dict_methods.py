@@ -5,7 +5,7 @@ register = template.Library()
 @register.filter
 def get_item(dictionary, key):
     try:
-        return dictionary.get(key)
+        return dictionary.get(str(key))
     except:
         pass
     return {}

@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     <!-- ===============================================-->
     <!--    Document Title-->
@@ -158,8 +158,9 @@
                                         </tr>
                                         </thead>
                                     </table>
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Периметр">
                                         <input hidden name="spot" value="Север">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -172,7 +173,7 @@
                                                 </td>
                                             </tr>
                                             {% for n in numbers %}
-                                                {% with obj=perimeter|get_item:n %}
+                                                {% with obj=perimeter_north|get_item:n %}
                                                     <tr>
                                                         <td class="white-space-nowrap fs-9 align-middle ps-0 th1">
                                                             <div class="form-check mb-0 fs-8">
@@ -181,38 +182,41 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Север</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
-                                                                       placeholder="{{ obj.temperature }}">
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
+                                                                       value="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
-                                                                       placeholder="{{ obj.humidity }}">
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
+                                                                       value="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img class="w-50" src="{{ obj.img }}"
+                                                                             alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="perimeter_north_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none image-input"
+                                                                               id="perimeter_north_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -236,8 +240,9 @@
                                         </table>
                                     </form>
 
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Периметр">
                                         <input hidden name="spot" value="Юг">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -250,7 +255,7 @@
                                                 </td>
                                             </tr>
                                             {% for n in numbers %}
-                                                {% with obj=perimeter|get_item:n %}
+                                                {% with obj=perimeter_south|get_item:n %}
                                                     <tr>
                                                         <td class="white-space-nowrap fs-9 align-middle ps-0 th1">
                                                             <div class="form-check mb-0 fs-8">
@@ -259,38 +264,40 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Юг</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="perimeter_south_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none"
+                                                                               id="perimeter_south_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -314,8 +321,9 @@
                                         </table>
                                     </form>
 
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Периметр">
                                         <input hidden name="spot" value="Запад">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -328,7 +336,7 @@
                                                 </td>
                                             </tr>
                                             {% for n in numbers %}
-                                                {% with obj=perimeter|get_item:n %}
+                                                {% with obj=perimeter_west|get_item:n %}
                                                     <tr>
                                                         <td class="white-space-nowrap fs-9 align-middle ps-0 th1">
                                                             <div class="form-check mb-0 fs-8">
@@ -337,38 +345,41 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Запад</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="perimeter_west_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none"
+                                                                               id="perimeter_west_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -391,8 +402,10 @@
                                             </tbody>
                                         </table>
                                     </form>
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Периметр">
                                         <input hidden name="spot" value="Восток">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -405,7 +418,7 @@
                                                 </td>
                                             </tr>
                                             {% for n in numbers %}
-                                                {% with obj=perimeter|get_item:n %}
+                                                {% with obj=perimeter_east|get_item:n %}
                                                     <tr>
                                                         <td class="white-space-nowrap fs-9 align-middle ps-0 th1">
                                                             <div class="form-check mb-0 fs-8">
@@ -414,38 +427,40 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Восток</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="perimeter_east_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none"
+                                                                               id="perimeter_east_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -475,10 +490,10 @@
 
                         <div class="tab-pane fade my-3" id="tab-rooms" role="tabpanel" aria-labelledby="rooms-tab">
                             <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                {% csrf_token %}
                                 <div class="col-auto d-flex gap-2">
                                     <select class="form-select form-select-sm mb-1" data-list-filter="data-list-filter"
-                                            name="location">
+                                            name="location" id="locationSelect" required>
                                         <option selected disabled value="">Выберите место установки</option>
                                         <option value="Асхана">Асхана</option>
                                         <option value="Аксарай Большой">Аксарай Большой</option>
@@ -504,7 +519,8 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">СКОРОСТЬ ВЕТРА В ПОМЕЩЕНИИ</span>
                                         <span class="input-group-text">м/с</span>
-                                        <input class="form-control" type="text"
+                                        <input class="form-control decimal-input room-wind-input" type="text"
+                                               name="wind_speed_in_room"
                                                aria-label="Dollar amount (with dot and two decimal places)"/>
                                     </div>
                                     <table class="table table-sm border-top border-translucent fs-9 mb-0">
@@ -522,32 +538,35 @@
                                             <th class="sort align-middle">ФОТО</th>
                                         </tr>
                                         </thead>
-                                        <tbody class="list" id="bulk-select-body">
+                                        <tbody class="list room-table-tbody" id="bulk-select-body">
                                         {% for n in numbers %}
-                                            <tr>
-                                                <td class="fs-9 align-middle">
+                                            <tr data-number="{{ n }}">
+                                                <td class="fs-9 align-middle th1">
                                                     <div class="form-check mb-0 fs-8">
                                                         <input class="form-check-input" type="checkbox">
                                                     </div>
                                                 </td>
-                                                <td class="align-middle ps-3">№{{ n }}. Сечение</td>
-                                                <td class="align-middle">
-                                                    <input class="form-control" type="text"
-                                                           placeholder="...">
+                                                <td class="align-middle ps-3 th2">№{{ n }}. Сечение</td>
+                                                <td class="align-middle th3">
+                                                    <input class="form-control decimal-input temperature-input"
+                                                           type="text"
+                                                           name="t{{ n }}" placeholder="...">
                                                 </td>
-                                                <td class="align-middle age">
-                                                    <input class="form-control" type="text"
-                                                           placeholder="...">
+                                                <td class="align-middle age th4">
+                                                    <input class="form-control decimal-input humidity-input" type="text"
+                                                           name="h{{ n }}" placeholder="...">
                                                 </td>
-                                                <td class="align-middle age">
+                                                <td class="align-middle age th5">
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="d-flex">
-                                                            <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                   for="emailPhotos">
+                                                        <div class="d-flex image-div">
+                                                            <label class="btn btn-link py-0 px-2 text-body fs-9 image-label"
+                                                                   for="roomPhoto{{ n }}">
                                                                 <span data-feather="camera"></span>
                                                             </label>
-                                                            <input class="d-none" id="emailPhotos" type="file"
-                                                                   accept="image/*">
+                                                            <input class="d-none image-input" id="roomPhoto{{ n }}"
+                                                                   type="file"
+                                                                   name="img{{ n }}" accept="image/*">
+                                                            <img class="w-50 image-input-preview">
                                                         </div>
                                                     </div>
                                                 </td>
@@ -590,8 +609,9 @@
                                         </tr>
                                         </thead>
                                     </table>
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Кровля">
                                         <input hidden name="spot" value="Север">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -613,38 +633,39 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Север</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="roof_north_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none" id="roof_north_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -668,8 +689,9 @@
                                         </table>
                                     </form>
 
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Кровля">
                                         <input hidden name="spot" value="Юг">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -691,38 +713,39 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Юг</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="roof_south_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none" id="roof_south_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -746,8 +769,9 @@
                                         </table>
                                     </form>
 
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Кровля">
                                         <input hidden name="spot" value="Запад">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -769,38 +793,39 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Запад</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th5">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
-                                                                    <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
-                                                                        <span data-feather="camera"></span>
-                                                                    </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <label class="btn btn-link py-0 px-2 text-body fs-9"
+                                                                               for="roof_west_{{ n }}">
+                                                                            <span data-feather="camera"></span>
+                                                                        </label>
+                                                                        <input class="d-none" id="roof_west_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -823,8 +848,9 @@
                                             </tbody>
                                         </table>
                                     </form>
-                                    <form method="post" action="{% url 'monitoring:add-data' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
+                                    <form method="post" action="{% url 'monitoring:add-data' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <input hidden name="location" value="Кровля">
                                         <input hidden name="spot" value="Восток">
                                         <table class="table table-sm border-translucent fs-9 mb-0">
@@ -846,20 +872,22 @@
                                                         </td>
                                                         <td class="align-middle ps-3 th2">№{{ n }}. Восток</td>
                                                         <td class="align-middle th3">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.temperature %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.temperature }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="t{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle age th4">
-                                                            {% if obj %}
-                                                                <input class="form-control" type="text" disabled
+                                                            {% if obj.humidity %}
+                                                                <input class="form-control bg-gray-100" type="text"
+                                                                       readonly
                                                                        placeholder="{{ obj.humidity }}">
                                                             {% else %}
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control decimal-input" type="text"
                                                                        name="h{{ n }}" placeholder="...">
                                                             {% endif %}
                                                         </td>
@@ -867,17 +895,16 @@
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="d-flex">
                                                                     <label class="btn btn-link py-0 px-2 text-body fs-9"
-                                                                           for="emailPhotos">
+                                                                           for="roof_east_{{ n }}">
                                                                         <span data-feather="camera"></span>
                                                                     </label>
-                                                                    {% if obj.image %}
-                                                                        <input class="d-none" id="emailPhotos"
-                                                                               type="file" disabled
-                                                                               accept="image/*">
+                                                                    {% if obj.img %}
+                                                                        <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none" id="emailPhotos"
+                                                                        <input class="d-none" id="roof_east_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
+                                                                        <img class="w-50 image-input-preview">
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -1223,6 +1250,112 @@
 
     updateDateTime();
     setInterval(updateDateTime, 1000);
+
+
+    document.querySelectorAll('.decimal-input').forEach(input => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9.,]/g, '');
+
+            let dotCount = (this.value.match(/\./g) || []).length;
+            let commaCount = (this.value.match(/,/g) || []).length;
+
+            if (dotCount + commaCount > 1) {
+                // remove the last entered dot or comma
+                this.value = this.value.replace(/[.,]$/, "");
+            }
+
+            // Remove leading zeros (but keep "0." for decimals)
+            this.value = this.value.replace(/^0+(\d)/, "$1");
+        });
+    });
+
+
+    const locationSelect = document.getElementById('locationSelect');
+    locationSelect.addEventListener('change', function () {
+        const location = locationSelect.value;
+        const apiUrl = `/monitoring/get_draft_data/${location}`;
+        fetch(apiUrl, {
+            method: 'GET',
+        })
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok) {
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const windInput = document.querySelector('.room-wind-input');
+                setEmpty(windInput);
+                const tBody = document.querySelector('.room-table-tbody');
+                tBody.querySelectorAll('tr').forEach(function (row) {
+                    let n = row.dataset.number;
+                    setEmpty(row.querySelector('.temperature-input'));
+                    setEmpty(row.querySelector('.humidity-input'));
+                    const label = row.querySelector('.image-label');
+                    const inp = row.querySelector('.image-input');
+                    const preview = row.querySelector('.image-input-preview');
+                    if (label) label.style.display = 'block';
+                    if (inp) inp.disabled = false;
+                    if (preview) preview.style.display = 'none';
+
+                    if (n && n in data) {
+                        if ('temperature' in data[n] && data[n]['temperature']) {
+                            const t = row.querySelector('.temperature-input');
+                            t.value = data[n]['temperature'];
+                            t.classList.add('bg-gray-100');
+                            t.setAttribute('readonly', 'true');
+                        }
+                        if ('humidity' in data[n] && data[n]['humidity']) {
+                            const h = row.querySelector('.humidity-input');
+                            h.value = data[n]['humidity'];
+                            h.classList.add('bg-gray-100');
+                            h.setAttribute('readonly', 'true');
+                        }
+                        if ('img' in data[n] && data[n]['img']) {
+                            const i = row.querySelector('.image-input');
+                            row.querySelector('.image-input-preview').style.display = 'block';
+                            row.querySelector('.image-input-preview').src = data[n]['img'];
+                            row.querySelector('.image-label').style.display = 'none';
+                            i.disabled = true;
+                        }
+                    }
+                })
+
+                if (data['wind_speed']) {
+                    windInput.value = data['wind_speed'];
+                    windInput.classList.add('bg-gray-100');
+                    windInput.setAttribute('readonly', 'true');
+                }
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+    })
+
+
+    function setEmpty(elem) {
+        if (!elem) return;
+        elem.value = '';
+        elem.removeAttribute('readonly');
+        elem.removeAttribute('disabled');
+        elem.classList.remove('bg-gray-100');
+    }
+
+    document.querySelectorAll('.image-input').forEach(
+        inp => inp.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const div = inp.closest('div');
+                console.log(div);
+                div.querySelector('.image-input-preview').src = url;
+            }
+        })
+    );
 </script>
 </body>
 

@@ -1,9 +1,10 @@
 import json
 import pandas
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -61,29 +62,6 @@ def fire_signal(request):
     return redirect('monitoring:index')
 
 
-def format_date(date):
-    res = pandas.to_datetime(date).to_pydatetime()
-    return timezone.make_aware(res)
-
-
-def add_data_manually(request):
-    if request.method == 'POST':
-        date = format_date(request.POST.get('date'))
-        sensor_id = request.POST.get('sensor_id')
-        type_id = request.POST.get('type_id')
-        value = request.POST.get('value')
-        try:
-            instance = Measurement(date=date, sensor_id=sensor_id, type_id=type_id, value=value)
-            instance.save()
-            print('saved')
-            return redirect('monitoring:add-data-manually')
-        except Exception as e:
-            print(e)
-            messages.error(request, 'Ошибка при сохранении')
-
-    return render(request, 'monitoring/add_data_manually.html')
-
-
 @login_required(login_url='authorization:login')
 def settings_view(request):
     return render(request, 'monitoring/mysettings.html')
@@ -93,6 +71,23 @@ def export_to_excel(request):
     return ExportToExcel().export(request)
 
 
+def map_data(data):
+    result = {}
+    if data:
+        instances = InstanceManualData.objects.filter(manual_data=data)
+        for instance in instances:
+            result[instance.number] = {
+                'id': instance.id,
+                'temperature': instance.temperature,
+                'humidity': instance.humidity,
+                'img': instance.img.url if instance.img else None,
+            }
+
+        result['wind_speed'] = data.wind_speed_in_room
+    return result
+
+
+
 def add_data(request):
     latest_local_meteo = LatestData().get_latest_local_meteo_data()
     numbers = [n for n in range(1, 11)]
@@ -100,29 +95,52 @@ def add_data(request):
     if request.method == 'POST':
         location = request.POST.get('location')
         spot = request.POST.get('spot')
+        draft = ManualData.objects.filter(location=location, spot=spot, is_draft=True).first()
+        manual_data = ManualData(location=location, spot=spot)
+        existing_instances = []
+        if draft:
+            if draft.created_date != date.today():
+                draft.is_draft = False
+                draft.save()
+            else:
+                manual_data = draft
+                existing_instances = InstanceManualData.objects.filter(manual_data=manual_data)
+
         button_action = request.POST.get('button_action')
         wind_speed_in_room = request.POST.get('wind_speed_in_room')
 
-        if button_action == 'save':
-            manual_data = ManualData(
-                location=location,
-                spot=spot,
-                local_temperature=latest_local_meteo['temperature'],
-                wind_speed_in_room = wind_speed_in_room,
-                user=request.user,
-            )
-            manual_data.save()
+        manual_data.wind_speed_in_room = wind_speed_in_room.replace(',', '.') if wind_speed_in_room else None
+        manual_data.local_temperature = latest_local_meteo['temperature']
+        manual_data.user = request.user
 
-            instances_to_create = []
-            for i in range(1, 10):
-                temperature = request.POST.get(f't{i}') or None
-                humidity = request.POST.get(f'h{i}') or None
-                img = request.FILES.get(f'img{i}')
+        if button_action == 'draft':
+            manual_data.is_draft = True
+        else:
+            manual_data.is_draft = False
 
-                check = extra_functions.is_image(img)
-                if img and not isinstance(check, bool):
-                    messages.error(request, 'Неправильный формат или размер фото')
-                    return redirect('monitoring:add-data')
+        manual_data.save()
+        instances_to_create = []
+        instances_to_update = []
+
+        for i in range(1, 11):
+            temperature = request.POST.get(f't{i}').replace(',', '.') if request.POST.get(f't{i}') else None
+            humidity = request.POST.get(f'h{i}').replace(',', '.') if request.POST.get(f'h{i}') else None
+            img = request.FILES.get(f'img{i}')
+            check = extra_functions.is_image(img)
+            if img and not isinstance(check, bool):
+                messages.error(request, 'Неправильный формат или размер фото')
+                return redirect('monitoring:add-data')
+
+            if existing_instances and existing_instances.filter(number=str(i)).exists():
+                obj = existing_instances.filter(number=str(i)).first()
+                obj.temperature = temperature if not obj.temperature else obj.temperature
+                obj.humidity = humidity if not obj.humidity else obj.humidity
+                obj.img = img if not obj.img else obj.img
+                if img:
+                    obj.save()
+                else:
+                    instances_to_update.append(obj)
+            else:
                 instance = InstanceManualData(
                     temperature=temperature,
                     humidity=humidity,
@@ -130,10 +148,37 @@ def add_data(request):
                     number=str(i),
                     manual_data=manual_data,
                 )
-                instances_to_create.append(instance)
-            InstanceManualData.objects.bulk_create(instances_to_create)
-    return render(request, 'monitoring/add_data.html', {'latest_local_meteo': latest_local_meteo, 'numbers': numbers})
+                if img:
+                    instance.save()
+                else:
+                    instances_to_create.append(instance)
+        InstanceManualData.objects.bulk_create(instances_to_create)
+        InstanceManualData.objects.bulk_update(instances_to_update, ['temperature', 'humidity', 'img'])
+
+    drafts = ManualData.objects.filter(is_draft=True).prefetch_related('instance')
+    context = {
+        'perimeter_south': map_data(drafts.filter(location='Периметр', spot='Юг').first()),
+        'perimeter_north': map_data(drafts.filter(location='Периметр', spot='Север').first()),
+        'perimeter_west': map_data(drafts.filter(location='Периметр', spot='Запад').first()),
+        'perimeter_east': map_data(drafts.filter(location='Периметр', spot='Восток').first()),
+        'roof_south': map_data(drafts.filter(location='Кровля', spot='Юг').first()),
+        'roof_north': map_data(drafts.filter(location='Кровля', spot='Север').first()),
+        'roof_west': map_data(drafts.filter(location='Кровля', spot='Запад').first()),
+        'roof_east': map_data(drafts.filter(location='Кровля', spot='Восток').first()),
+        'latest_local_meteo': latest_local_meteo,
+        'numbers': numbers,
+    }
+    return render(request, 'monitoring/add_data.html', context)
 
 
 def data_list(request):
     return render(request, 'monitoring/data_list.html')
+
+
+def get_draft_data(request, location):
+    if not location:
+        return JsonResponse({'message': 'Локация не передана или не найдена'}, status=400)
+
+    drafts = ManualData.objects.filter(is_draft=True, location=location).prefetch_related('instance').first()
+
+    return JsonResponse(map_data(drafts))

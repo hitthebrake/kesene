@@ -42,7 +42,7 @@ class ManualData(models.Model):
 
 class InstanceManualData(models.Model):
     number = models.CharField(max_length=3, default='1')
-    manual_data = models.ForeignKey(ManualData, on_delete=models.CASCADE)
+    manual_data = models.ForeignKey(ManualData, on_delete=models.CASCADE, related_name='instance')
     temperature = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     humidity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     img = models.ImageField(upload_to='manual_data/', null=True, blank=True)
