@@ -10,8 +10,6 @@ from authorization.models import CustomUser, Department, Position, Organization
 
 
 # Create your views here.
-
-
 def can_create_user(user):
     return user.is_admin or user.is_superuser
 

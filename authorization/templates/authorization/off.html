@@ -74,7 +74,7 @@
         <div class="pb-5">
             <!--    Тут ставить коды основного контента страниц и элементов-->
             <div id="table"
-                 data-list='{"valueNames":["group", "name","surname","secondname","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
+                 data-list='{"valueNames":["group", "name","surname","patronym","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
                 <div class="row align-items-center justify-content-between g-3 mb-0">
                     <div class="col col-auto">
                         <div class="search-box mb-3 mx-auto">
@@ -107,7 +107,7 @@
                             </th>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Имя</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="surname">Фамилия</th>
-                            <th class="sort border-top" data-sort="secondname">Отчество</th>
+                            <th class="sort border-top" data-sort="patronym">Отчество</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="organization">Организация</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="department">Отдел</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="position">Должность</th>
@@ -119,13 +119,17 @@
                         </thead>
                         <tbody class="list">
                         {% for user_obj in users %}
-                            <tr>
+                            <tr data-created-at="{{ user_obj.created_at|date:'d.m.Y' }}"
+                                data-is-admin="{{ user_obj.is_admin }}"
+                                data-can-add-data="{{ user_obj.can_add_data }}"
+                                data-can-add-settings="{{ user_obj.can_add_settings }}"
+                                data-user-id="{{ user_obj.id }}">
                                 <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
                                 <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
-                                <td class="align-middle secondname">{{ user_obj.patronym }}</td>
-                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__organization__name }}</td>
-                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__name }}</td>
+                                <td class="align-middle patronym">{{ user_obj.patronym }}</td>
+                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.organization__name }}</td>
+                                <td class="align-middle department d-none d-lg-table-cell">{{ user_obj.department__name }}</td>
                                 <td class="align-middle position d-none d-lg-table-cell">{{ user_obj.position__name }}</td>
                                 <td class="align-middle phone">{{ user_obj.phone }}</td>
                                 <td class="align-middle mail d-none d-lg-table-cell">{{ user_obj.email }}</td>
@@ -136,7 +140,7 @@
                                                 aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                                             <span class="fas fa-ellipsis-h fs-10"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                            <a class="dropdown-item modal-view" href="#!" data-bs-toggle="modal"
                                                data-bs-target="#view">Просмотр</a>
                                             <a class="dropdown-item" href="{% url 'authorization:user_enable' user_obj.id %}">Подключить</a>
                                             <div class="dropdown-divider"></div>
@@ -181,64 +185,67 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
                             <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                    aria-label="Close">
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="card h-100 h-xxl-auto">
                                 <div class="card-body d-flex flex-column justify-content-between pb-3">
                                     <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
                                         <div class="col-12 col-sm-auto mb-sm-2">
-                                            <div class="avatar avatar-5xl"><img class="rounded-circle"
-                                                                                src='{% static "images/30.webp" %}' alt=""/>
+                                            <div class="avatar avatar-5xl">
+                                                <img class="rounded-circle modal-avatar"
+                                                     src='{% static "images/30.webp" %}' alt=""/>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-auto flex-1">
-                                            <h3>Айтжанов Батырулан Толепбергенович</h3>
-                                            <p class="text-body-secondary">Администратор системы</p>
-                                            <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
+                                            <h3 class="modal-full-name">Айтжанов Батырулан Толепбергенович</h3>
+                                            <p class="text-body-secondary modal-position">Администратор системы</p>
+                                            <p class="text-body-secondary modal-date">Добавлен 21 мая 2025 года</p>
+
                                         </div>
                                     </div>
                                     <div class="d-flex flex-between-center border-top border-dashed pt-4">
-
                                         <div class="card-body">
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-envelope-alt">  </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-envelope-alt"></span>
                                                     <h5 class="text-body-highlight mb-0">Email</h5>
                                                 </div>
-                                                <a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
+                                                <a class="modal-mail">ansolo5@jeemail.com</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-phone"> </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-phone"></span>
                                                     <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
                                                 </div>
-                                                <a href="tel:+77012501199">+7 701 250-11-99 </a>
+                                                <a class="modal-phone">+7 701 250-11-99</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-building"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-building"></span>
                                                     <h5 class="text-body-highlight mb-0">Организация</h5>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Головной офис РГП
-                                                    "КазРеставрация"</p>
+                                                <p class="mb-0 text-body-secondary modal-organization">
+                                                    Головной офис РГП "КазРеставрация"
+                                                </p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-postcard"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-postcard"></span>
                                                     <h5 class="text-body-highlight mb-0">Отдел</h5>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Информационный отдел</p>
+                                                <p class="mb-0 text-body-secondary modal-department">Информационный
+                                                    отдел</p>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">
+                                Закрыть
                             </button>
                         </div>
                     </div>
@@ -279,6 +286,40 @@
     } else {
         console.log('not found');
     }
+    
+    document.addEventListener('click', (e) => {
+        const modal = e.target.closest('.modal-view');
+        if (modal) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let name = row.querySelector('.name').innerText;
+            let surname = row.querySelector('.surname').innerText;
+            let patronym = row.querySelector('.patronym').innerText;
+            let organization = row.querySelector('.organization').innerText;
+            let department = row.querySelector('.department').innerText;
+            let position = row.querySelector('.position').innerText;
+            let phone = row.querySelector('.phone').innerText;
+            let mail = row.querySelector('.mail').innerText;
+            let avatar = row.dataset.avatarUrl;
+            let createdAt = row.dataset.createdAt;
+
+            const modal = document.getElementById('view');
+
+            if (avatar) modal.querySelector('.modal-avatar').src = avatar;
+            else modal.querySelector('.modal-avatar').src = '{% static "images/30.webp" %}';
+
+            modal.querySelector('.modal-full-name').innerText = `${surname} ${name} ${patronym}` || "";
+            modal.querySelector('.modal-position').innerText = `${position}`;
+            modal.querySelector('.modal-phone').innerText = `${phone}`;
+            modal.querySelector('.modal-mail').innerText = `${mail}`;
+            modal.querySelector('.modal-organization').innerText = `${organization}`;
+            modal.querySelector('.modal-department').innerText = `${department}`;
+
+            if (createdAt) modal.querySelector('.modal-date').innerText = `Добавлен ${createdAt}`;
+            else modal.querySelector('.modal-date').innerText = `Добавлен неизвестно`;
+        }
+    });
 </script>
 </body>
 
