@@ -9,7 +9,6 @@ class CustomUser(AbstractUser):
 
     #permissions
     can_add_data = models.BooleanField(default=False)
-    can_create_user = models.BooleanField(default=False)
     can_add_threshold = models.BooleanField(default=False)
 
     is_deleted = models.BooleanField(default=False)
@@ -22,6 +21,9 @@ class CustomUser(AbstractUser):
     department = models.ForeignKey(
         "Department", on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.username:

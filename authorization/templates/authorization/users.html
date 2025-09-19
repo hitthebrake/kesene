@@ -74,7 +74,7 @@
         <div class="pb-5">
             <!--    Тут ставить коды основного контента страниц и элементов-->
             <div id="table"
-                 data-list='{"valueNames":["group", "name","surname","secondname","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
+                 data-list='{"valueNames":["group", "name","surname","patronym","organization","department","position","phone","email"],"page":15,"pagination":true,"filter":{"key":"group"}}'>
                 <div class="row align-items-center justify-content-between g-3 mb-0">
                     <div class="col col-auto">
                         <div class="search-box mb-3 mx-auto">
@@ -107,7 +107,7 @@
                             </th>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Имя</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="surname">Фамилия</th>
-                            <th class="sort border-top" data-sort="secondname">Отчество</th>
+                            <th class="sort border-top" data-sort="patronym">Отчество</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="organization">Организация</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="department">Отдел</th>
                             <th class="sort border-top d-none d-lg-table-cell" data-sort="position">Должность</th>
@@ -119,16 +119,28 @@
                         </thead>
                         <tbody class="list">
                         {% for user_obj in users %}
-                            <tr>
+                            <tr data-created-at="{{ user_obj.created_at|date:'d.m.Y' }}">
                                 <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
                                 <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
-                                <td class="align-middle secondname">{{ user_obj.patronym }}</td>
-                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__organization__name }}</td>
-                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.department__name }}</td>
-                                <td class="align-middle position d-none d-lg-table-cell">{{ user_obj.position__name }}</td>
-                                <td class="align-middle phone">{{ user_obj.phone }}</td>
-                                <td class="align-middle mail d-none d-lg-table-cell">{{ user_obj.email }}</td>
+                                <td class="align-middle patronym">{{ user_obj.patronym }}</td>
+                                <td class="align-middle organization d-none d-lg-table-cell">
+                                    {% if user_obj.department__organization__name %}
+                                        {{ user_obj.department__organization__name }}
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle department d-none d-lg-table-cell">
+                                    {% if user_obj.department__name %}{{ user_obj.department__name }}{% endif %}
+                                </td>
+                                <td class="align-middle position d-none d-lg-table-cell">
+                                    {% if user_obj.position__name %}{{ user_obj.position__name }}{% endif %}
+                                </td>
+                                <td class="align-middle phone">
+                                    {% if user_obj.phone %}{{ user_obj.phone }}{% endif %}
+                                </td>
+                                <td class="align-middle mail d-none d-lg-table-cell">
+                                    {% if user_obj.email %}{{ user_obj.email }}{% endif %}
+                                </td>
                                 <td class="align-middle white-space-nowrap text-end pe-0">
                                     <div class="btn-reveal-trigger position-static">
                                         <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
@@ -136,9 +148,9 @@
                                                 aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
                                             <span class="fas fa-ellipsis-h fs-10"></span></button>
                                         <div class="dropdown-menu dropdown-menu-end py-2">
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                            <a class="dropdown-item modal-view" href="#!" data-bs-toggle="modal"
                                                data-bs-target="#view">Просмотр</a>
-                                            <a class="dropdown-item" href="#!" data-bs-toggle="modal"
+                                            <a class="dropdown-item modal-edit" href="#!" data-bs-toggle="modal"
                                                data-bs-target="#edit">Редактировать</a>
                                             <a class="dropdown-item" href="{% url 'authorization:user_disable' user_obj.id %}">Отключить</a>
                                             <div class="dropdown-divider"></div>
@@ -184,66 +196,65 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
                             <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                    aria-label="Close">
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="card h-100 h-xxl-auto">
                                 <div class="card-body d-flex flex-column justify-content-between pb-3">
                                     <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
                                         <div class="col-12 col-sm-auto mb-sm-2">
-                                            <div class="avatar avatar-5xl"><img class="rounded-circle"
-                                                                                src='{% static "images/30.webp" %}'
-                                                                                alt=""/>
+                                            <div class="avatar avatar-5xl">
+                                                <img class="rounded-circle modal-avatar" src='{% static "images/30.webp" %}' alt=""/>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-auto flex-1">
-                                            <h3>Айтжанов Батырулан Толепбергенович</h3>
-                                            <p class="text-body-secondary">Администратор системы</p>
-                                            <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
+                                            <h3 class="modal-full-name">Айтжанов Батырулан Толепбергенович</h3>
+                                            <p class="text-body-secondary modal-position">Администратор системы</p>
+                                            <p class="text-body-secondary modal-date">Добавлен 21 мая 2025 года</p>
 
                                         </div>
                                     </div>
                                     <div class="d-flex flex-between-center border-top border-dashed pt-4">
-
                                         <div class="card-body">
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-envelope-alt">  </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-envelope-alt"></span>
                                                     <h5 class="text-body-highlight mb-0">Email</h5>
                                                 </div>
-                                                <a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
+                                                <a class="modal-mail">ansolo5@jeemail.com</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-phone"> </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-phone"></span>
                                                     <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
                                                 </div>
-                                                <a href="tel:+77012501199">+7 701 250-11-99 </a>
+                                                <a class="modal-phone">+7 701 250-11-99</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-building"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-building"></span>
                                                     <h5 class="text-body-highlight mb-0">Организация</h5>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Головной офис РГП
-                                                    "КазРеставрация"</p>
+                                                <p class="mb-0 text-body-secondary modal-organization">
+                                                    Головной офис РГП "КазРеставрация"
+                                                </p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-postcard"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-postcard"></span>
                                                     <h5 class="text-body-highlight mb-0">Отдел</h5>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Информационный отдел</p>
+                                                <p class="mb-0 text-body-secondary modal-department">Информационный отдел</p>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">
+                                Закрыть
                             </button>
                         </div>
                     </div>
@@ -256,7 +267,8 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
                             <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                    aria-label="Close">
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="card h-100 h-xxl-auto">
@@ -266,171 +278,171 @@
 
                                             <input class="d-none" id="avatarFile" type="file">
                                             <label class="cursor-pointer avatar avatar-5xl" for="avatarFile">
-                                                <img class="rounded-circle" src='{% static "images/30.webp" %}'
-                                                     alt=""></label>
+                                                <img class="rounded-circle modal-avatar" src='{% static "images/30.webp" %}' alt="">
+                                            </label>
 
                                         </div>
                                         <div class="col-12 col-sm-auto flex-1">
-                                            <h3>Айтжанов Батырулан Толепбергенович</h3>
-                                            <p class="text-body-secondary">Администратор системы</p>
-                                            <p class="text-body-secondary">Добавлен 21 мая 2025 года</p>
+                                            <h3 class="modal-full-name">Айтжанов Батырулан Толепбергенович</h3>
+                                            <p class="text-body-secondary modal-position">Администратор системы</p>
+                                            <p class="text-body-secondary modal-date">Добавлен 21 мая 2025 года</p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-between-center border-top border-dashed pt-4">
 
                                         <div class="card-body">
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 far fa-id-badge"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 far fa-id-badge"></span>
                                                     <h5 class="text-body-highlight mb-0">Фамилия</h5>
-                                                    <button class="btn btn-link p-0"><span
-                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    <button class="btn btn-link p-0">
+                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
                                                     </button>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Айтжанов</p>
+                                                <p class="mb-0 text-body-secondary modal-surname">Айтжанов</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 far fa-id-badge "></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 far fa-id-badge "></span>
                                                     <h5 class="text-body-highlight mb-0">Имя</h5>
-                                                    <button class="btn btn-link p-0"><span
-                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    <button class="btn btn-link p-0">
+                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
                                                     </button>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Батырулан</p>
+                                                <p class="mb-0 text-body-secondary modal-name">Батырулан</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil far fa-id-badge"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil far fa-id-badge"></span>
                                                     <h5 class="text-body-highlight mb-0">Отчество</h5>
-                                                    <button class="btn btn-link p-0"><span
-                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    <button class="btn btn-link p-0">
+                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
                                                     </button>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary">Толепбергенович</p>
+                                                <p class="mb-0 text-body-secondary modal-patronym">Толепбергенович</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-envelope-alt">  </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-envelope-alt"></span>
                                                     <h5 class="text-body-highlight mb-0">Email</h5>
-                                                    <button class="btn btn-link p-0"><span
-                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    <button class="btn btn-link p-0">
+                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
                                                     </button>
                                                 </div>
-                                                <a href="mailto:shatinon@jeemail.com:">ansolo5@jeemail.com</a>
+                                                <a class="modal-mail">ansolo5@jeemail.com</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-phone"> </span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-phone"></span>
                                                     <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
-                                                    <button class="btn btn-link p-0"><span
-                                                            class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
+                                                    <button class="btn btn-link p-0">
+                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
                                                     </button>
                                                 </div>
-                                                <a href="tel:+77012501199">+7 701 250-11-99 </a>
+                                                <a class="modal-phone">+7 701 250-11-99</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-building"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-building"></span>
                                                     <h5 class="text-body-highlight mb-0">Организация</h5>
                                                 </div>
                                                 <div class="form-floating">
-                                                    <select class="form-select" id="floatingSelectIndustry">
-                                                        <option selected="selected">Головной офис РГП "КазРеставрация"
+                                                    <select class="form-select modal-organization-select" id="organizationSelect">
+                                                        <option selected>Выберите организацию
                                                         </option>
-                                                        <option value="1">Головной офис РГП "КазРеставрация"</option>
-                                                        <option value="2">Головной офис РГП "КазРеставрация"</option>
-                                                        <option value="3">Головной офис РГП "КазРеставрация"</option>
+                                                        {% for organization in organizations %}
+                                                            <option value="{{ organization.name }}">
+                                                                {{ organization.name }}
+                                                            </option>
+                                                        {% endfor %}
                                                     </select>
-                                                    <label for="floatingSelectIndustry">Организация</label>
+                                                    <label for="organizationSelect">Организация</label>
                                                 </div>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil uil-postcard"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil uil-postcard"></span>
                                                     <h5 class="text-body-highlight mb-0">Отдел</h5>
                                                 </div>
                                                 <div class="form-floating">
-                                                    <select class="form-select" id="floatingSelectDepartment">
-                                                        <option selected="selected">Информационный отдел</option>
-                                                        <option value="1">Информационный отдел</option>
-                                                        <option value="2">Информационный отдел</option>
-                                                        <option value="3">Информационный отдел</option>
+                                                    <select class="form-select modal-department-select" id="departmentSelect">
+                                                        <option selected>Выберите отдел</option>
                                                     </select>
-                                                    <label for="floatingSelectStatus">Отдел </label>
+                                                    <label for="departmentSelect">Отдел</label>
                                                 </div>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1"><span
-                                                        class="me-2 uil fas fa-chess-queen"></span>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <span class="me-2 uil fas fa-chess-queen"></span>
                                                     <h5 class="text-body-highlight mb-0">Должность</h5>
                                                 </div>
                                                 <div class="form-floating">
-                                                    <select class="form-select" id="floatingSelectLeadStaff">
-                                                        <option selected="selected">Менеджер проекта</option>
-                                                        <option value="1">Менеджер проекта</option>
-                                                        <option value="2">Инженер ТВР</option>
-                                                        <option value="3">Директор</option>
+                                                    <select class="form-select modal-position-select" id="positionSelect">
+                                                        <option selected>Выберите должность</option>
                                                     </select>
-                                                    <label for="floatingSelectLeadSource">Должность</label>
+                                                    <label for="positionSelect">Должность</label>
                                                 </div>
                                             </div>
 
                                             <h4 class="mt-3">Разрешения</h4>
                                             <div class="col-sm-12 mt-3">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" id="flexCheckChecked"
+                                                    <input class="form-check-input modal-is-admin" id="flexCheckChecked"
                                                            type="checkbox" value="" checked=""/>
                                                     <label class="form-check-label"
                                                            for="flexCheckChecked">Администратор</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
-                                                           value="option2"/>
-                                                    <label class="form-check-label"
-                                                           for="inlineCheckbox2">Просмотр</label>
+                                                    <input class="form-check-input modal-can-view"
+                                                           id="inlineCheckbox2" type="checkbox" value="option2"/>
+                                                    <label class="form-check-label" for="inlineCheckbox2">
+                                                        Просмотр
+                                                    </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" id="inlineCheckbox3" type="checkbox"
-                                                           value="option3"/>
-                                                    <label class="form-check-label" for="inlineCheckbox3">Добавить
-                                                        пользователей</label>
+                                                    <input class="form-check-input modal-can-add-user"
+                                                           id="inlineCheckbox3" type="checkbox" value="option3"/>
+                                                    <label class="form-check-label" for="inlineCheckbox3">
+                                                        Добавить пользователей
+                                                    </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" id="inlineCheckbox4" type="checkbox"
-                                                           value="option4"/>
-                                                    <label class="form-check-label" for="inlineCheckbox4">Настройка
-                                                        датчиков</label>
+                                                    <input class="form-check-input modal-can-add-settings"
+                                                           id="inlineCheckbox4" type="checkbox" value="option4"/>
+                                                    <label class="form-check-label" for="inlineCheckbox4">
+                                                        Настройка датчиков
+                                                    </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" id="inlineCheckbox4" type="checkbox"
-                                                           value="option4"/>
-                                                    <label class="form-check-label" for="inlineCheckbox4">Ручной
-                                                        ввод</label>
+                                                    <input class="form-check-input modal-can-add-data"
+                                                           id="inlineCheckbox4" type="checkbox" value="option4"/>
+                                                    <label class="form-check-label" for="inlineCheckbox4">
+                                                        Ручной ввод
+                                                    </label>
                                                 </div>
                                             </div>
                                             <h4 class="mt-3">Пароль</h4>
                                             <div class="col-sm-12 mt-3">
-                                                <div class="form-floating"><input class="form-control" type="text"
-                                                                                  placeholder="Введите номер телефона"><label>Введите
-                                                    новый пароль</label></div>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-password" type="text">
+                                                    <label>Введите новый пароль</label>
+                                                </div>
                                             </div>
                                             <div class="col-sm-12 mt-3">
-                                                <div class="form-floating"><input class="form-control" type="text"
-                                                                                  placeholder="Введите E-mail"><label>Повторите
-                                                    новый пароль</label></div>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-repeat-password" type="text">
+                                                    <label>Повторите новый пароль</label>
+                                                </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-success me-1 mb-1" type="button">Сохранить</button>
-                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
+                            <button class="btn btn-success me-1 mb-1" type="button" data-bs-dismiss="modal">Сохранить</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">
+                                Закрыть
                             </button>
                         </div>
                     </div>
@@ -468,6 +480,84 @@
     if (div) {
         div.classList.add("active");
     }
+
+    document.addEventListener('click', (e) => {
+        const modal = e.target.closest('.modal-view');
+        if (modal) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let name = row.querySelector('.name').innerText;
+            let surname = row.querySelector('.surname').innerText;
+            let patronym = row.querySelector('.patronym').innerText;
+            let organization = row.querySelector('.organization').innerText;
+            let department = row.querySelector('.department').innerText;
+            let position = row.querySelector('.position').innerText;
+            let phone = row.querySelector('.phone').innerText;
+            let mail = row.querySelector('.mail').innerText;
+            let avatar = row.dataset.avatarUrl;
+            let createdAt = row.dataset.createdAt;
+
+            const modal = document.getElementById('view');
+
+            if (avatar) modal.querySelector('.modal-avatar').src = avatar;
+            else modal.querySelector('.modal-avatar').src = '{% static "images/30.webp" %}';
+
+            modal.querySelector('.modal-full-name').innerText = `${surname} ${name} ${patronym}` || "";
+            modal.querySelector('.modal-position').innerText = `${position}`;
+            modal.querySelector('.modal-phone').innerText = `${phone}`;
+            modal.querySelector('.modal-mail').innerText = `${mail}`;
+            modal.querySelector('.modal-organization').innerText = `${organization}`;
+            modal.querySelector('.modal-department').innerText = `${department}`;
+
+            if (createdAt) modal.querySelector('.modal-date').innerText = `Добавлен ${createdAt}`;
+            else modal.querySelector('.modal-date').innerText = `Добавлен неизвестно`
+        }
+    });
+
+
+    document.addEventListener('click', (e) => {
+        const modal = e.target.closest('.modal-edit');
+        if (modal) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let name = row.querySelector('.name').innerText;
+            let surname = row.querySelector('.surname').innerText;
+            let patronym = row.querySelector('.patronym').innerText;
+            let organization = row.querySelector('.organization').innerText;
+            let department = row.querySelector('.department').innerText;
+            let position = row.querySelector('.position').innerText;
+            let phone = row.querySelector('.phone').innerText;
+            let mail = row.querySelector('.mail').innerText;
+            let avatar = row.dataset.avatarUrl;
+            let createdAt = row.dataset.createdAt;
+
+            const modal = document.getElementById('edit');
+
+            if (avatar) modal.querySelector('.modal-avatar').src = avatar;
+            else modal.querySelector('.modal-avatar').src = '{% static "images/30.webp" %}';
+
+            modal.querySelector('.modal-full-name').innerText = `${surname} ${name} ${patronym}` || "";
+            modal.querySelector('.modal-position').innerText = `${position}`;
+            modal.querySelector('.modal-name').innerText = `${name}`;
+            modal.querySelector('.modal-surname').innerText = `${surname}`;
+            modal.querySelector('.modal-patronym').innerText = `${patronym}`;
+            modal.querySelector('.modal-phone').innerText = `${phone}`;
+            modal.querySelector('.modal-mail').innerText = `${mail}`;
+            const organizationSelect = modal.querySelector('.modal-organization-select');
+            for (const option of organizationSelect.options) {
+                if (option.value === organization) {
+                    option.selected = true;
+                }
+            }
+            const departmentSelect = modal.querySelector('.modal-department-select');
+            const positionSelect = modal.querySelector('.modal-position-select');
+
+            if (createdAt) modal.querySelector('.modal-date').innerText = `Добавлен ${createdAt}`;
+            else modal.querySelector('.modal-date').innerText = `Добавлен неизвестно`
+        }
+    });
 </script>
 </body>
 

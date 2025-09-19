@@ -153,7 +153,6 @@ def add_user(request):
                 first_name=first_name,
                 last_name=last_name,
                 can_add_data='manual_input' in permissions,
-                can_create_user='add_user' in permissions,
                 can_add_threshold='threshold' in permissions,
                 is_admin='admin' in permissions,
                 position_id=position_id,
@@ -188,9 +187,10 @@ def off_users_view(request):
 def users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_active=True, is_deleted=False) \
         .values('department__name', 'position__name', 'department__organization__name',
-                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id'
+                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id', 'created_at'
                 )
-    return render(request, 'authorization/users.html', {'users': users})
+    organizations = Organization.objects.all().values('name', 'id')
+    return render(request, 'authorization/users.html', {'users': users, 'organizations': organizations})
 
 
 def user_delete(request, user_id):
