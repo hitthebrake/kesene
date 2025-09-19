@@ -13,7 +13,7 @@ from authorization.models import CustomUser, Department, Position, Organization
 
 
 def can_create_user(user):
-    return user.can_create_user or user.is_superuser
+    return user.is_admin or user.is_superuser
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -36,39 +36,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'authorization/sign-out.html')
-
-
-@user_passes_test(can_create_user, login_url='authorization:login')
-def signup(request):
-    if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-
-
-        if password1 != password2:
-            messages.error(request, "Пароли не совпадают*")
-        elif CustomUser.objects.filter(email=email).exists():
-            messages.error(request, "Электронная почта уже используется*")
-        else:
-            user = CustomUser.objects.create_user(
-                username=email,
-                email=email,
-                password=password1,
-                phone=phone,
-                first_name=first_name,
-                last_name=last_name,
-                can_add_data='add_data' in request.POST,
-                can_create_user='create_user' in request.POST,
-                can_add_threshold='add_threshold' in request.POST
-            )
-            messages.success(request, 'Пользователь успешно создан')
-
-    users = CustomUser.objects.values('first_name', 'last_name', 'email', 'phone', 'can_add_data', 'can_add_threshold', 'can_create_user')
-    return render(request, 'authorization/signup.html', {'users': users})
 
 
 def forgot_password(request):
@@ -131,6 +98,7 @@ def add_user(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         patronym = request.POST.get('patronym')
+        organization_id = request.POST.get('organization_id')
         department_id = request.POST.get('organization_department')
         position_id = request.POST.get('organization_position')
         phone_number = request.POST.get('phone_number')
@@ -153,10 +121,11 @@ def add_user(request):
                 first_name=first_name,
                 last_name=last_name,
                 can_add_data='manual_input' in permissions,
-                can_add_threshold='threshold' in permissions,
+                can_add_settings='settings' in permissions,
                 is_admin='admin' in permissions,
                 position_id=position_id,
                 department_id=department_id,
+                organization_id=organization_id,
             )
             messages.success(request, 'Пользователь успешно создан')
             return redirect('authorization:add_user')
@@ -185,13 +154,60 @@ def off_users_view(request):
 
 @login_required(login_url='authorization:login')
 def users_view(request):
-    users = CustomUser.objects.select_related('department', 'position').filter(is_active=True, is_deleted=False) \
+    users = CustomUser.objects.select_related('department', 'position', 'organization').filter(is_active=True, is_deleted=False) \
         .values('department__name', 'position__name', 'organization__name',
                 'first_name', 'last_name', 'phone', 'email', 'patronym', 'id', 'created_at',
                 'is_admin', 'can_add_data', 'can_add_settings'
                 )
     organizations = Organization.objects.all().values('name', 'id')
     return render(request, 'authorization/users.html', {'users': users, 'organizations': organizations})
+
+
+def edit_user(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        patronym = request.POST.get('patronym')
+        organization_id = request.POST.get('organization_id')
+        department_id = request.POST.get('department_id')
+        position_id = request.POST.get('position_id')
+        phone_number = request.POST.get('phone')
+        email = request.POST.get('email')
+        permissions = request.POST.getlist('permissions')
+        password = request.POST.get('password')
+        password2 = request.POST.get('repeat_password')
+        user_id = int(request.POST.get('user_id'))
+
+        try:
+            user = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            messages.error(request, "Пользователь не найден*")
+            return redirect('authorization:users')
+
+        if password and (not password2 or password != password2):
+            messages.error(request, "Пароли не совпадают или пустой пароль*")
+        elif email != user.email and CustomUser.objects.filter(email=email).exists():
+            messages.error(request, "Пользователь с такой почтой уже существует*")
+        else:
+            user = CustomUser.objects.filter(id=user_id).first()
+            user.username = email
+            user.email = email
+            user.patronym = patronym
+            user.organization_id = organization_id
+            user.department_id = department_id
+            user.position_id = position_id
+            user.phone = phone_number
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.is_admin = 'admin' in permissions
+            user.can_add_data = 'manual_data' in permissions
+            user.can_add_settings = 'settings' in permissions
+            if password and password2 == password:
+                user.set_password(password)
+            user.save()
+            messages.success(request, 'Пользователь успешно сохранен')
+    return redirect('authorization:users')
 
 
 def user_delete(request, user_id):

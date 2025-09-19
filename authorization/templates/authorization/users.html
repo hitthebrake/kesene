@@ -40,6 +40,8 @@
     <link href='{% static "css/theme.min.css" %}' type="text/css" rel="stylesheet" id="style-default">
     <link href='{% static "css/user-rtl.min.css" %}' type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href='{% static "css/user.min.css" %}' type="text/css" rel="stylesheet" id="user-style-default">
+    <link href='{% static "css/general.css" %}' rel="stylesheet">
+
     <script>
         let phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -71,6 +73,13 @@
     {% include 'core/navbar.html' %}
     <div class="content">
         <h3 class="text-bold text-body-emphasis mb-5">Пользователи</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mt-2 pt-2" style="width: 20%;">
+                    <p {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
         <div class="pb-5">
             <!--    Тут ставить коды основного контента страниц и элементов-->
             <div id="table"
@@ -120,16 +129,17 @@
                         <tbody class="list">
                         {% for user_obj in users %}
                             <tr data-created-at="{{ user_obj.created_at|date:'d.m.Y' }}"
-                            data-is-admin="{{ user_obj.is_admin }}"
-                            data-can-add-data="{{ user_obj.can_add_data }}"
-                            data-can-add-settings="{{ user_obj.can_add_settings }}">
+                                data-is-admin="{{ user_obj.is_admin }}"
+                                data-can-add-data="{{ user_obj.can_add_data }}"
+                                data-can-add-settings="{{ user_obj.can_add_settings }}"
+                                data-user-id="{{ user_obj.id }}">
                                 <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
                                 <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
                                 <td class="align-middle patronym">{{ user_obj.patronym }}</td>
                                 <td class="align-middle organization d-none d-lg-table-cell">
-                                    {% if user_obj.department__organization__name %}
-                                        {{ user_obj.department__organization__name }}{% endif %}
+                                    {% if user_obj.organization__name %}
+                                        {{ user_obj.organization__name }}{% endif %}
                                 </td>
                                 <td class="align-middle department d-none d-lg-table-cell">
                                     {% if user_obj.department__name %}{{ user_obj.department__name }}{% endif %}
@@ -269,7 +279,10 @@
             <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="scrollingLongModalLabel2"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable">
-                    <form class="modal-content">
+                    <form class="modal-content" enctype="multipart/form-data"
+                          action="{% url 'authorization:edit_user' %}" method="post">
+                        {% csrf_token %}
+                        <input hidden name="user_id" class="modal-user-id">
                         <div class="modal-header">
                             <h5 class="modal-title" id="scrollingLongModalLabel2">Анкета пользователя</h5>
                             <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal"
@@ -299,54 +312,44 @@
 
                                         <div class="card-body">
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="me-2 far fa-id-badge"></span>
-                                                    <h5 class="text-body-highlight mb-0">Фамилия</h5>
-                                                    <button class="btn btn-link p-0" type="button">
-                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
-                                                    </button>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-surname" name="last_name" required>
+                                                    <label>
+                                                        <span class="me-2 far fa-id-badge"></span>Фамилия
+                                                    </label>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary modal-surname">Айтжанов</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="me-2 far fa-id-badge "></span>
-                                                    <h5 class="text-body-highlight mb-0">Имя</h5>
-                                                    <button class="btn btn-link p-0" type="button">
-                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
-                                                    </button>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-name" name="first_name" required>
+                                                    <label>
+                                                        <span class="me-2 far fa-id-badge"></span>Имя
+                                                    </label>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary modal-name">Батырулан</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="me-2 uil far fa-id-badge"></span>
-                                                    <h5 class="text-body-highlight mb-0">Отчество</h5>
-                                                    <button class="btn btn-link p-0" type="button">
-                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
-                                                    </button>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-patronym" name="patronym" required>
+                                                    <label>
+                                                        <span class="me-2 uil far fa-id-badge"></span>Отчество
+                                                    </label>
                                                 </div>
-                                                <p class="mb-0 text-body-secondary modal-patronym">Толепбергенович</p>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="me-2 uil uil-envelope-alt"></span>
-                                                    <h5 class="text-body-highlight mb-0">Email</h5>
-                                                    <button class="btn btn-link p-0" type="button">
-                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
-                                                    </button>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-mail" name="email" required>
+                                                    <label>
+                                                        <span class="me-1 uil uil-envelope-alt"></span>Email
+                                                    </label>
                                                 </div>
-                                                <a class="modal-mail">ansolo5@jeemail.com</a>
                                             </div>
                                             <div class="mb-2">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="me-2 uil uil-phone"></span>
-                                                    <h5 class="text-body-highlight mb-0">Сотовый номер</h5>
-                                                    <button class="btn btn-link p-0" type="button">
-                                                        <span class="fas fa-pen fs-8 ms-3 text-body-quaternary"></span>
-                                                    </button>
+                                                <div class="form-floating">
+                                                    <input class="form-control modal-phone" name="phone" required>
+                                                    <label>
+                                                        <span class="me-1 uil uil-phone"></span>Сотовый Номер
+                                                    </label>
                                                 </div>
-                                                <a class="modal-phone">+7 701 250-11-99</a>
                                             </div>
                                             <div class="mb-2">
                                                 <div class="d-flex align-items-center mb-1">
@@ -355,8 +358,8 @@
                                                 </div>
                                                 <div class="form-floating">
                                                     <select class="form-select modal-organization-select"
-                                                            id="organizationSelect">
-                                                        <option selected disabled>Выберите организацию</option>
+                                                            id="organizationSelect" name="organization_id" required>
+                                                        <option selected disabled value="">Выберите организацию</option>
                                                         {% for organization in organizations %}
                                                             <option value="{{ organization.id }}">{{ organization.name }}</option>
                                                         {% endfor %}
@@ -371,8 +374,8 @@
                                                 </div>
                                                 <div class="form-floating">
                                                     <select class="form-select modal-department-select"
-                                                            id="departmentSelect">
-                                                        <option selected disabled>Выберите отдел</option>
+                                                            id="departmentSelect" name="department_id" required>
+                                                        <option selected disabled value="">Выберите отдел</option>
                                                     </select>
                                                     <label for="departmentSelect">Отдел</label>
                                                 </div>
@@ -384,8 +387,8 @@
                                                 </div>
                                                 <div class="form-floating">
                                                     <select class="form-select modal-position-select"
-                                                            id="positionSelect">
-                                                        <option selected disabled>Выберите должность</option>
+                                                            id="positionSelect" name="position_id" required>
+                                                        <option selected disabled value="">Выберите должность</option>
                                                     </select>
                                                     <label for="positionSelect">Должность</label>
                                                 </div>
@@ -394,36 +397,41 @@
                                             <h4 class="mt-3">Разрешения</h4>
                                             <div class="col-sm-12 mt-3">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input modal-is-admin" id="flexCheckChecked"
-                                                           type="checkbox" value="" checked=""/>
+                                                    <input class="form-check-input modal-is-admin" id="adminCheckbox"
+                                                           type="checkbox" name="permissions" value="admin"/>
                                                     <label class="form-check-label"
-                                                           for="flexCheckChecked">Администратор</label>
+                                                           for="adminCheckbox">Администратор</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input modal-can-add-settings"
-                                                           id="inlineCheckbox4" type="checkbox" value="option4"/>
-                                                    <label class="form-check-label" for="inlineCheckbox4">
+                                                           id="settingCheckbox" type="checkbox"
+                                                           name="permissions" value="settings"/>
+                                                    <label class="form-check-label" for="settingCheckbox">
                                                         Настройка датчиков
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input modal-can-add-data"
-                                                           id="inlineCheckbox4" type="checkbox" value="option4"/>
-                                                    <label class="form-check-label" for="inlineCheckbox4">
+                                                           id="dataCheckbox" type="checkbox"
+                                                           name="permissions" value="manual_data"/>
+                                                    <label class="form-check-label" for="dataCheckbox">
                                                         Ручной ввод
                                                     </label>
                                                 </div>
                                             </div>
+
                                             <h4 class="mt-3">Пароль</h4>
                                             <div class="col-sm-12 mt-3">
                                                 <div class="form-floating">
-                                                    <input class="form-control modal-password" type="text">
+                                                    <input class="form-control modal-password"
+                                                           name='password' type="text">
                                                     <label>Введите новый пароль</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 mt-3">
                                                 <div class="form-floating">
-                                                    <input class="form-control modal-repeat-password" type="text">
+                                                    <input class="form-control modal-repeat-password"
+                                                           name="repeat_password" type="text">
                                                     <label>Повторите новый пароль</label>
                                                 </div>
                                             </div>
@@ -433,10 +441,9 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-success me-1 mb-1" type="submit" data-bs-dismiss="modal">Сохранить
+                            <button class="btn btn-success me-1 mb-1" type="submit">Сохранить
                             </button>
-                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">
-                                Закрыть
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть
                             </button>
                         </div>
                     </form>
@@ -529,6 +536,7 @@
             let canAddSettings = row.dataset.canAddSettings;
             let avatar = row.dataset.avatarUrl;
             let createdAt = row.dataset.createdAt;
+            let userId = row.dataset.userId;
 
             console.log(isAdmin);
             const modal = document.getElementById('edit');
@@ -538,26 +546,29 @@
 
             modal.querySelector('.modal-full-name').innerText = `${surname} ${name} ${patronym}` || "";
             modal.querySelector('.modal-position').innerText = `${position}`;
-            modal.querySelector('.modal-name').innerText = `${name}`;
-            modal.querySelector('.modal-surname').innerText = `${surname}`;
-            modal.querySelector('.modal-patronym').innerText = `${patronym}`;
-            modal.querySelector('.modal-phone').innerText = `${phone}`;
-            modal.querySelector('.modal-mail').innerText = `${mail}`;
+            modal.querySelector('.modal-name').value = `${name}`;
+            modal.querySelector('.modal-surname').value = `${surname}`;
+            modal.querySelector('.modal-patronym').value = `${patronym}`;
+            modal.querySelector('.modal-phone').value = `${phone}`;
+            modal.querySelector('.modal-mail').value = `${mail}`;
+            modal.querySelector('.modal-user-id').value = `${userId}`;
+            modal.querySelector('.modal-is-admin').checked = (`${isAdmin}` === 'True');
+            modal.querySelector('.modal-can-add-data').checked = (`${canAddData}` === 'True');
+            modal.querySelector('.modal-can-add-settings').checked = (`${canAddSettings}` === 'True');
 
             const organizationSelect = modal.querySelector('.modal-organization-select');
             const departmentSelect = modal.querySelector('.modal-department-select');
             const positionSelect = modal.querySelector('.modal-position-select');
             let organizationDetails = [];
 
-            departmentSelect.innerHTML = '<option disabled selected>Выберите отдел</option>'
-            positionSelect.innerHTML = '<option disabled selected>Выберите должность</option>'
+            departmentSelect.innerHTML = '<option disabled selected value="">Выберите отдел</option>'
+            positionSelect.innerHTML = '<option disabled selected value="">Выберите должность</option>'
             for (const option of organizationSelect.options) {
                 if (option.innerText === organization) {
                     option.selected = true;
                     organizationDetails = await getOrganizationDetails(option.value);
 
                     organizationDetails.departments.forEach(dep => {
-                        console.log(dep.name)
                         const option = document.createElement('option');
                         option.value = dep.id;
                         option.textContent = dep.name;
@@ -581,13 +592,13 @@
     });
 
     const departmentSelect = document.querySelector('.modal-department-select');
-    const positionSelecdepartment__organizationt = document.querySelector('.modal-position-select');
+    const positionSelect = document.querySelector('.modal-position-select');
     const organizationSelect = document.querySelector('.modal-organization-select');
     organizationSelect.addEventListener('change', async function () {
         let organizationDetails = await getOrganizationDetails(this.value);
 
-        departmentSelect.innerHTML = '<option disabled selected>Выберите отдел</option>'
-        positionSelect.innerHTML = '<option disabled selected>Выберите должность</option>'
+        departmentSelect.innerHTML = '<option disabled selected value="">Выберите отдел</option>'
+        positionSelect.innerHTML = '<option disabled selected value="">Выберите должность</option>'
 
         organizationDetails.departments.forEach(dep => {
             console.log(dep.name)
@@ -605,16 +616,16 @@
         });
     })
 
-        function getOrganizationDetails(organizationId) {
-            const apiUrl = '{% url "authorization:get_organization_details" %}' + `?organization=${organizationId}`;
+    function getOrganizationDetails(organizationId) {
+        const apiUrl = '{% url "authorization:get_organization_details" %}' + `?organization=${organizationId}`;
 
-            return fetch(apiUrl)
-                .then(response => response.json())
-                .catch(error => {
-                    console.error('Error fetching organization details:', error);
-                    return null;
-                });
-        }
+        return fetch(apiUrl)
+            .then(response => response.json())
+            .catch(error => {
+                console.error('Error fetching organization details:', error);
+                return null;
+            });
+    }
 </script>
 </body>
 
