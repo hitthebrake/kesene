@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
 
     #permissions
     can_add_data = models.BooleanField(default=False)
-    can_add_threshold = models.BooleanField(default=False)
+    can_add_settings = models.BooleanField(default=False)
 
     is_deleted = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -20,6 +20,9 @@ class CustomUser(AbstractUser):
     )
     department = models.ForeignKey(
         "Department", on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
+    )
+    organization = models.ForeignKey(
+        "Organization", on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

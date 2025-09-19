@@ -395,7 +395,7 @@
                     let inputValue = row.dataset.value;
                     document.getElementsByName(inputName).forEach(function (inp) {
                         if (inp.value === inputValue) {
-                            inp.value = '';
+                            inp.remove();
                         }
                     });
                     row.remove();

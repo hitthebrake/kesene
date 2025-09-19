@@ -168,7 +168,7 @@ def add_user(request):
 @login_required(login_url='authorization:login')
 def deleted_users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_deleted=True) \
-        .values('department__name', 'position__name', 'department__organization__name',
+        .values('department__name', 'position__name', 'organization__name',
                 'first_name', 'last_name', 'phone', 'email', 'patronym', 'id',
                 )
     return render(request, 'authorization/deleted.html', {'users': users})
@@ -177,7 +177,7 @@ def deleted_users_view(request):
 @login_required(login_url='authorization:login')
 def off_users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_active=False, is_deleted=False) \
-        .values('department__name', 'position__name', 'department__organization__name',
+        .values('department__name', 'position__name', 'organization__name',
                 'first_name', 'last_name', 'phone', 'email', 'patronym', 'id',
                 )
     return render(request, 'authorization/off.html', {'users': users})
@@ -186,8 +186,9 @@ def off_users_view(request):
 @login_required(login_url='authorization:login')
 def users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_active=True, is_deleted=False) \
-        .values('department__name', 'position__name', 'department__organization__name',
-                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id', 'created_at'
+        .values('department__name', 'position__name', 'organization__name',
+                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id', 'created_at',
+                'is_admin', 'can_add_data', 'can_add_settings'
                 )
     organizations = Organization.objects.all().values('name', 'id')
     return render(request, 'authorization/users.html', {'users': users, 'organizations': organizations})
@@ -241,8 +242,6 @@ def edit_organization(request, organization_id):
         organization = Organization.objects.get(id=organization_id)
         departments = list(organization.departments.values_list('name', flat=True))
         positions = list(organization.positions.values_list('name', flat=True))
-        print(departments)
-        print(positions)
     except Organization.DoesNotExist:
         organization = None
         departments = None

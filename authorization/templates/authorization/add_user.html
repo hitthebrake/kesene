@@ -144,7 +144,7 @@
                         <div class="form-floating">
                             <select class="form-select" id="departmentSelect" name="organization_department"
                                     required>
-                                <option selected disabled>Выерите отдел</option>
+                                <option selected disabled>Выберите отдел</option>
                             </select>
                             <label for="departmentSelect">Отдел</label>
                         </div>
@@ -285,6 +285,8 @@
         .then(data => {
             const departmentSelect = document.getElementById('departmentSelect');
             const positionSelect = document.getElementById('positionSelect');
+            departmentSelect.innerHTML = '<option selected>Выберите отдел</option>';
+            positionSelect.innerHTML = '<option selected>Выберите должность</option>';
 
             data.departments.forEach(dep => {
                 const option = document.createElement('option');
