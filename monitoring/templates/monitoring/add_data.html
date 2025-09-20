@@ -662,7 +662,8 @@
                                                                                for="roof_north_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none image-input" id="roof_north_{{ n }}"
+                                                                        <input class="d-none image-input"
+                                                                               id="roof_north_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -742,7 +743,8 @@
                                                                                for="roof_south_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none image-input" id="roof_south_{{ n }}"
+                                                                        <input class="d-none image-input"
+                                                                               id="roof_south_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -822,7 +824,8 @@
                                                                                for="roof_west_{{ n }}">
                                                                             <span data-feather="camera"></span>
                                                                         </label>
-                                                                        <input class="d-none image-input" id="roof_west_{{ n }}"
+                                                                        <input class="d-none image-input"
+                                                                               id="roof_west_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -901,7 +904,8 @@
                                                                     {% if obj.img %}
                                                                         <img src="{{ obj.img }}" alt="{{ obj.img }}">
                                                                     {% else %}
-                                                                        <input class="d-none image-input" id="roof_east_{{ n }}"
+                                                                        <input class="d-none image-input"
+                                                                               id="roof_east_{{ n }}"
                                                                                type="file"
                                                                                accept="image/*" name="img{{ n }}">
                                                                         <img class="w-50 image-input-preview">
@@ -938,17 +942,18 @@
                     <div class="sticky-leads-sidebar">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title mb-4">Метеостанция</h5>
-
+                                <h4 class="card-title mb-4">Метеостанция</h4>
                                 <div class="row gx-3">
                                     <div class="table-responsive scrollbar">
                                         <table class="reports-details-chart-table table table-sm fs-9 mb-0">
                                             <thead>
                                             <tr>
                                                 <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
-                                                    scope="col" style="width:35%;"><b>Параметры</b></th>
+                                                    scope="col" style="width:35%;"><b>Параметры</b>
+                                                </th>
                                                 <th class="align-middle text-end ps-4 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
-                                                    scope="col" style="width:35%;"><b>Local</b></th>
+                                                    scope="col" style="width:35%;"><b>Local</b>
+                                                </th>
                                             </tr>
                                             </thead>
                                             <tbody class="list" id="report-data-body">
@@ -957,7 +962,15 @@
                                                     Направление ветра
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    86° С-В
+                                                    {{ latest_local_meteo.wind_direction }}° {{ latest_local_meteo.wind_direction_sign }}
+                                                </td>
+                                            </tr>
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                    Скорость ветра
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
+                                                    {{ latest_local_meteo.wind_speed }} м\с
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -965,7 +978,7 @@
                                                     Температура
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    5,0 °С
+                                                    {{ latest_local_meteo.temperature }} °С
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -973,7 +986,7 @@
                                                     Влажность
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    72,0 %
+                                                    {{ latest_local_meteo.humidity }} %
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -981,7 +994,7 @@
                                                     Точка росы
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    2,1 'С
+                                                    {{ latest_local_meteo.dewpoint }} 'С
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -989,7 +1002,7 @@
                                                     Атм.давление, mmHg
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    65,0
+                                                    {{ latest_local_meteo.pressure }}
                                                 </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
@@ -997,15 +1010,13 @@
                                                     Уровень жидких осадков
                                                 </td>
                                                 <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-4 py-2">
-                                                    32 мм
+                                                    {{ latest_local_meteo.precipitation }} мм
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="card">
@@ -1013,166 +1024,54 @@
                                 <h5 class="mb-3">Сегодня</h5>
                                 <div class="col-auto">
                                     <div class="timeline-basic mb-2">
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-store-alt text-primary fs-9"></span></div>
-                                                        <span class="timeline-bar border-end border-dashed"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Периметр: №1. Север</h6>
+                                        {% for instance in last_instances %}
+                                            <div class="timeline-item">
+                                                <div class="row g-3">
+                                                    <div class="col-auto">
+                                                        <div class="timeline-item-bar position-relative">
+                                                            <div class="icon-item icon-item-md rounded-7 border border-translucent">
+                                                                {% if instance.manual_data.location == 'Периметр' %}
+                                                                    <span class="uil-store-alt text-primary fs-9"></span>
+                                                                {% elif instance.manual_data.location == 'Кровля' %}
+                                                                    <span class="uil-vector-square-alt text-success fs-9"></span>
+                                                                {% else %}
+                                                                    <span class="uil-window-section text-info fs-9"></span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span class="timeline-bar border-end border-dashed"></span>
                                                         </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>10:30</p>
                                                     </div>
-                                                    <h6 class="fs-10 fw-normal mb-3">by <a class="fw-semibold"
-                                                                                           href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-
+                                                    <div class="col">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="d-flex mb-2">
+                                                                <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
+                                                                    {% if instance.manual_data.location == 'Периметр' or instance.manual_data.location == 'Кровля' %}
+                                                                        {{ instance.manual_data.location }}: №{{ instance.number }}. {{ instance.manual_data.spot }}
+                                                                    {% else %}
+                                                                        Помещение: {{ instance.manual_data.location }}
+                                                                    {% endif %}
+                                                                </h6>
+                                                            </div>
+                                                            <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
+                                                                <span class="fa-regular fa-clock me-1"></span>
+                                                                {{ instance.created_time|date:'H:i' }}
+                                                            </p>
+                                                        </div>
+                                                        <h6 class="fs-10 fw-normal mb-3">
+                                                            <a class="fw-semibold" href="#!">
+                                                                by {{ instance.manual_data.user.first_name }} {{ instance.manual_data.user.last_name }}
+                                                            </a>
+                                                        </h6>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-store-alt text-primary fs-9"></span></div>
-                                                        <span class="timeline-bar border-end border-dashed"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Периметр: №1. Юг</h6>
-                                                        </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>10:15</p>
-                                                    </div>
-                                                    <h6 class="fs-10 fw-normal mb-3">by <a class="fw-semibold"
-                                                                                           href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-store-alt text-primary fs-9"></span></div>
-                                                        <span class="timeline-bar border-end border-dashed"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Периметр: №1. Запад</h6>
-                                                        </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>10:10</p>
-                                                    </div>
-                                                    <h6 class="fs-10 fw-normal mb-3">by <a class="fw-semibold"
-                                                                                           href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-store-alt text-primary fs-9"></span></div>
-                                                        <span class="timeline-bar border-end border-dashed"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Периметр: №1. Восток</h6>
-                                                        </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>10:05</p>
-                                                    </div>
-                                                    <h6 class="fs-10 fw-normal mb-3">by <a class="fw-semibold"
-                                                                                           href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-vector-square-alt text-success fs-9"></span>
-                                                        </div>
-                                                        <span class="timeline-bar border-end border-dashed"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Кровля: №1. Восток</h6>
-                                                        </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>09:56</p>
-                                                    </div>
-                                                    <h6 class="fs-10 fw-normal mb-3">by <a class="fw-semibold"
-                                                                                           href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-item">
-                                            <div class="row g-3">
-                                                <div class="col-auto">
-                                                    <div class="timeline-item-bar position-relative">
-                                                        <div class="icon-item icon-item-md rounded-7 border border-translucent">
-                                                            <span class="uil-window-section text-info fs-9"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex mb-2">
-                                                            <h6 class="lh-sm mb-0 me-2 text-body-secondary timeline-item-title">
-                                                                Помещения: Асхана</h6>
-                                                        </div>
-                                                        <p class="text-body-quaternary fs-9 mb-0 text-nowrap timeline-time">
-                                                            <span class="fa-regular fa-clock me-1"></span>09:47</p>
-                                                    </div>
-                                                    <h6 class="fs-10 fw-normal false">by <a class="fw-semibold"
-                                                                                            href="#!">Батырулан
-                                                        Айтжанов</a></h6>
-                                                    <p class="fs-9 text-body-secondary w-sm-60 mb-0"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 

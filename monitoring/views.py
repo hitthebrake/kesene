@@ -157,6 +157,17 @@ def add_data(request):
         InstanceManualData.objects.bulk_create(instances_to_create)
         InstanceManualData.objects.bulk_update(instances_to_update, ['temperature', 'humidity', 'img'])
 
+    instances = (
+        InstanceManualData.objects
+        .select_related('manual_data', 'manual_data__user')
+        .filter(
+            manual_data__is_draft=False,
+            manual_data__created_date=timezone.now().date()
+        )
+        .order_by('created_time')[:10]
+    )
+
+
     drafts = ManualData.objects.filter(is_draft=True).prefetch_related('instance')
     context = {
         'perimeter_south': map_data(drafts.filter(location='Периметр', spot='Юг').first()),
@@ -169,6 +180,7 @@ def add_data(request):
         'roof_east': map_data(drafts.filter(location='Кровля', spot='Восток').first()),
         'latest_local_meteo': latest_local_meteo,
         'numbers': numbers,
+        'last_instances': instances,
     }
     return render(request, 'monitoring/add_data.html', context)
 

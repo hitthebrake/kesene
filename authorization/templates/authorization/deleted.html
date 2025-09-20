@@ -124,6 +124,16 @@
                                 data-can-add-data="{{ user_obj.can_add_data }}"
                                 data-can-add-settings="{{ user_obj.can_add_settings }}"
                                 data-user-id="{{ user_obj.id }}"
+
+                                data-name="{{ user_obj.first_name }}"
+                                data-surname="{{ user_obj.last_name }}"
+                                data-patronym="{{ user_obj.patronym }}"
+                                data-organization="{% if user_obj.organization %}{{ user_obj.organization.name }}{% endif %}"
+                                data-department="{% if user_obj.department %}{{ user_obj.department.name }}{% endif %}"
+                                data-position="{% if user_obj.position %}{{ user_obj.position.name }}{% endif %}"
+                                data-phone="{% if user_obj.phone %}{{ user_obj.phone }}{% endif %}"
+                                data-email="{% if user_obj.email %}{{ user_obj.email }}{% endif %}"
+
                                 {% if user_obj.avatar %}data-avatar-url="{{ user_obj.avatar.url }}"{% endif %}>
                                 <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
@@ -294,14 +304,14 @@
         console.log('triggered2')
 
             const row = e.target.closest('tr');
-            let name = row.querySelector('.name').innerText;
-            let surname = row.querySelector('.surname').innerText;
-            let patronym = row.querySelector('.patronym').innerText;
-            let organization = row.querySelector('.organization').innerText;
-            let department = row.querySelector('.department').innerText;
-            let position = row.querySelector('.position').innerText;
-            let phone = row.querySelector('.phone').innerText;
-            let mail = row.querySelector('.mail').innerText;
+            let name = row.dataset.name;
+            let surname = row.dataset.surname;
+            let patronym = row.dataset.patronym;
+            let organization = row.dataset.organization;
+            let department = row.dataset.department;
+            let position = row.dataset.position;
+            let phone = row.dataset.phone;
+            let mail = row.dataset.email;
             let avatar = row.dataset.avatarUrl;
             let createdAt = row.dataset.createdAt;
 

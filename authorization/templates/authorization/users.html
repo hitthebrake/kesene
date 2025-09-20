@@ -75,8 +75,8 @@
         <h3 class="text-bold text-body-emphasis mb-5">Пользователи</h3>
         {% if messages %}
             {% for message in messages %}
-                <div class="mt-2 pt-2" style="width: 20%;">
-                    <p {% if message.tags %}class="alert-{{ message.tags }}"{% endif %}>{{ message }}</p>
+                <div class="mt-2 pt-2">
+                    <p {% if message.tags %}class="alert-{{ message.tags }} rounded"{% endif %}>{{ message }}</p>
                 </div>
             {% endfor %}
         {% endif %}
@@ -133,8 +133,18 @@
                                 data-can-add-data="{{ user_obj.can_add_data }}"
                                 data-can-add-settings="{{ user_obj.can_add_settings }}"
                                 data-user-id="{{ user_obj.id }}"
+
+                                data-name="{{ user_obj.first_name }}"
+                                data-surname="{{ user_obj.last_name }}"
+                                data-patronym="{{ user_obj.patronym }}"
+                                data-organization="{% if user_obj.organization %}{{ user_obj.organization.name }}{% endif %}"
+                                data-department="{% if user_obj.department %}{{ user_obj.department.name }}{% endif %}"
+                                data-position="{% if user_obj.position %}{{ user_obj.position.name }}{% endif %}"
+                                data-phone="{% if user_obj.phone %}{{ user_obj.phone }}{% endif %}"
+                                data-email="{% if user_obj.email %}{{ user_obj.email }}{% endif %}"
+
                                 {% if user_obj.avatar %}data-avatar-url="{{ user_obj.avatar.url }}"{% endif %}>
-                                <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
+                                <td class="align-middle ps-3 group" hidden>{{ user_obj.position.name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
                                 <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
                                 <td class="align-middle patronym">{{ user_obj.patronym }}</td>
@@ -490,14 +500,15 @@
             e.preventDefault();
 
             const row = e.target.closest('tr');
-            let name = row.querySelector('.name').innerText;
-            let surname = row.querySelector('.surname').innerText;
-            let patronym = row.querySelector('.patronym').innerText;
-            let organization = row.querySelector('.organization').innerText;
-            let department = row.querySelector('.department').innerText;
-            let position = row.querySelector('.position').innerText;
-            let phone = row.querySelector('.phone').innerText;
-            let mail = row.querySelector('.mail').innerText;
+
+            let name = row.dataset.name;
+            let surname = row.dataset.surname;
+            let patronym = row.dataset.patronym;
+            let organization = row.dataset.organization;
+            let department = row.dataset.department;
+            let position = row.dataset.position;
+            let phone = row.dataset.phone;
+            let mail = row.dataset.email;
             let avatar = row.dataset.avatarUrl;
             let createdAt = row.dataset.createdAt;
 
@@ -525,14 +536,14 @@
             e.preventDefault();
 
             const row = e.target.closest('tr');
-            let name = row.querySelector('.name').innerText;
-            let surname = row.querySelector('.surname').innerText;
-            let patronym = row.querySelector('.patronym').innerText;
-            let organization = row.querySelector('.organization').innerText;
-            let department = row.querySelector('.department').innerText;
-            let position = row.querySelector('.position').innerText;
-            let phone = row.querySelector('.phone').innerText;
-            let mail = row.querySelector('.mail').innerText;
+            let name = row.dataset.name;
+            let surname = row.dataset.surname;
+            let patronym = row.dataset.patronym;
+            let organization = row.dataset.organization;
+            let department = row.dataset.department;
+            let position = row.dataset.position;
+            let phone = row.dataset.phone;
+            let mail = row.dataset.email;
             let isAdmin = row.dataset.isAdmin;
             let canAddData = row.dataset.canAddData;
             let canAddSettings = row.dataset.canAddSettings;
@@ -540,7 +551,6 @@
             let createdAt = row.dataset.createdAt;
             let userId = row.dataset.userId;
 
-            console.log(isAdmin);
             const modal = document.getElementById('edit');
 
             if (avatar) modal.querySelector('.modal-avatar').src = avatar;
