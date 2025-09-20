@@ -123,14 +123,15 @@
                                 data-is-admin="{{ user_obj.is_admin }}"
                                 data-can-add-data="{{ user_obj.can_add_data }}"
                                 data-can-add-settings="{{ user_obj.can_add_settings }}"
-                                data-user-id="{{ user_obj.id }}">
+                                data-user-id="{{ user_obj.id }}"
+                                {% if user_obj.avatar %}data-avatar-url="{{ user_obj.avatar.url }}"{% endif %}>
                                 <td class="align-middle ps-3 group" hidden>{{ user_obj.position_name }}</td>
                                 <td class="align-middle ps-3 name">{{ user_obj.first_name }}</td>
                                 <td class="align-middle surname d-none d-lg-table-cell">{{ user_obj.last_name }}</td>
                                 <td class="align-middle patronym">{{ user_obj.patronym }}</td>
-                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.organization__name }}</td>
-                                <td class="align-middle department d-none d-lg-table-cell">{{ user_obj.department__name }}</td>
-                                <td class="align-middle position d-none d-lg-table-cell">{{ user_obj.position__name }}</td>
+                                <td class="align-middle organization d-none d-lg-table-cell">{{ user_obj.organization.name }}</td>
+                                <td class="align-middle department d-none d-lg-table-cell">{{ user_obj.department.name }}</td>
+                                <td class="align-middle position d-none d-lg-table-cell">{{ user_obj.position.name }}</td>
                                 <td class="align-middle phone">{{ user_obj.phone }}</td>
                                 <td class="align-middle mail d-none d-lg-table-cell">{{ user_obj.email }}</td>
                                 <td class="align-middle white-space-nowrap text-end pe-0">
@@ -320,6 +321,17 @@
             else modal.querySelector('.modal-date').innerText = `Добавлен неизвестно`
         }
     });
+
+
+    const avatarFile = document.getElementById('avatarFile');
+    avatarFile.addEventListener('input', function () {
+        const file = avatarFile.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            const div = avatarFile.closest('div');
+            div.querySelector('.modal-avatar').src = url;
+        }
+    })
 
 </script>
 </body>

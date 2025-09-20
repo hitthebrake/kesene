@@ -20,6 +20,6 @@ urlpatterns = [
     path('users/enable/<int:user_id>/', views.user_enable, name='user_enable'),
     path('get_organization_details/', views.get_organization_details, name='get_organization_details'),
     path('edit_organization/<int:organization_id>/', views.edit_organization, name='edit_organization'),
-    path('edit_organization/', views.edit_organization, name='edit_organization'),
+    path('delete_organization/<int:organization_id>/', views.delete_organization, name='delete_organization'),
     path('organizations/', views.organizations_view, name='organizations'),
 ]

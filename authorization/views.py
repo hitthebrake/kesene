@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required
 
 from authorization.models import CustomUser, Department, Position, Organization
+from core import extra_functions
 
 
 # Create your views here.
@@ -105,6 +106,12 @@ def add_user(request):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
+        avatar = request.FILES.get('avatar')
+        check = extra_functions.is_image(avatar)
+        if avatar and not isinstance(check, bool):
+            avatar = None
+            messages.error(request, 'Неправильный формат или размер фото')
+
         if password != password2:
             messages.error(request, "Пароли не совпадают*")
         elif CustomUser.objects.filter(email=email).exists():
@@ -124,6 +131,7 @@ def add_user(request):
                 position_id=position_id,
                 department_id=department_id,
                 organization_id=organization_id,
+                avatar=avatar
             )
             messages.success(request, 'Пользователь успешно создан')
             return redirect('authorization:add_user')
@@ -134,29 +142,19 @@ def add_user(request):
 
 @login_required(login_url='authorization:login')
 def deleted_users_view(request):
-    users = CustomUser.objects.select_related('department', 'position').filter(is_deleted=True) \
-        .values('department__name', 'position__name', 'organization__name',
-                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id',
-                )
+    users = CustomUser.objects.select_related('department', 'position').filter(is_deleted=True)
     return render(request, 'authorization/deleted.html', {'users': users})
 
 
 @login_required(login_url='authorization:login')
 def off_users_view(request):
-    users = CustomUser.objects.select_related('department', 'position').filter(is_active=False, is_deleted=False) \
-        .values('department__name', 'position__name', 'organization__name',
-                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id',
-                )
+    users = CustomUser.objects.select_related('department', 'position').filter(is_active=False, is_deleted=False)
     return render(request, 'authorization/off.html', {'users': users})
 
 
 @login_required(login_url='authorization:login')
 def users_view(request):
-    users = CustomUser.objects.select_related('department', 'position', 'organization').filter(is_active=True, is_deleted=False) \
-        .values('department__name', 'position__name', 'organization__name',
-                'first_name', 'last_name', 'phone', 'email', 'patronym', 'id', 'created_at',
-                'is_admin', 'can_add_data', 'can_add_settings'
-                )
+    users = CustomUser.objects.select_related('department', 'position', 'organization').filter(is_active=True, is_deleted=False)
     organizations = Organization.objects.all().values('name', 'id')
     return render(request, 'authorization/users.html', {'users': users, 'organizations': organizations})
 
@@ -175,6 +173,12 @@ def edit_user(request):
         password = request.POST.get('password')
         password2 = request.POST.get('repeat_password')
         user_id = int(request.POST.get('user_id'))
+
+        avatar = request.FILES.get(f'avatar')
+        check = extra_functions.is_image(avatar)
+        if avatar and not isinstance(check, bool):
+            messages.error(request, 'Неправильный формат или размер фото')
+            return redirect('authorization:users')
 
         try:
             user = CustomUser.objects.get(id=user_id)
@@ -201,6 +205,10 @@ def edit_user(request):
             user.is_admin = 'admin' in permissions
             user.can_add_data = 'manual_data' in permissions
             user.can_add_settings = 'settings' in permissions
+            if avatar:
+                if user.avatar:
+                    user.avatar.delete(save=False)
+                user.avatar = avatar
             if password and password2 == password:
                 user.set_password(password)
             user.save()
@@ -296,6 +304,15 @@ def edit_organization(request, organization_id):
                       'departments': departments,
                       'positions': positions,
                   })
+
+@login_required(login_url='authorization:login')
+def delete_organization(request, organization_id):
+    try:
+        organization = Organization.objects.get(id=organization_id)
+        organization.delete()
+    except Organization.DoesNotExist:
+        pass
+    return redirect('authorization:organizations')
 
 
 @login_required(login_url='authorization:login')
