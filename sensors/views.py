@@ -1,6 +1,5 @@
-import time
-
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -9,10 +8,10 @@ from core import extra_functions
 from sensors.models import SensorSettings
 from webhook.models import Sensor
 from webhook.sensor_parsing import sensor_types
-
-
 # Create your views here.
 
+
+@user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def add_settings(request):
     return render(request, 'sensors/add_settings.html')
 
@@ -44,6 +43,7 @@ def check_limits(from_value, to_value, sensor_id, type_name):
     return 'success', 'Данные сохранены'
 
 
+@user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def add_dev_settings(request):
     sensors = Sensor.objects.all().order_by('location', 'name')
 
@@ -129,6 +129,7 @@ def add_dev_settings(request):
                   })
 
 
+@user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def upload_sensor_image(request, sensor_id):
     if request.method == 'POST':
         uploaded_file = request.FILES.get('image')
@@ -147,6 +148,7 @@ def upload_sensor_image(request, sensor_id):
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
 
 
+@user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def delete_setting(request):
     if request.method == 'POST':
         setting_id = request.POST.get('setting_id')

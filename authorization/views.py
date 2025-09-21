@@ -1,18 +1,12 @@
-import json
-
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test, login_required
 
 from authorization.models import CustomUser, Department, Position, Organization
 from core import extra_functions
 
-
-# Create your views here.
-def can_create_user(user):
-    return user.is_admin or user.is_superuser
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -31,6 +25,7 @@ def login_view(request):
             messages.error(request, 'Недействительная электронная почта или неправильный пароль')
     return render(request, 'authorization/login.html')
 
+
 @login_required(login_url='authorization:login')
 def logout_view(request):
     logout(request)
@@ -41,7 +36,7 @@ def forgot_password(request):
     return render(request, 'authorization/forgot-password.html')
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def add_organization(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -91,7 +86,7 @@ def add_organization(request):
     return render(request, 'authorization/add-organization.html')
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def add_user(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -140,25 +135,26 @@ def add_user(request):
     return render(request, 'authorization/add_user.html', {'organizations': organizations})
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def deleted_users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_deleted=True)
     return render(request, 'authorization/deleted.html', {'users': users})
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def off_users_view(request):
     users = CustomUser.objects.select_related('department', 'position').filter(is_active=False, is_deleted=False)
     return render(request, 'authorization/off.html', {'users': users})
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def users_view(request):
     users = CustomUser.objects.select_related('department', 'position', 'organization').filter(is_active=True, is_deleted=False)
     organizations = Organization.objects.all().values('name', 'id')
     return render(request, 'authorization/users.html', {'users': users, 'organizations': organizations})
 
 
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def edit_user(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -216,6 +212,7 @@ def edit_user(request):
     return redirect('authorization:users')
 
 
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def user_delete(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_deleted = True
@@ -223,6 +220,7 @@ def user_delete(request, user_id):
     return redirect('authorization:users')
 
 
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def user_recover(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_deleted = False
@@ -231,6 +229,7 @@ def user_recover(request, user_id):
     return redirect('authorization:users')
 
 
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def user_disable(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = False
@@ -238,6 +237,7 @@ def user_disable(request, user_id):
     return redirect('authorization:users')
 
 
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def user_enable(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = True
@@ -258,7 +258,7 @@ def get_organization_details(request):
     })
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def edit_organization(request, organization_id):
     try:
         organization = Organization.objects.get(id=organization_id)
@@ -305,7 +305,8 @@ def edit_organization(request, organization_id):
                       'positions': positions,
                   })
 
-@login_required(login_url='authorization:login')
+
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def delete_organization(request, organization_id):
     try:
         organization = Organization.objects.get(id=organization_id)
@@ -315,7 +316,7 @@ def delete_organization(request, organization_id):
     return redirect('authorization:organizations')
 
 
-@login_required(login_url='authorization:login')
+@user_passes_test(extra_functions.is_admin, login_url='authorization:login')
 def organizations_view(request):
     organizations = Organization.objects.all()
     return render(request, 'authorization/organizations.html', {'organizations': organizations})

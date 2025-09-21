@@ -1,28 +1,21 @@
-import json
-import pandas
-
-from datetime import datetime, timedelta, date
+from datetime import date
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from django.utils import timezone
 
 from core import extra_functions
-from sensors.models import ManualData, InstanceManualData
-from webhook.sensor_parsing import sensor_types as sensor_types_dict
-from webhook.models import Measurement, ExampleMeasurement, Sensor
-from monitoring.services.index import LatestData
 from monitoring.services.export_to_excel import ExportToExcel
+from monitoring.services.index import LatestData
+from sensors.models import ManualData, InstanceManualData
+from webhook.models import Measurement, ExampleMeasurement
+from webhook.sensor_parsing import sensor_types as sensor_types_dict
 
-def can_add_threshold(user):
-    return user.can_add_threshold or user.is_superuser
 
-
-@login_required(login_url='authorization:login')
+@login_required(login_url="authorization:login")
 def index(request):
     context = LatestData().get_data()
 
@@ -63,11 +56,12 @@ def fire_signal(request):
     return redirect('monitoring:index')
 
 
-@login_required(login_url='authorization:login')
+@login_required(login_url="authorization:login")
 def settings_view(request):
     return render(request, 'monitoring/mysettings.html')
 
 
+@login_required(login_url="authorization:login")
 def export_to_excel(request):
     return ExportToExcel().export(request)
 
@@ -88,7 +82,7 @@ def map_data(data):
     return result
 
 
-
+@user_passes_test(extra_functions.can_add_data, login_url="authorization:login")
 def add_data(request):
     latest_local_meteo = LatestData().get_latest_local_meteo_data()
     numbers = [n for n in range(1, 11)]
@@ -185,6 +179,7 @@ def add_data(request):
     return render(request, 'monitoring/add_data.html', context)
 
 
+@login_required(login_url="authorization:login")
 def data_list(request):
     instances = InstanceManualData.objects.select_related('manual_data', 'manual_data__user').filter(manual_data__is_draft=False) \
         .order_by('manual_data__created_date', 'created_time')
@@ -212,6 +207,7 @@ def data_list(request):
     return render(request, 'monitoring/data_list.html', context)
 
 
+@login_required(login_url="authorization:login")
 def get_draft_data(request, location):
     if not location:
         return JsonResponse({'message': 'Локация не передана или не найдена'}, status=400)

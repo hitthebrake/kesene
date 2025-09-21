@@ -1,12 +1,12 @@
 import json
 
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import redirect
 
-from .services.download_excel_report import DownloadExcelReport
+from reports.services.download_excel_report import DownloadExcelReport
+from webhook.models import Sensor, Measurement
 
-from webhook.models import Sensor, Measurement, MeteoData
 
 @login_required(login_url='authorization:login')
 def get_sensors(request):

@@ -21,118 +21,125 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <!-- label-->
-                    <p class="navbar-vertical-label">Настройка пользователей</p>
-                    <hr class="navbar-vertical-line"/>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 add-user-link" href='{% url "authorization:add_user" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                {% if user.is_superuser or user.is_admin %}
+                    <li class="nav-item">
+                        <!-- label-->
+                        <p class="navbar-vertical-label">Настройка пользователей</p>
+                        <hr class="navbar-vertical-line"/>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 add-user-link" href='{% url "authorization:add_user" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
                                     <span data-feather="user-plus"></span>
                                 </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
 					                <span class="nav-link-text">Добавить пользователя</span>
                                 </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 users-link" href='{% url "authorization:users" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 users-link" href='{% url "authorization:users" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="users"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Пользователи</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 off-users-link" href='{% url "authorization:off_users" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 off-users-link" href='{% url "authorization:off_users" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="user-minus"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Отключенные</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 deleted-users-link" href='{% url "authorization:deleted_users" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 deleted-users-link"
+                               href='{% url "authorization:deleted_users" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="user-x"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Удаленные</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <!-- label-->
-                    <p class="navbar-vertical-label">Настройка организации</p>
-                    <hr class="navbar-vertical-line"/>
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 add-organization-link"
-                           href='{% url "authorization:add_organization" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <!-- label-->
+                        <p class="navbar-vertical-label">Настройка организации</p>
+                        <hr class="navbar-vertical-line"/>
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 add-organization-link"
+                               href='{% url "authorization:add_organization" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="plus-square"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Добавить организацию</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 organizations-link" href='{% url "authorization:organizations" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 organizations-link"
+                               href='{% url "authorization:organizations" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="briefcase"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Организации</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- parent pages-->
+                                </div>
+                            </a>
+                        </div>
+                        <!-- parent pages-->
 
-                </li>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <!-- label-->
                     <p class="navbar-vertical-label">Ручные измерения</p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 add-data-link" href="{% url 'monitoring:add-data' %}"
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                    {% if user.can_add_data or user.is_superuser %}
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 add-data-link" href="{% url 'monitoring:add-data' %}"
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
                                     <span data-feather="plus-square"></span>
                                 </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                     <span class="nav-link-text">Добавить данные</span>
                                 </span>
-                            </div>
-                        </a>
-                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 data-list-link" href="{% url 'monitoring:manual-data-list' %}" role="button"
+                        <a class="nav-link label-1 data-list-link" href="{% url 'monitoring:manual-data-list' %}"
+                           role="button"
                            data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
@@ -151,19 +158,21 @@
                     <p class="navbar-vertical-label">Настройка сценариев</p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 add-settings-link" href='{% url "sensors:add_settings" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                    {% if user.is_superuser or user.can_add_settings %}
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 add-settings-link" href='{% url "sensors:add_settings" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="plus-square"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Добавить сценарий</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
                     <!-- CHANGE ../user_pages/winter.html -->
                     <div class="nav-item-wrapper">
                         <a class="nav-link label-1 winter-link" href="#" role="button"
@@ -228,19 +237,21 @@
                     <p class="navbar-vertical-label">Настройка датчиков</p>
                     <hr class="navbar-vertical-line"/>
                     <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 sensor-settings-link" href='{% url "sensors:add_dev_settings" %}'
-                           role="button" data-bs-toggle="" aria-expanded="false">
-                            <div class="d-flex align-items-center">
+                    {% if user.is_superuser or user.can_add_settings %}
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 sensor-settings-link" href='{% url "sensors:add_dev_settings" %}'
+                               role="button" data-bs-toggle="" aria-expanded="false">
+                                <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span data-feather="plus-square"></span>
                             </span>
-                                <span class="nav-link-text-wrapper">
+                                    <span class="nav-link-text-wrapper">
                                 <span class="nav-link-text">Добавить настройку</span>
                             </span>
-                            </div>
-                        </a>
-                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
                     <!-- CHANGE '{ % url "../user_pages/dev_set_list.html" %}' -->
                     <div class="nav-item-wrapper">
                         <a class="nav-link label-1 sensor-settings-list-link" href="#!"

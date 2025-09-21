@@ -58,7 +58,6 @@ class LatestData:
         latest_values = self.get_latest_measurements()
         latest_local_meteo = self.get_latest_local_meteo_data()
         latest_api_meteo = self.get_latest_api_meteo_data()
-        print(latest_api_meteo)
         return {
             'latest_values': latest_values,
             'latest_local_meteo': latest_local_meteo,
@@ -154,7 +153,6 @@ class LatestData:
         data = self.get_weather()
         if data.get("error", ''):
             return data
-        print(data)
         try:
             return {
                 'temperature': round(data['current']['temp']-273, 2),
