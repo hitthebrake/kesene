@@ -181,9 +181,8 @@ def add_data(request):
 
 @login_required(login_url="authorization:login")
 def data_list(request):
-    instances = InstanceManualData.objects.select_related('manual_data', 'manual_data__user').filter(manual_data__is_draft=False) \
-        .order_by('manual_data__created_date', 'created_time')
-
+    instances = InstanceManualData.objects.select_related('manual_data', 'manual_data__user') \
+        .filter(manual_data__is_draft=False).order_by('manual_data__created_date', 'created_time')
     location = request.GET.get('location')
     spot = request.GET.get('spot')
     if location and spot:
@@ -192,7 +191,7 @@ def data_list(request):
         elif location == 'Периметр' or location == 'Кровля':
             instances = instances.filter(manual_data__location=location, manual_data__spot=spot)
 
-    paginator = Paginator(instances, 30)
+    paginator = Paginator(instances, 20)
     page = request.GET.get('page')
     instances = paginator.get_page(page)
 
