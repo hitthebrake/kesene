@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from core import extra_functions
+from core.extra_functions import get_parameter_sign
 from sensors.models import SensorSettings
 from webhook.models import Sensor
 from webhook.sensor_parsing import sensor_types
@@ -127,6 +128,40 @@ def add_dev_settings(request):
                       'sensors': paged_data,
                       'url': request_copy.urlencode()
                   })
+
+
+@login_required(login_url='authorization:login')
+def dev_settings_list(request):
+    sensor_settings = SensorSettings.objects.filter(is_active=True).select_related('sensor', 'user').order_by('-created_at')
+    if request.GET.get('location'):
+        location = request.GET.get('location')
+        sensor_settings = sensor_settings.filter(sensor__location=location)
+
+    parsed_settings = {}
+    for setting in sensor_settings:
+        parsed_settings[setting.id] = {
+            'sensor_name': setting.sensor.name,
+            'sensor_location': setting.sensor.location,
+            'sensor_spot': setting.sensor.spot,
+            'sensor_type': setting.sensor.sensor_type,
+            'sensor_image': setting.sensor.image,
+
+            'user_full_name': f'{setting.user.last_name} {setting.user.first_name} {setting.user.patronym}',
+            'created_at': setting.created_at.strftime('%d.%m.%Y'),
+            'status': setting.status,
+            'action': setting.action,
+            'parameter': setting.type_name,
+            'parameter_sign': get_parameter_sign(setting.sensor.sensor_type, setting.type_name),
+            'from_value': setting.from_value if setting.from_value else '#NV',
+            'to_value': setting.to_value if setting.to_value else '#NV',
+        }
+        if parsed_settings[setting.id]['from_value'] == '#NV' or parsed_settings[setting.id]['to_value'] == '#NV':
+            parsed_settings[setting.id]['parameter_sign'] = ''
+
+    context = {
+        'sensor_settings': parsed_settings,
+    }
+    return render(request, "sensors/dev_set_list.html", context)
 
 
 @user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
