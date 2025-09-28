@@ -16,3 +16,5 @@ temp.py
 db.sqlite3
 .idea/
 media/
+
+staticfiles/

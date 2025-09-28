@@ -193,3 +193,13 @@ def delete_setting(request):
         except SensorSettings.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Settings not found'}, status=404)
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
+
+
+def get_sensors_info(request, location):
+    sensors = Sensor.objects.filter(location=location)
+    return_data = {}
+    for sensor in sensors:
+        key = f'{sensor.name}-{sensor.spot}-{sensor.sensor_type}'
+        return_data[key] = sensor_types[sensor.sensor_type]
+    print(return_data)
+    return JsonResponse(return_data)

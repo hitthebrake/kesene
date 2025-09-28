@@ -75,7 +75,7 @@
         <form class="mb-9">
             <div class="row g-3 flex-between-end mb-5">
                 <div class="col-auto">
-                    <h4 class="mb-2">Добавить сценарии для: Асхана</h4>
+                    <h4 class="mb-2 content-header"></h4>
                     <h5 class="text-body-tertiary fw-semibold">Рекомендуемые действия в зависимости от ТВР</h5>
                 </div>
             </div>
@@ -89,26 +89,12 @@
                             </div>
                         </div>
                         <div class="col-auto d-flex gap-2">
-                            <select class="form-select form-select-sm mb-1" data-list-filter="data-list-filter">
-                                <option selected="" value="">Выберите место установки</option>
-                                <option value="Асхана">Асхана</option>
-                                <option value="Аксарай Большой">Аксарай Большой</option>
-                                <option value="Асхана. Вентиляционная шахта">Аксарай Малый</option>
-                                <option value="Вход №1 (окно)">Вход №1 (окно)</option>
-                                <option value="Асхана. Вентиляционная шахта">Вход №2 (окно)</option>
-                                <option value="Асхана. Вентиляционная шахта">Гурхана</option>
-                                <option value="Асхана. Вентиляционная шахта">Казандык</option>
-                                <option value="Асхана. Вентиляционная шахта">Китапхана</option>
-                                <option value="Асхана. Вентиляционная шахта">Коридор №2 (западный проем)</option>
-                                <option value="Асхана. Вентиляционная шахта">Коридор №4</option>
-                                <option value="Асхана. Вентиляционная шахта">Кудукхана</option>
-                                <option value="Асхана. Вентиляционная шахта">Мечеть</option>
-                                <option value="Асхана. Вентиляционная шахта">Помещение №1</option>
-                                <option value="Асхана. Вентиляционная шахта">Терасса №1</option>
-                                <option value="Асхана. Вентиляционная шахта">Худжара</option>
-                                <option value="Асхана. Вентиляционная шахта">Грунт вокруг Мавзолея</option>
-                                <option value="Асхана. Вентиляционная шахта">Крыша</option>
-                                <option value="Асхана. Вентиляционная шахта">Колодец, возле Мониторинга</option>
+                            <select class="form-select form-select-sm mb-1" data-list-filter="data-list-filter"
+                                    id="locationSelect">
+                                <option selected disabled value="">Выберите место установки</option>
+                                {% for location in location_list %}
+                                    <option value="{{ location }}">{{ location }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -119,7 +105,8 @@
                                 <tr>
                                     <th class="white-space-nowrap fs-9 align-middle ps-0"
                                         style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
+                                        <div class="form-check mb-0 fs-8">
+                                            <input class="form-check-input" disabled="">
                                         </div>
                                     </th>
                                     <th class="sort align-middle ps-3" data-sort="name">ДАТЧИКИ И ПАРАМЕТРЫ</th>
@@ -127,363 +114,7 @@
                                     <th class="sort align-middle">ЗНАЧЕНИЯ</th>
                                 </tr>
                                 </thead>
-                                <tbody class="list" id="bulk-select-body">
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Внешняя стена +2.5
-                                        м.-P1.13-ТвОВв (30)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Влажность, %</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Точка росы, 'C</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Вентиляционная шахта-P1.14-ТвОВв
-                                        (31)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Влажность, %</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Точка росы, 'C</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Вентиляционная шахта-P1.14-Vв
-                                        (32)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Скорость воздушного потока, м/с</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наклонный свод-P2.5-ТвОВв (63)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Влажность, %</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Точка росы, 'C</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наклонный свод-P2.5-Vв (64)</th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Скорость воздушного потока, м/с</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наклонный свод-P2.5-Тп. (65)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наружняя стена-P2.6-ТвОВв (66)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Влажность, %</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Точка росы, 'C</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наружняя стена-P2.6-Тп. (67)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Температура, °С</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0"
-                                        style="max-width:20px; width:18px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input" disabled="">
-                                        </div>
-                                    </th>
-                                    <th class="sort align-middle ps-3" data-sort="name">Наружняя стена-P2.6-ПТП (68)
-                                    </th>
-                                    <th class="sort align-middle">От</th>
-                                    <th class="sort align-middle">До</th>
-                                </tr>
-                                <tr>
-                                    <td class="fs-9 align-middle">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                                                 type="checkbox"></div>
-                                    </td>
-                                    <td class="align-middle ps-3">Плотность теплового поткока, Вт/м2</td>
-                                    <td class="align-middle">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                    <td class="align-middle age">
-                                        <input class="form-control" id="floatingInputSurname" type="text"
-                                               placeholder="...">
-                                    </td>
-                                </tr>
+                                <tbody class="list content-main-table-body" id="bulk-select-body">
                                 </tbody>
                             </table>
                         </div>
@@ -681,6 +312,71 @@
     if (div) {
         div.classList.add("active");
     }
+
+    const locationSelect = document.getElementById('locationSelect');
+    locationSelect.addEventListener('change', function() {
+        const apiUrl = `/sensors/get_sensors_info/${locationSelect.value}`;
+        fetch(apiUrl, {
+            method: 'GET',
+        })
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok) {
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const header = document.querySelector(".content-header");
+                header.innerText = `Добавить сценарии для: ${locationSelect.value}`;
+                const tBody = document.querySelector('.content-main-table-body');
+                tBody.innerHTML = "";
+
+                for (let sensor in data) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<th class="white-space-nowrap fs-9 align-middle ps-0"
+                                        style="max-width:20px; width:18px;">
+                                        <div class="form-check mb-0 fs-8">
+                                            <input class="form-check-input" disabled="">
+                                        </div>
+                                    </th>
+                                    <th class="sort align-middle ps-3" data-sort="name">
+                                        ${sensor}
+                                    </th>
+                                    <th class="sort align-middle">От</th>
+                                    <th class="sort align-middle">До</th>`;
+                    tBody.appendChild(row);
+
+                    console.log(data[sensor]);
+
+                    for (let parameter in data[sensor]) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<tr>
+                                            <td class="fs-9 align-middle">
+                                                <div class="form-check mb-0 fs-8">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ps-3">${data[sensor][parameter][0]}, ${data[sensor][parameter][1]}</td>
+                                            <td class="align-middle">
+                                                <input class="form-control" id="floatingInputSurname" type="text"
+                                                       placeholder="...">
+                                            </td>
+                                            <td class="align-middle age">
+                                                <input class="form-control" id="floatingInputSurname" type="text"
+                                                       placeholder="...">
+                                            </td>
+                                        </tr>`;
+                        tBody.appendChild(row);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+    })
 </script>
 
 </body>
