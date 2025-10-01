@@ -169,9 +169,9 @@
                                             data-spot="{{ value.spot }}"
                                             data-name="{{ value.name }}"
                                             data-sensor-type="{{ value.sensor_type }}"
-                                            {% if value.sensor_image %}
-                                                data-sensor-image-url="{{ value.sensor_image.url }}"
-                                            {% endif %}
+                                                {% if value.sensor_image %}
+                                            data-sensor-image-url="{{ value.sensor_image.url }}"
+                                                {% endif %}
                                             data-status="{{ value.setting.status }}"
                                             data-setting-action="{{ value.setting.action }}">
                                             <td class="align-middle ps-3 group" hidden>{{ value.location }}</td>
@@ -790,14 +790,17 @@
                         Нет данных</h5>
                 </div>
                 <div class="modal-body">
-                    <p class="text-body-tertiary lh-lg mb-0" id="nodataAction">Возможно это происходит изза неполадки в линии связи с
+                    <p class="text-body-tertiary lh-lg mb-0" id="nodataAction">Возможно это происходит изза неполадки в
+                        линии связи с
                         датчиком. Необходимо проверить физическое состояние данного датчика на месте ее установки.</p>
                 </div>
                 <div class="modal-body">
-                    <img class="rounded-2 w-100 h-100 object-fit-cover" id="nodataImage" src='{% static "images/91.png" %}' alt="">
+                    <img class="rounded-2 w-100 h-100 object-fit-cover" id="nodataImage"
+                         src='{% static "images/91.png" %}' alt="">
                     <div class="position-absolute w-100 bottom-0 start-0 p-5">
                         <h4 class="text-white" id="nodataSensor">Вентиляционная шахта-P1.14-ТвОВв</h4>
-                        <p class="mb-0 text-secondary-lighter text-capitalize" id="nodataTypes">Температура, влажность, точка росы</p>
+                        <p class="mb-0 text-secondary-lighter text-capitalize" id="nodataTypes">Температура, влажность,
+                            точка росы</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -833,24 +836,67 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
+    let sensorData = {};
+    document.addEventListener("DOMContentLoaded", function () {
+        const tBody = document.getElementById('mainTableBody');
+        tBody.querySelectorAll('tr').forEach(row => {
+            let sensorId = row.dataset.sensorId;
+            let location = row.dataset.location;
+            let spot = row.dataset.spot;
+            let name = row.dataset.name;
+            let sensorType = row.dataset.sensorType;
+            let sensorImageUrl = row.dataset.sensorImageUrl;
+            let status = row.dataset.status;
+            let settingAction = row.dataset.settingAction;
+
+            sensorData[sensorId] = {
+                sensorId: sensorId,
+                location: location,
+                spot: spot,
+                name: name,
+                sensorType: sensorType,
+                sensorImageUrl: sensorImageUrl,
+                status: status,
+                settingAction: settingAction
+            }
+        })
+    })
+
+
+    function updateSensorData(data) {
+        sensorData[data.sensor_id] = {
+            sensorId: data.sensor_id,
+            location: data.location,
+            spot: data.spot,
+            name: data.name,
+            sensorType: data.sensor_type,
+            sensorImageUrl: data.sensor_image,
+            status: data.setting.status,
+            settingAction: data.setting.action
+        }
+    }
+
+
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.modal-data');
         if (btn) {
             e.preventDefault();
             const row = btn.closest('tr');
-
+            let sensorId = row.querySelector('.sensor-id').innerText.trim();
             const nodataLabel = document.getElementById('nodataLabel');
             const nodataAction = document.getElementById('nodataAction');
             const nodataImage = document.getElementById('nodataImage');
             const nodataSensor = document.getElementById('nodataSensor');
             const nodataTypes = document.getElementById('nodataTypes');
-            nodataLabel.innerText = `${row.dataset.location}. ${row.dataset.name}: ${row.dataset.status}`;
-            nodataAction.innerText = `${row.dataset.settingAction}`;
-            if (row.dataset.sensorImageUrl) {
-                nodataImage.src = row.dataset.sensorImageUrl + '?t=' + Date.now();
+            nodataLabel.innerText = `${sensorData[sensorId].location}. ${sensorData[sensorId].name}: ${sensorData[sensorId].status}`;
+            nodataAction.innerText = `${sensorData[sensorId].settingAction}`;
+            if (sensorData[sensorId].sensorImageUrl) {
+                nodataImage.src = sensorData[sensorId].sensorImageUrl + '?t=' + Date.now();
+            } else {
+                nodataImage.src = '{% static "images/91.png" %}';
             }
-            nodataSensor.innerText = `${row.dataset.name}-${row.dataset.spot}-${row.dataset.sensorType}`;
-            if (row.dataset.sensorType === 'ТвОВв') {
+            nodataSensor.innerText = `${sensorData[sensorId].name}-${sensorData[sensorId].spot}-${sensorData[sensorId].sensorType}`;
+            if (sensorData[sensorId].sensorType === 'ТвОВв') {
                 nodataTypes.innerText = 'Температура, влажность, точка росы';
             } else if (row.dataset.sensorType === 'Vв') {
                 nodataTypes.innerText = 'Скорость ветра';
@@ -893,6 +939,7 @@
     socket.onopen = () => console.log("Connected!");
     socket.onmessage = function (e) {
         const data = JSON.parse(e.data);
+        sensorData[data.sensor_id] = data;
         updateTable(data);
     };
     socket.onerror = (e) => console.log("Error:", e);
@@ -930,23 +977,57 @@
             "value-1": `${data.value1}${data.type1}`,
             "value-2": `${data.value2}${data.type2}`,
             "value-3": `${data.value3}${data.type3}`,
-            status: data.status
+            status: data.setting.status
         });
-        let lastRow = window.myList.list[window.myList.list.length - 1].elm;
-        lastRow.dataset.sensorId = data.sensor_id;
-        lastRow.dataset.location = data.location;
-        lastRow.dataset.spot = data.spot;
-        lastRow.dataset.name = data.name;
-        lastRow.dataset.sensor_type = data.sensor_type;
-        lastRow.dataset.sensorImageUrl = data.sensor_image;
-        lastRow.dataset.status = data.setting.status;
-        lastRow.dataset.settingAction = data.setting.action;
-        console.log("new data arrived!");
-        const lastItem = myList.items.pop();   // remove last
-        myList.items.unshift(lastItem);
+        updateSensorData(data);
+
         myList.update();
         myList.sort("status", {sortFunction: statusSorter});
 
+    }
+
+
+    function renderStatusCell(statusValue) {
+        let html = "";
+
+        switch (statusValue) {
+            case "Нет данных":
+                html = `<div class="badge fs-10 badge-phoenix badge-phoenix-secondary modal-data">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
+                                <span class="fw-bold">Нет данных</span>
+                                <span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span>
+                            </a>
+                        </div>`;
+                break;
+
+            case "Предупреждение":
+                html = `<div class="badge badge-phoenix fs-10 badge-phoenix-info modal-data">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
+                                <span class="fw-bold">Предупреждение</span>
+                               <span class="ms-1 fas fa-alert"></span>
+                            </a>
+                        </div>`;
+                break;
+
+            case "Тревога":
+                html = `<div class="badge badge-phoenix fs-10 badge-phoenix-danger modal-data" role="status">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#nodata">
+                                <span class="fw-bold">Тревога</span>
+                                <span class="ms-1 fas fa-close"></span>
+                            </a>
+                        </div>`;
+                break;
+
+            default:
+                html = `<div class="badge fs-10 badge-phoenix badge-phoenix-success">
+                            <a data-bs-target="#nodata">
+                                <span class="fw-bold">Норма</span>
+                                <span class="ms-1 fas fa-check" data-fa-transform="shrink-2"></span>
+                            </a>
+                        </div>`;
+        }
+
+        return html;
     }
 
 
@@ -1081,6 +1162,28 @@
         });
 
         myList.on('updated', item => {
+            document.querySelectorAll("td.status").forEach(cell => {
+                const value = cell.textContent.trim();
+
+                // Clear old classes
+                cell.querySelector(".badge")?.classList.remove(
+                    "badge-phoenix-secondary",
+                    "badge-phoenix-info",
+                    "badge-phoenix-danger",
+                    "badge-phoenix-success"
+                );
+
+                // Apply new one based on status
+                if (value === "Нет данных") {
+                    cell.innerHTML = renderStatusCell("Нет данных");
+                } else if (value === "Предупреждение") {
+                    cell.innerHTML = renderStatusCell("Предупреждение");
+                } else if (value === "Тревога") {
+                    cell.innerHTML = renderStatusCell("Тревога");
+                } else {
+                    cell.innerHTML = renderStatusCell("Норма");
+                }
+            });
             if (!myList.matchingItems.length) {
                 pageQuantity = Math.ceil(myList.size() / myList.page);
             } else {

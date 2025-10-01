@@ -19,7 +19,6 @@ import monitoring.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kesene.settings')
 
-print("ASGI application loaded!")
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AllowedHostsOriginValidator(

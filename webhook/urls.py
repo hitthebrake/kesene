@@ -7,5 +7,5 @@ app_name = 'webhook'
 urlpatterns = [
     path('accept_data/', views.webhook, name='webhook'),
     # path('copy_all_data/', views.copy_all_data, name='copy_all_data'),
-    path('fire_signal/', views.fire_signal, name='fire_signal'),
+    # path('fire_signal/', views.fire_signal, name='fire_signal'),
 ]

@@ -31,9 +31,6 @@ def data_saved(sender, instance, created, **kwargs):
         sheets = instance.data['sheets']
         for key, value in sheets.items():
             sensor_data = get_sensor_info(key)
-            print(key)
-            print(sensor_data)
-            print()
 
             if len(sensor_data) == 0:
                 continue

@@ -418,7 +418,6 @@ def safe_float(x):
 
 def get_sensor_info(json_key):
     location, full_sensor_name = get_location_and_sensor_names(json_key)
-    print(location, full_sensor_name)
     if location == "" and full_sensor_name == "":
         return {}
     name = get_sensor_name(full_sensor_name)

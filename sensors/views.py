@@ -201,5 +201,4 @@ def get_sensors_info(request, location):
     for sensor in sensors:
         key = f'{sensor.name}-{sensor.spot}-{sensor.sensor_type}'
         return_data[key] = sensor_types[sensor.sensor_type]
-    print(return_data)
     return JsonResponse(return_data)

@@ -136,7 +136,6 @@ class LatestData:
     @staticmethod
     def get_weather():
         cache_key = "weather_data"
-        print("check:", cache_key in cache)
         data = cache.get(cache_key)
 
         if not data:  # no cache or expired
