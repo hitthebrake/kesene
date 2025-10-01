@@ -2,10 +2,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
-from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
+from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest, ExampleWebhookRequest
 
 
-@receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')
+@receiver(post_save, sender=ExampleWebhookRequest, dispatch_uid='data_saved')
 def data_saved(sender, instance, created, **kwargs):
     print('Signal fired!!!')
     if created:
@@ -31,6 +31,10 @@ def data_saved(sender, instance, created, **kwargs):
         sheets = instance.data['sheets']
         for key, value in sheets.items():
             sensor_data = get_sensor_info(key)
+            print(key)
+            print(sensor_data)
+            print()
+
             if len(sensor_data) == 0:
                 continue
 

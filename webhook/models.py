@@ -53,3 +53,7 @@ class ExampleMeasurement(models.Model):
     value1 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 1", blank=True, null=True)
     value2 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 2", blank=True, null=True)
     value3 = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Значение 3", blank=True, null=True)
+
+
+class ExampleWebhookRequest(models.Model):
+    data = models.JSONField()

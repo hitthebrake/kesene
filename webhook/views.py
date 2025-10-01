@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from webhook.models import WebhookRequest, Sensor, Measurement, MeteoData
+from webhook.models import WebhookRequest, Sensor, Measurement, MeteoData, ExampleWebhookRequest
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
 
 
@@ -121,4 +121,11 @@ def copy_all_data(request):
 
     Measurement.objects.bulk_create(instances_to_create, batch_size=2000)
     MeteoData.objects.bulk_create(meteo_instances_to_create, batch_size=2000)
+    return redirect('monitoring:index')
+
+
+def fire_signal(request):
+    obj = WebhookRequest.objects.get(id=15023)
+    instance = ExampleWebhookRequest(data=obj.data)
+    instance.save()
     return redirect('monitoring:index')
