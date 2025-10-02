@@ -2,10 +2,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
-from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest, ExampleWebhookRequest
+from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
 
 
-@receiver(post_save, sender=ExampleWebhookRequest, dispatch_uid='data_saved')
+@receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')
 def data_saved(sender, instance, created, **kwargs):
     print('Signal fired!!!')
     if created:

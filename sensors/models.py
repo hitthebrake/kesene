@@ -52,3 +52,42 @@ class InstanceManualData(models.Model):
         indexes = [
             models.Index(fields=['manual_data']),
         ]
+
+
+
+class LocationScenario(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    wind_direction = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    wind_speed = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    temperature = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    humidity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    dew_point = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    pressure = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    precipitation = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    season = models.IntegerField()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['created_at']),
+        ]
+
+
+class SensorScenario(models.Model):
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    scenario = models.ForeignKey(LocationScenario, on_delete=models.CASCADE)
+    from1 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    from2 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    from3 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    to1 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    to2 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    to3 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['scenario']),
+        ]
