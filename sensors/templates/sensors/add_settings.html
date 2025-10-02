@@ -72,7 +72,8 @@
     {% include 'core/sidebar.html' %}
     {% include 'core/navbar.html' %}
     <div class="content">
-        <form class="mb-9">
+        <form class="mb-9" method="post" action="{% url 'sensors:add_settings' %}">
+        {% csrf_token %}
             <div class="row g-3 flex-between-end mb-5">
                 <div class="col-auto">
                     <h4 class="mb-2 content-header"></h4>
@@ -90,7 +91,7 @@
                         </div>
                         <div class="col-auto d-flex gap-2">
                             <select class="form-select form-select-sm mb-1" data-list-filter="data-list-filter"
-                                    id="locationSelect">
+                                    id="locationSelect" name="location">
                                 <option selected disabled value="">Выберите место установки</option>
                                 {% for location in location_list %}
                                     <option value="{{ location }}">{{ location }}</option>
@@ -122,11 +123,11 @@
                     <div class="col-auto mb-3">
                         <h5 class="mb-2">Заголовок оповещения</h5>
                         <input class="form-control" id="floatingInputSurname" type="text"
-                               placeholder="Введите заголовок">
+                               placeholder="Введите заголовок" name="title">
                     </div>
                     <div class="col-auto">
                         <h5 class="mb-2">Текст оповещения</h5>
-                        <textarea class="form-control" id="exampleTextarea" rows="4"> </textarea>
+                        <textarea class="form-control" id="exampleTextarea" rows="4" name="description"></textarea>
                     </div>
 
 
@@ -156,55 +157,92 @@
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Направление ветра
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="градус"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="градус"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="градус" name="from_wind_direction">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="градус" name="to_wind_direction">
+                                                </td>
+                                            </tr>
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                    Скорость ветра
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="м/с" name="from_wind_speed">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="м/с" name="to_wind_speed">
+                                                </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Температура
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="°С"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="°С"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="°С" name="from_temperature">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="°С" name="to_temperature">
+                                                </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Влажность
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="%	"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="%	"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="%" name="from_humidity">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="%" name="to_humidity">
+                                                </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Точка росы
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="'С"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="'С"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="'С" name="from_dew_point">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="'С" name="to_dew_point">
+                                                </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Атм.давление, mmHg
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="mmHg"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="mmHg"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="mmHg" name="from_pressure">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="mmHg" name="to_pressure">
+                                                </td>
                                             </tr>
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
                                                     Уровень жидких осадков
                                                 </td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="мм"></td>
-                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1">
-                                                    <input class="form-control" type="text" placeholder="мм"></td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="мм" name="from_precipitation">
+                                                </td>
+                                                <td class="align-middle text-end white-space-nowrap fw-semibold text-body-highlight ps-2 py-1 decimal-input">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="мм" name="to_precipitation">
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -217,39 +255,40 @@
                                 <h5 class="mb-3">Действия</h5>
                                 <div class="form-check">
                                     <input class="form-check-input" id="flexRadioDefault1" type="radio"
-                                           name="flexRadioDefault" checked=""/>
+                                           name="season" value="1" checked=""/>
                                     <label class="form-check-label" for="flexRadioDefault1">Зимний период</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" id="flexRadioDefault2" type="radio"
-                                           name="flexRadioDefault"/>
+                                           name="season" value="2"/>
                                     <label class="form-check-label" for="flexRadioDefault2">Весенний период</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" id="flexRadioDefault3" type="radio"
-                                           name="flexRadioDefault"/>
+                                           name="season" value="3"/>
                                     <label class="form-check-label" for="flexRadioDefault3">Летний период</label>
                                 </div>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" id="flexRadioDefault4" type="radio"
-                                           name="flexRadioDefault"/>
+                                           name="season" value="4"/>
                                     <label class="form-check-label" for="flexRadioDefault4">Осенний период</label>
                                 </div>
 
                                 <div class="col-auto">
-                                    <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button"><span
-                                            data-feather="trash-2"></span></button>
-                                    <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button"><span
-                                            data-feather="paperclip"></span></button>
-                                    <button class="btn btn-primary mb-2 mb-sm-0" type="submit"><span
-                                            data-feather="save"></span></button>
+                                    <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">
+                                        <span data-feather="trash-2"></span>
+                                    </button>
+                                    <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button">
+                                        <span data-feather="paperclip"></span>
+                                    </button>
+                                    <button class="btn btn-primary mb-2 mb-sm-0" type="submit">
+                                        <span data-feather="save"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </form>
 
@@ -348,8 +387,6 @@
                                     <th class="sort align-middle">До</th>`;
                     tBody.appendChild(row);
 
-                    console.log(data[sensor]);
-
                     for (let parameter in data[sensor]) {
                         const row = document.createElement('tr');
                         row.innerHTML = `<tr>
@@ -358,14 +395,14 @@
                                                     <input class="form-check-input" type="checkbox">
                                                 </div>
                                             </td>
-                                            <td class="align-middle ps-3">${data[sensor][parameter][0]}, ${data[sensor][parameter][1]}</td>
+                                            <td class="align-middle ps-3">${data[sensor][parameter]['types'][0]}, ${data[sensor][parameter]['types'][1]}</td>
                                             <td class="align-middle">
-                                                <input class="form-control" id="floatingInputSurname" type="text"
-                                                       placeholder="...">
+                                                <input class="form-control decimal-input" id="floatingInputSurname" type="text"
+                                                       placeholder="..." name="${data[sensor][parameter]['sensor_id']}__${data[sensor][parameter]['types'][2]}__from">
                                             </td>
                                             <td class="align-middle age">
-                                                <input class="form-control" id="floatingInputSurname" type="text"
-                                                       placeholder="...">
+                                                <input class="form-control decimal-input" id="floatingInputSurname" type="text"
+                                                       placeholder="..." name="${data[sensor][parameter]['sensor_id']}__${data[sensor][parameter]['types'][2]}__to">
                                             </td>
                                         </tr>`;
                         tBody.appendChild(row);
@@ -377,6 +414,23 @@
                 return false;
             });
     })
+    
+    document.querySelectorAll('.decimal-input').forEach(input => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9.,]/g, '');
+
+            let dotCount = (this.value.match(/\./g) || []).length;
+            let commaCount = (this.value.match(/,/g) || []).length;
+
+            if (dotCount + commaCount > 1) {
+                // remove the last entered dot or comma
+                this.value = this.value.replace(/[.,]$/, "");
+            }
+
+            // Remove leading zeros (but keep "0." for decimals)
+            this.value = this.value.replace(/^0+(\d)/, "$1");
+        });
+    });
 </script>
 
 </body>

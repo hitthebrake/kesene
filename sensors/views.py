@@ -14,6 +14,8 @@ from webhook.sensor_parsing import sensor_types
 
 @user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def add_settings(request):
+    if request.method == 'POST':
+        print(request.POST)
     return render(request, 'sensors/add_settings.html')
 
 
@@ -200,5 +202,8 @@ def get_sensors_info(request, location):
     return_data = {}
     for sensor in sensors:
         key = f'{sensor.name}-{sensor.spot}-{sensor.sensor_type}'
-        return_data[key] = sensor_types[sensor.sensor_type]
+        return_data[key] = {
+            "types": sensor_types[sensor.sensor_type],
+            'sensor_id': sensor.id,
+        }
     return JsonResponse(return_data)
