@@ -14,8 +14,6 @@ from webhook.sensor_parsing import sensor_types
 
 @user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def add_settings(request):
-    if request.method == 'POST':
-        print(request.POST)
     return render(request, 'sensors/add_settings.html')
 
 
