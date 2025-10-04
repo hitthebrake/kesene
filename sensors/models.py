@@ -58,6 +58,7 @@ class InstanceManualData(models.Model):
 class LocationScenario(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
 
     from_temperature = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     from_dewpoint = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

@@ -175,7 +175,7 @@
                     {% endif %}
                     <!-- CHANGE ../user_pages/winter.html -->
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 winter-link" href="#" role="button"
+                        <a class="nav-link label-1 winter-link" href="{% url 'sensors:scenario_list' "winter" %}" role="button"
                            data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
@@ -189,7 +189,7 @@
                     </div>
                     <!-- CHANGE ../user_pages/spring.html -->
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 spring-link" href="#" role="button"
+                        <a class="nav-link label-1 spring-link" href="{% url 'sensors:scenario_list' "spring" %}" role="button"
                            data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
@@ -203,7 +203,7 @@
                     </div>
                     <!-- CHANGE ../user_pages/sammer.html -->
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 summer-link" href="#" role="button"
+                        <a class="nav-link label-1 summer-link" href="{% url 'sensors:scenario_list' "summer" %}" role="button"
                            data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
@@ -217,7 +217,7 @@
                     </div>
                     <!-- CHANGE  "../user_pages/outem.html" -->
                     <div class="nav-item-wrapper">
-                        <a class="nav-link label-1 autumn-link" href="#"
+                        <a class="nav-link label-1 fall-link" href="{% url 'sensors:scenario_list' "fall" %}"
                            role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                             <span class="nav-link-icon">

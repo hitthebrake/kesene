@@ -6,14 +6,91 @@ from django.shortcuts import render, redirect
 
 from core import extra_functions
 from core.extra_functions import get_parameter_sign
-from sensors.models import SensorSettings
+from sensors.models import SensorSettings, LocationScenario, SensorScenario
 from webhook.models import Sensor
 from webhook.sensor_parsing import sensor_types
 # Create your views here.
 
 
+@login_required(login_url='/login')
+def scenario_list(request, season):
+    scenarios = []
+    season_name = ""
+    if season == 'winter':
+        season_name = "Зимний период"
+        scenarios = LocationScenario.objects.prefetch_related('user').filter(season=1)
+    elif season == 'summer':
+        season_name = "Весенний период"
+        scenarios = LocationScenario.objects.prefetch_related('user').filter(season=2)
+    elif season == 'spring':
+        season_name = "Летний период"
+        scenarios = LocationScenario.objects.prefetch_related('user').filter(season=3)
+    elif season == 'fall':
+        season_name = "Осенний период"
+        scenarios = LocationScenario.objects.prefetch_related('user').filter(season=4)
+
+    context = {
+        'scenarios': scenarios,
+        'season_name': season_name,
+        'season': season,
+    }
+    return render(request, 'sensors/season.html', context)
+
+
 @user_passes_test(extra_functions.can_add_settings, login_url="authorization:login")
 def add_settings(request):
+    if request.method == "POST":
+        location = request.POST.get("location")
+        sensors = Sensor.objects.filter(location=location)
+        scenario = LocationScenario(
+            location=location,
+            title=request.POST.get("title"),
+            description=request.POST.get("description"),
+            user=request.user,
+            season=int(request.POST.get("season")),
+
+            from_temperature=request.POST.get("from_temperature"),
+            from_dewpoint=request.POST.get("from_dewpoint"),
+            from_humidity=request.POST.get("from_humidity"),
+            from_pressure=request.POST.get("from_pressure"),
+            from_precipitation=request.POST.get("from_precipitation"),
+            from_wind_speed=request.POST.get("from_wind_speed"),
+            from_wind_direction=request.POST.get("from_wind_direction"),
+
+            to_temperature=request.POST.get("to_temperature"),
+            to_dewpoint=request.POST.get("to_dewpoint"),
+            to_humidity=request.POST.get("to_humidity"),
+            to_pressure=request.POST.get("to_pressure"),
+            to_precipitation=request.POST.get("to_precipitation"),
+            to_wind_speed=request.POST.get("to_wind_speed"),
+            to_wind_direction=request.POST.get("to_wind_direction"),
+        )
+        try:
+            scenario.save()
+        except:
+            return redirect("sensors:add_settings")
+        instances_to_create = []
+        for sensor in sensors:
+            types = sensor_types.get(sensor.sensor_type)
+
+            instance = SensorScenario(
+                scenario=scenario,
+                sensor=sensor,
+            )
+
+            for i in range(1, len(types)+1):
+                from_str = f'{sensor.id}__{i}__from'
+                to_str = f'{sensor.id}__{i}__to'
+                setattr(instance, f'from{i}', request.POST.get(from_str))
+                setattr(instance, f'to{i}', request.POST.get(to_str))
+
+                instances_to_create.append(instance)
+        try:
+            SensorScenario.objects.bulk_create(instances_to_create)
+        except:
+            return redirect("sensors:add_settings")
+        return redirect("sensors:add_settings")
+
     return render(request, 'sensors/add_settings.html')
 
 

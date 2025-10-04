@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete_setting/', views.delete_setting, name='delete_setting'),
     path('dev_settings_list/', views.dev_settings_list, name='dev_settings_list'),
     path("get_sensors_info/<str:location>/", views.get_sensors_info, name='get_sensors_info'),
+    path("scenario_list/<str:season>/", views.scenario_list, name='scenario_list'),
 ]
