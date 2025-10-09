@@ -7,7 +7,7 @@ from urllib.parse import quote
 
 from django.http import JsonResponse, HttpResponse
 
-from webhook.sensor_parsing import sensor_types
+from webhook.sensor_parsing import _get_sensor_types_
 from webhook.models import Measurement, Sensor
 
 
@@ -75,7 +75,7 @@ class ExportToExcel:
             for sensor in sensors:
                 values = measurements.filter(sensor=sensor)
                 sensor_full_name = f'{sensor.name}-{sensor.spot}-{sensor.sensor_type}'
-                types = sensor_types[sensor.sensor_type]
+                types = _get_sensor_types_(sensor.sensor_type)
                 data_to_write[sensor_full_name] = {'types': types, "values": values}
 
             workbook = self.write(data_to_write)

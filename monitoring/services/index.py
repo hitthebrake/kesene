@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db import connection
 
 from sensors.models import SensorSettings
-from webhook.sensor_parsing import sensor_types as sensor_types_dict
+from webhook.sensor_parsing import _get_sensor_types_
 from webhook.models import Sensor, MeteoData
 
 
@@ -97,7 +97,7 @@ class LatestData:
                         'setting': {'status': 'Норма'},
                         'sensor_image': sensor.image
                     }
-                    sensor_types = sensor_types_dict[sensor.sensor_type]
+                    sensor_types = _get_sensor_types_(sensor.sensor_type)
                     sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id)
                     for i in range(len(sensor_types)):
                         latest_values[sensor_id][f'type{i + 1}'] = sensor_types[i][1]

@@ -15,3 +15,19 @@ class MonitorConsumer(AsyncWebsocketConsumer):
     async def send_measurement(self, event):
         # Send data to WebSocket
         await self.send(text_data=json.dumps(event["data"]))
+
+
+class ScenarioConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        if self.scope["user"].is_anonymous:
+            await self.close()
+            return
+        await self.channel_layer.group_add("scenario", self.channel_name)
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard("scenario", self.channel_name)
+
+    async def send_measurement(self, event):
+        # Send data to WebSocket
+        await self.send(text_data=json.dumps(event["data"]))
