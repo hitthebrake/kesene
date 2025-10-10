@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
 from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
@@ -7,7 +8,7 @@ from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
 
 @receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')
 def data_saved(sender, instance, created, **kwargs):
-    print('Signal fired!!!')
+    # print('Signal fired!!!')
     if created:
         existing_sensors = {
             (name, location, spot, sensor_type): sid
@@ -17,14 +18,14 @@ def data_saved(sender, instance, created, **kwargs):
         }
         existing_measurements = set(
             (date, safe_float(v1), safe_float(v2), safe_float(v3), sensor)
-            for date, v1, v2, v3, sensor in Measurement.objects
+            for date, v1, v2, v3, sensor in Measurement.objects.filter(date=timezone.now().date())
             .values_list('date', 'value1', 'value2', 'value3', 'sensor_id')
         )
         existing_meteo_data = set(
             (date, safe_float(v1), safe_float(v2), safe_float(v3), safe_float(v4), safe_float(v5),
              safe_float(v6), safe_float(v7))
-            for date, v1, v2, v3, v4, v5, v6, v7 in MeteoData.objects.values_list(
-                'date', 'temperature', 'dewpoint', 'pressure', 'humidity', 'wind_speed',
+            for date, v1, v2, v3, v4, v5, v6, v7 in MeteoData.objects.filter(date=timezone.now().date())
+            .values_list('date', 'temperature', 'dewpoint', 'pressure', 'humidity', 'wind_speed',
                 'wind_direction', 'precipitation')
         )
 

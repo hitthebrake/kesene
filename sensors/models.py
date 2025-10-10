@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from kesene import settings
 from webhook.models import Sensor
@@ -100,3 +101,46 @@ class SensorScenario(models.Model):
         indexes = [
             models.Index(fields=['scenario']),
         ]
+
+
+class ScenarioInstance(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('in_progress', 'In Progress'),
+        ('resolved', 'Resolved'),
+    ]
+    scenario = models.ForeignKey(LocationScenario, on_delete=models.CASCADE, related_name='triggers')
+
+    triggered_at = models.DateTimeField(auto_now_add=True)   # when condition was first met
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    in_progress_at = models.DateTimeField(null=True, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_triggers'
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['triggered_at']),
+        ]
+
+    def start_progress(self, user=None):
+        self.status = 'in_progress'
+        self.in_progress_at = timezone.now()
+        if user:
+            self.assigned_to = user
+        self.save()
+
+    def resolve(self, user=None):
+        self.status = 'resolved'
+        self.resolved_at = timezone.now()
+        if user and not self.assigned_to:
+            self.assigned_to = user
+        self.save()
