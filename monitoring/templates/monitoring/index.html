@@ -1062,7 +1062,6 @@
         });
 
 
-
     }
 
 
@@ -1310,15 +1309,14 @@
                 audio.loop = true;
                 audio.play();
             })
-        }
 
-        if (alertBox.classList.contains("show")) {
-            audio.currentTime = 0;
-            audio.loop = true;
-            audio.play();
-        }
 
-        if (alertBox) {
+            if (alertBox.classList.contains("show")) {
+                audio.currentTime = 0;
+                audio.loop = true;
+                audio.play();
+            }
+
             alertBox.addEventListener("closed.bs.alert", function () {
                 audio.pause();
                 audio.currentTime = 0;
