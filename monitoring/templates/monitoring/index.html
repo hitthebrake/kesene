@@ -961,23 +961,32 @@
         }
     };
 
-
+    let messageQueue = [];
     const monitor = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
     monitor.onopen = () => console.log("Connected!");
     monitor.onmessage = function (e) {
         const data = JSON.parse(e.data);
         sensorData[data.sensor_id] = data;
-        updateTable(data);
+        messageQueue.push(data);
     };
     monitor.onerror = (e) => console.log("Error:", e);
 
-    const scenario = new WebSocket('ws://' + window.location.host + '/ws/scenario/');
-    scenario.onopen = () => console.log("Connected!");
-    scenario.onmessage = function (e) {
-        const data = JSON.parse(e.data);
+    setInterval(() => {
+        if (messageQueue.length === 0) return;
 
-    };
-    scenario.onerror = (e) => console.log("Error:", e);
+        while (messageQueue.length > 0) {
+            const data = messageQueue.pop();   // pop from end (or shift if order matters)
+            updateTable(data);
+        }
+        window.myList.sort("status", {sortFunction: statusSorter});
+    }, 100000);
+
+    {#const scenario = new WebSocket('wss://' + window.location.host + '/ws/scenario/');#}
+    {#scenario.onopen = () => console.log("Connected!");#}
+    {#scenario.onmessage = function (e) {#}
+    {#    const data = JSON.parse(e.data);#}
+    {##}
+    {#scenario.onerror = (e) => console.log("Error:", e);#}
 
 
     function statusSorter(a, b) {
@@ -1016,11 +1025,11 @@
         });
         updateSensorData(data);
 
-        myList.update();
+        window.myList.update();
         const listInfo = mainTable.querySelector('[data-list-info]');
         const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
         const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
-        let totalItem = myList.items.length;
+        let totalItem = window.myList.items.length;
         const locationSelect = document.getElementById('locationSelect');
         const updateListControls = () => {
             listInfo &&
@@ -1042,17 +1051,17 @@
                 togglePaginationButtonDisable(paginationButtonPrev, false);
             }
         };
-        myList.filter(item => {
+        window.myList.filter(item => {
             if (locationSelect.value === '') {
                 return true;
             }
-            pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            pageQuantity = Math.ceil(window.myList.matchingItems.length / window.myList.page);
             pageCount = 1;
-            updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, myList, totalItem);
+            updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, window.myList, totalItem);
             return item.values()["group"].toLowerCase() === locationSelect.value.toLowerCase();
         });
 
-        myList.sort("status", {sortFunction: statusSorter});
+
 
     }
 
