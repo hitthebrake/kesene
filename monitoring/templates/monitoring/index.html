@@ -1316,10 +1316,12 @@
             audio.play();
         }
 
-        alertBox.addEventListener("closed.bs.alert", function () {
-            audio.pause();
-            audio.currentTime = 0;
-        });
+        if (alertBox) {
+            alertBox.addEventListener("closed.bs.alert", function () {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        }
     });
 
 
