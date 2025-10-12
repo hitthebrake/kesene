@@ -1304,11 +1304,13 @@
     document.addEventListener("DOMContentLoaded", function () {
         let alertBox = document.getElementById("critical-alert");
         let audio = document.getElementById("alert-sound");
-        alertBox.addEventListener('click', function () {
-            audio.currentTime = 0;
-            audio.loop = true;
-            audio.play();
-        })
+        if (alertBox) {
+            alertBox.addEventListener('click', function () {
+                audio.currentTime = 0;
+                audio.loop = true;
+                audio.play();
+            })
+        }
 
         if (alertBox.classList.contains("show")) {
             audio.currentTime = 0;
