@@ -215,5 +215,5 @@ def get_sensor_info(json_key):
 
 
 @lru_cache
-def _get_sensor_types_(key):
+def get_sensor_types(key):
     return sensor_types.get(key, [])

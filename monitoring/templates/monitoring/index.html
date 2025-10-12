@@ -84,18 +84,31 @@
                         <audio id="alert-sound" src="{% static 'sounds/mixkit-warning-alarm-buzzer-991.wav' %}"
                                preload="auto" loop></audio>
 
-                        <div class="alert alert-subtle-warning alert-dismissible fade show"
-                             id="critical-alert" role="alert">
-                            <h4 class="alert-heading fw-semibold">Асхана. Критический уровень влажности!</h4>
-                            <p>Необходимо ограничить посещение! Включить вентиляторы по направлению к западной стене.
-                                Включить тепловую пушку</p>
-                            <hr class="bg-body-tertiary"/>
-                            <button class="btn btn-danger me-1 mb-1" type="button" data-bs-dismiss="alert"
-                                    aria-label="Close">Принять в работу
-                            </button>
-                            <button class="btn btn-outline-secondary me-1 mb-1" type="button" data-bs-dismiss="alert"
-                                    aria-label="Close">Удалить
-                            </button>
+                        <div class="alert-col">
+
+                            {% for scenario in scenarios %}
+                                <div class="alert alert-subtle-warning alert-dismissible fade show alert-modal"
+                                     role="alert" data-scenario-id="{{ scenario.id }}">
+                                    <h4 class="alert-heading fw-semibold alert-title">{{ scenario.scenario.location }}. {{ scenario.scenario.title }}</h4>
+                                    <p class="alert-description">{{ scenario.scenario.description }}</p>
+                                    {% if scenario.user %}
+                                        <p class="alert-user">
+                                            Исполнитель: {{ scenario.user.last_name }} {{ scenario.user.first_name }}
+                                        </p>
+                                    {% endif %}
+                                    <hr class="bg-body-tertiary"/>
+                                    {% if scenario.status == 'pending' %}
+                                        <a class="btn btn-danger me-1 mb-1"
+                                           href="{% url 'monitoring:scenario-update' scenario.id %}">
+                                            Принять в работу
+                                        </a>
+                                    {% endif %}
+                                    <button class="btn btn-outline-secondary me-1 mb-1 alert-dismiss" type="button"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close">Закрыть
+                                    </button>
+                                </div>
+                            {% endfor %}
                         </div>
                         <div id="tableExample4">
                             {#                             data-list='{"valueNames":["group", "name", "place", "type", "value-1", "value-2", "value-3", "status"],"page":150,"pagination":false,"filter":{"key":"group"}}'>#}
@@ -388,23 +401,23 @@
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="home-tab" data-bs-toggle="tab"
                                                    href="#tab-home" role="tab" aria-controls="tab-new"
-                                                   aria-selected="false" tabindex="-1">Отложенные (1)</a>
+                                                   aria-selected="false" tabindex="-1">Отложенные</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                                    href="#tab-progress" role="tab" aria-controls="tab-progress"
-                                                   aria-selected="false" tabindex="-1">В работе (1)</a>
+                                                   aria-selected="false" tabindex="-1">В работе</a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link" id="contact-tab" data-bs-toggle="tab"
                                                    href="#tab-completed" role="tab" aria-controls="tab-completed"
-                                                   aria-selected="true">Исполненные (3)</a>
+                                                   aria-selected="true">Исполненные</a>
                                             </li>
-                                            <li class="nav-item" role="presentation">
-                                                <a class="nav-link" id="contact-trash" data-bs-toggle="tab"
-                                                   href="#tab-trash" role="tab" aria-controls="tab-trash"
-                                                   aria-selected="true">Корзина (3)</a>
-                                            </li>
+                                            {#                                            <li class="nav-item" role="presentation">#}
+                                            {#                                                <a class="nav-link" id="contact-trash" data-bs-toggle="tab"#}
+                                            {#                                                   href="#tab-trash" role="tab" aria-controls="tab-trash"#}
+                                            {#                                                   aria-selected="true">Корзина (3)</a>#}
+                                            {#                                            </li>#}
                                         </ul>
                                         <div class="tab-content mt-3" id="myTabContent">
                                             <div class="tab-pane fade active show" id="tab-home" role="tabpanel"
@@ -431,35 +444,41 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody class="list">
-                                                            <tr>
-                                                                <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                <td class="align-middle ps-0 time">16:25</td>
-                                                                <td class="align-middle room">Асхана</td>
-                                                                <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                    <div class="btn-reveal-trigger position-static">
-                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                type="button"
-                                                                                data-bs-toggle="dropdown"
-                                                                                data-boundary="window"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"
-                                                                                data-bs-reference="parent">
-                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                        </button>
-                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                            <a class="dropdown-item" href="#!"
-                                                                               data-bs-toggle="modal"
-                                                                               data-bs-target="#danger_room">Просмотр</a>
-                                                                            <a class="dropdown-item" href="#!">Оповестить
-                                                                                сотрудников</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item text-danger"
-                                                                               href="#!">Удалить</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-
+                                                            {% for scenario in scenarios %}
+                                                                {% if scenario.status == 'pending' %}
+                                                                    <tr data-scenario-id="{{ scenario.id }}"
+                                                                        data-scenario-location="{{ scenario.scenario.location }}"
+                                                                        data-scenario-title="{{ scenario.scenario.title }}"
+                                                                        data-scenario-status="{{ scenario.status }}"
+                                                                            {% if scenario.user %}
+                                                                        data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
+                                                                            {% endif %}
+                                                                        data-scenario-description="{{ scenario.scenario.description }}">
+                                                                        <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                        <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
+                                                                        <td class="align-middle room">{{ scenario.scenario.location }}</td>
+                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                            <div class="btn-reveal-trigger position-static">
+                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                        type="button"
+                                                                                        data-bs-toggle="dropdown"
+                                                                                        data-boundary="window"
+                                                                                        aria-haspopup="true"
+                                                                                        aria-expanded="false"
+                                                                                        data-bs-reference="parent">
+                                                                                    <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                    <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                    <a class="dropdown-item" href="#!">
+                                                                                        Оповестить сотрудников
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endif %}
+                                                            {% endfor %}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -518,35 +537,38 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody class="list">
-                                                            <tr>
-                                                                <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                <td class="align-middle ps-0 time">16:25</td>
-                                                                <td class="align-middle room">Асхана</td>
-                                                                <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                    <div class="btn-reveal-trigger position-static">
-                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                type="button"
-                                                                                data-bs-toggle="dropdown"
-                                                                                data-boundary="window"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"
-                                                                                data-bs-reference="parent">
-                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                        </button>
-                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                            <a class="dropdown-item" href="#!"
-                                                                               data-bs-toggle="modal"
-                                                                               data-bs-target="#danger_room_end">Просмотр</a>
-                                                                            <a class="dropdown-item"
-                                                                               href="#!">Завершить</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item text-danger"
-                                                                               href="#!">Удалить</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-
+                                                            {% for scenario in scenarios %}
+                                                                {% if scenario.status == 'in_progress' %}
+                                                                    <tr data-scenario-id="{{ scenario.id }}"
+                                                                        data-scenario-location="{{ scenario.scenario.location }}"
+                                                                        data-scenario-title="{{ scenario.scenario.title }}"
+                                                                        data-scenario-status="{{ scenario.status }}"
+                                                                            {% if scenario.user %}
+                                                                        data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
+                                                                            {% endif %}
+                                                                        data-scenario-description="{{ scenario.scenario.description }}">
+                                                                        <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                        <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
+                                                                        <td class="align-middle room">{{ scenario.scenario.location }}</td>
+                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                            <div class="btn-reveal-trigger position-static">
+                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                        type="button"
+                                                                                        data-bs-toggle="dropdown"
+                                                                                        data-boundary="window"
+                                                                                        aria-haspopup="true"
+                                                                                        aria-expanded="false"
+                                                                                        data-bs-reference="parent">
+                                                                                    <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                    <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endif %}
+                                                            {% endfor %}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -605,33 +627,38 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody class="list">
-                                                            <tr>
-                                                                <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                <td class="align-middle ps-0 time">16:25</td>
-                                                                <td class="align-middle room">Асхана</td>
-                                                                <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                    <div class="btn-reveal-trigger position-static">
-                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                type="button"
-                                                                                data-bs-toggle="dropdown"
-                                                                                data-boundary="window"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"
-                                                                                data-bs-reference="parent">
-                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                        </button>
-                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                            <a class="dropdown-item" href="#!"
-                                                                               data-bs-toggle="modal"
-                                                                               data-bs-target="#danger_room_off">Просмотр</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item text-danger"
-                                                                               href="#!">Удалить</a>
+                                                            {% for scenario in resolved_scenarios %}
+                                                                <tr data-scenario-id="{{ scenario.id }}"
+                                                                    data-scenario-location="{{ scenario.scenario.location }}"
+                                                                    data-scenario-title="{{ scenario.scenario.title }}"
+                                                                    data-scenario-status="{{ scenario.status }}"
+                                                                        {% if scenario.user %}
+                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
+                                                                        {% endif %}
+                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                    <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                    <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
+                                                                    <td class="align-middle room">{{ scenario.scenario.location }}</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item show-modal-btn">
+                                                                                    Просмотр
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -666,91 +693,91 @@
                                                 </div>
                                                 <!--    Конец Исполненные уведомления-->
                                             </div>
-                                            <div class="tab-pane fade" id="tab-trash" role="tabpanel"
-                                                 aria-labelledby="contact-trash">
-                                                <!--    Начало Корзина уведомления-->
-                                                <div id="tableExample"
-                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-sm fs-9 mb-0">
-                                                            <thead>
-                                                            <tr>
-                                                                <th class="sort border-top border-translucent ps-0"
-                                                                    data-sort="data">Дата
-                                                                </th>
-                                                                <th class="sort border-top border-translucent ps-0"
-                                                                    data-sort="time">Время
-                                                                </th>
-                                                                <th class="sort border-top border-translucent"
-                                                                    data-sort="room">Помещение
-                                                                </th>
-                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"
-                                                                    scope="col">Действия
-                                                                </th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody class="list">
-                                                            <tr>
-                                                                <td class="align-middle ps-0 data">21.09.2025</td>
-                                                                <td class="align-middle ps-0 time">16:25</td>
-                                                                <td class="align-middle room">Асхана</td>
-                                                                <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                    <div class="btn-reveal-trigger position-static">
-                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                type="button"
-                                                                                data-bs-toggle="dropdown"
-                                                                                data-boundary="window"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"
-                                                                                data-bs-reference="parent">
-                                                                            <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                        </button>
-                                                                        <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                            <a class="dropdown-item" href="#!"
-                                                                               data-bs-toggle="modal"
-                                                                               data-bs-target="#danger_room_deleted">Просмотр</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <a class="dropdown-item text-danger"
-                                                                               href="#!">Восстановить</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="d-flex flex-between-center pt-3">
-                                                        <div class="pagination d-none"></div>
-                                                        <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
-                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                            <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                Все
-                                                                <span class="fas fa-angle-right ms-1"
-                                                                      data-fa-transform="down-1"></span>
-                                                            </a><a class="fw-semibold d-none" href="#!"
-                                                                   data-list-view="less">
-                                                            Сокращенно
-                                                            <span class="fas fa-angle-right ms-1"
-                                                                  data-fa-transform="down-1"></span>
-                                                        </a>
-                                                        </p>
-                                                        <div class="d-flex">
-                                                            <button class="btn btn-sm btn-primary" type="button"
-                                                                    data-list-pagination="prev"><span
-                                                                    data-feather="arrow-left-circle"></span>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-primary px-4 ms-2"
-                                                                    type="button" data-list-pagination="next"><span
-                                                                    data-feather="arrow-right-circle"></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--    Конец Корзина уведомления-->
-                                            </div>
+                                            {#                                            <div class="tab-pane fade" id="tab-trash" role="tabpanel"#}
+                                            {#                                                 aria-labelledby="contact-trash">#}
+                                            {#                                                <!--    Начало Корзина уведомления-->#}
+                                            {#                                                <div id="tableExample"#}
+                                            {#                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>#}
+                                            {#                                                    <div class="table-responsive">#}
+                                            {#                                                        <table class="table table-sm fs-9 mb-0">#}
+                                            {#                                                            <thead>#}
+                                            {#                                                            <tr>#}
+                                            {#                                                                <th class="sort border-top border-translucent ps-0"#}
+                                            {#                                                                    data-sort="data">Дата#}
+                                            {#                                                                </th>#}
+                                            {#                                                                <th class="sort border-top border-translucent ps-0"#}
+                                            {#                                                                    data-sort="time">Время#}
+                                            {#                                                                </th>#}
+                                            {#                                                                <th class="sort border-top border-translucent"#}
+                                            {#                                                                    data-sort="room">Помещение#}
+                                            {#                                                                </th>#}
+                                            {#                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"#}
+                                            {#                                                                    scope="col">Действия#}
+                                            {#                                                                </th>#}
+                                            {#                                                            </tr>#}
+                                            {#                                                            </thead>#}
+                                            {#                                                            <tbody class="list">#}
+                                            {#                                                            <tr>#}
+                                            {#                                                                <td class="align-middle ps-0 data">21.09.2025</td>#}
+                                            {#                                                                <td class="align-middle ps-0 time">16:25</td>#}
+                                            {#                                                                <td class="align-middle room">Асхана</td>#}
+                                            {#                                                                <td class="align-middle white-space-nowrap text-end pe-0">#}
+                                            {#                                                                    <div class="btn-reveal-trigger position-static">#}
+                                            {#                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"#}
+                                            {#                                                                                type="button"#}
+                                            {#                                                                                data-bs-toggle="dropdown"#}
+                                            {#                                                                                data-boundary="window"#}
+                                            {#                                                                                aria-haspopup="true"#}
+                                            {#                                                                                aria-expanded="false"#}
+                                            {#                                                                                data-bs-reference="parent">#}
+                                            {#                                                                            <span class="fas fa-ellipsis-h fs-10"></span>#}
+                                            {#                                                                        </button>#}
+                                            {#                                                                        <div class="dropdown-menu dropdown-menu-end py-2">#}
+                                            {#                                                                            <a class="dropdown-item" href="#!"#}
+                                            {#                                                                               data-bs-toggle="modal"#}
+                                            {#                                                                               data-bs-target="#danger_room_deleted">Просмотр</a>#}
+                                            {#                                                                            <div class="dropdown-divider"></div>#}
+                                            {#                                                                            <a class="dropdown-item text-danger"#}
+                                            {#                                                                               href="#!">Восстановить</a>#}
+                                            {#                                                                        </div>#}
+                                            {#                                                                    </div>#}
+                                            {#                                                                </td>#}
+                                            {#                                                            </tr>#}
+                                            {##}
+                                            {#                                                            </tbody>#}
+                                            {#                                                        </table>#}
+                                            {#                                                    </div>#}
+                                            {#                                                    <div class="d-flex flex-between-center pt-3">#}
+                                            {#                                                        <div class="pagination d-none"></div>#}
+                                            {#                                                        <p class="mb-0 fs-9">#}
+                                            {#                                                                <span class="d-none d-sm-inline-block"#}
+                                            {#                                                                      data-list-info="data-list-info"></span>#}
+                                            {#                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>#}
+                                            {#                                                            <a class="fw-semibold" href="#!" data-list-view="*">#}
+                                            {#                                                                Все#}
+                                            {#                                                                <span class="fas fa-angle-right ms-1"#}
+                                            {#                                                                      data-fa-transform="down-1"></span>#}
+                                            {#                                                            </a><a class="fw-semibold d-none" href="#!"#}
+                                            {#                                                                   data-list-view="less">#}
+                                            {#                                                            Сокращенно#}
+                                            {#                                                            <span class="fas fa-angle-right ms-1"#}
+                                            {#                                                                  data-fa-transform="down-1"></span>#}
+                                            {#                                                        </a>#}
+                                            {#                                                        </p>#}
+                                            {#                                                        <div class="d-flex">#}
+                                            {#                                                            <button class="btn btn-sm btn-primary" type="button"#}
+                                            {#                                                                    data-list-pagination="prev"><span#}
+                                            {#                                                                    data-feather="arrow-left-circle"></span>#}
+                                            {#                                                            </button>#}
+                                            {#                                                            <button class="btn btn-sm btn-primary px-4 ms-2"#}
+                                            {#                                                                    type="button" data-list-pagination="next"><span#}
+                                            {#                                                                    data-feather="arrow-right-circle"></span>#}
+                                            {#                                                            </button>#}
+                                            {#                                                        </div>#}
+                                            {#                                                    </div>#}
+                                            {#                                                </div>#}
+                                            {#                                                <!--    Конец Корзина уведомления-->#}
+                                            {#                                            </div>#}
                                         </div>
                                         <hr style="margin: 20px 0;color: var(--phoenix-border-color-translucent);border: 0;border-top: var(--phoenix-border-width) solid;opacity: 1;">
                                     </div>
@@ -935,14 +962,22 @@
     };
 
 
-    const socket = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
-    socket.onopen = () => console.log("Connected!");
-    socket.onmessage = function (e) {
+    const monitor = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
+    monitor.onopen = () => console.log("Connected!");
+    monitor.onmessage = function (e) {
         const data = JSON.parse(e.data);
         sensorData[data.sensor_id] = data;
         updateTable(data);
     };
-    socket.onerror = (e) => console.log("Error:", e);
+    monitor.onerror = (e) => console.log("Error:", e);
+
+    const scenario = new WebSocket('ws://' + window.location.host + '/ws/scenario/');
+    scenario.onopen = () => console.log("Connected!");
+    scenario.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+    };
+    scenario.onerror = (e) => console.log("Error:", e);
 
 
     function statusSorter(a, b) {
@@ -982,6 +1017,41 @@
         updateSensorData(data);
 
         myList.update();
+        const listInfo = mainTable.querySelector('[data-list-info]');
+        const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
+        const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
+        let totalItem = myList.items.length;
+        const locationSelect = document.getElementById('locationSelect');
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+        myList.filter(item => {
+            if (locationSelect.value === '') {
+                return true;
+            }
+            pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            pageCount = 1;
+            updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, myList, totalItem);
+            return item.values()["group"].toLowerCase() === locationSelect.value.toLowerCase();
+        });
+
         myList.sort("status", {sortFunction: statusSorter});
 
     }
@@ -1090,6 +1160,7 @@
                 togglePaginationButtonDisable(paginationButtonPrev, false);
             }
         };
+
         updateListControls();
 
         const listFilter = mainTable.querySelector('[data-list-filter]');
@@ -1320,6 +1391,50 @@
             });
 
     }
+
+
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.show-modal-btn');
+        if (btn) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let id = row.dataset.scenarioId;
+            document.querySelectorAll('.alert-modal').forEach(item => {
+                if (item.dataset.scenarioId === id) {
+                    item.remove();
+                }
+            })
+            let status = row.dataset.scenarioStatus;
+            let location = row.dataset.scenarioLocation;
+            let title = row.dataset.scenarioTitle;
+            let description = row.dataset.scenarioDescription;
+            let user = row.dataset.scenarioUser;
+
+            const div = document.querySelector('.alert-col');
+            let string = `<div class="alert alert-subtle-warning alert-dismissible fade show alert-modal" role="alert"
+                                data-scenario-id="${id}">
+                                <h4 class="alert-heading fw-semibold alert-title">${location}. ${title}</h4>
+                                <p class="alert-description">${description}</p>`;
+            if (user) {
+                string += `<p class="alert-user">Исполнитель: ${user}</p>`
+            }
+            string += `<hr class="bg-body-tertiary"/>`
+            if (status === 'pending') {
+                string += `<a class="btn btn-danger me-1 mb-1" href="/monitoring/scenario-update/${id}/"">
+                                  Принять в работу</a>`;
+            }
+            string += `<button class="btn btn-outline-secondary me-1 mb-1 alert-dismiss" type="button"
+                               data-bs-dismiss="alert" aria-label="Close">Закрыть</button></div>`;
+
+            div.insertAdjacentHTML('beforeend', string);
+        }
+    });
+
+    document.addEventListener('closed.bs.alert', function (event) {
+        event.target.remove();  // physically remove alert from DOM
+    });
+
 </script>
 </body>
 

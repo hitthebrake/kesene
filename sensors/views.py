@@ -8,7 +8,7 @@ from core import extra_functions
 from core.extra_functions import get_parameter_sign
 from sensors.models import SensorSettings, LocationScenario, SensorScenario
 from webhook.models import Sensor
-from webhook.sensor_parsing import _get_sensor_types_
+from webhook.sensor_parsing import get_sensor_types
 # Create your views here.
 
 
@@ -71,7 +71,7 @@ def add_settings(request):
             return redirect("sensors:add_settings")
         instances_to_create = []
         for sensor in sensors:
-            types = _get_sensor_types_(sensor.sensor_type)
+            types = get_sensor_types(sensor.sensor_type)
 
             instance = SensorScenario(
                 scenario=scenario,
@@ -181,7 +181,7 @@ def add_dev_settings(request):
             'sensor_type': sensor.sensor_type,
             'image': sensor.image,
         }
-        types = _get_sensor_types_(sensor.sensor_type)
+        types = get_sensor_types(sensor.sensor_type)
         for i in range(1, len(types) + 1):
             existing_settings = SensorSettings.objects.filter(sensor_id=sensor.id, type_name=types[i - 1][0]).values(
                 'id', 'from_value', 'to_value', 'action', 'status'
@@ -278,7 +278,7 @@ def get_sensors_info(request, location):
     for sensor in sensors:
         key = f'{sensor.name}-{sensor.spot}-{sensor.sensor_type}'
         return_data[key] = {
-            "types": _get_sensor_types_(sensor.sensor_type),
+            "types": get_sensor_types(sensor.sensor_type),
             'sensor_id': sensor.id,
         }
     return JsonResponse(return_data)

@@ -3,9 +3,11 @@ import requests
 from django.core.cache import cache
 from django.conf import settings
 from django.db import connection
+from django.utils import timezone
 
-from sensors.models import SensorSettings
-from webhook.sensor_parsing import _get_sensor_types_
+from monitoring.services.scenario import ScenarioCheck
+from sensors.models import SensorSettings, ScenarioInstance
+from webhook.sensor_parsing import get_sensor_types
 from webhook.models import Sensor, MeteoData
 
 
@@ -53,15 +55,19 @@ def compare_status(value1, value2):
     return value1 if priorities.get(value1, 0) > priorities.get(value2, 0) else value2
 
 
-class LatestData:
+class LatestData(ScenarioCheck):
     def get_data(self):
         latest_values = self.get_latest_measurements()
         latest_local_meteo = self.get_latest_local_meteo_data()
         latest_api_meteo = self.get_latest_api_meteo_data()
+        scenarios = self.scenario_check(latest_values, latest_api_meteo)
+        resolved_scenarios = ScenarioInstance.objects.filter(triggered_at=timezone.now().date(), status='resolved')
         return {
             'latest_values': latest_values,
             'latest_local_meteo': latest_local_meteo,
             'latest_api_meteo': latest_api_meteo,
+            'scenarios': scenarios,
+            'resolved_scenarios': resolved_scenarios,
         }
 
     @staticmethod
@@ -97,7 +103,7 @@ class LatestData:
                         'setting': {'status': 'Норма'},
                         'sensor_image': sensor.image
                     }
-                    sensor_types = _get_sensor_types_(sensor.sensor_type)
+                    sensor_types = get_sensor_types(sensor.sensor_type)
                     sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id)
                     for i in range(len(sensor_types)):
                         latest_values[sensor_id][f'type{i + 1}'] = sensor_types[i][1]

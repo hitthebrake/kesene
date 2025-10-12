@@ -90,3 +90,5 @@ def data_saved(sender, instance, created, **kwargs):
                 )
                 obj.save()
                 existing_measurements.add((dt, values[0], values[1], values[2], sensor_id))
+
+        # trigger the scenario check

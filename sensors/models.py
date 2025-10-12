@@ -135,12 +135,10 @@ class ScenarioInstance(models.Model):
         self.status = 'in_progress'
         self.in_progress_at = timezone.now()
         if user:
-            self.assigned_to = user
+            self.user = user
         self.save()
 
-    def resolve(self, user=None):
+    def resolve(self):
         self.status = 'resolved'
         self.resolved_at = timezone.now()
-        if user and not self.assigned_to:
-            self.assigned_to = user
         self.save()

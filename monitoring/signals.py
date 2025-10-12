@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 from sensors.models import SensorSettings
 from webhook.models import Measurement, Sensor
-from webhook.sensor_parsing import _get_sensor_types_
+from webhook.sensor_parsing import get_sensor_types
 from monitoring.services.index import check_limits, compare_status
 
 
@@ -20,7 +20,7 @@ def monitor_update(sender, instance, created, **kwargs):
         value3 = str(round(float(instance.value3), 2)).replace('.', ',') if instance.value3 is not None else '#NV'
 
         sensor = Sensor.objects.get(id=sensor_id)
-        types = _get_sensor_types_(sensor.sensor_type)
+        types = get_sensor_types(sensor.sensor_type)
         data = {
             'sensor_id': sensor_id,
             'value1': value1 if len(types)>0 else '',

@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from webhook.sensor_parsing import _get_sensor_types_
+from webhook.sensor_parsing import get_sensor_types
 
 def is_image(uploaded_file):
     if not uploaded_file:
@@ -34,7 +34,7 @@ def can_add_data(user):
 
 
 def get_parameter_sign(sensor_type, parameter):
-    list_of_types = _get_sensor_types_(sensor_type)
+    list_of_types = get_sensor_types(sensor_type)
     if list_of_types is None:
         return ''
 
