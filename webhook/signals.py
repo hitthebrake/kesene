@@ -6,7 +6,7 @@ from django.utils import timezone
 from datetime import timezone as dt_timezone
 
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
-from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest, ExampleWebhookRequest
+from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
 
 
 @receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')

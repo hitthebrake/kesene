@@ -125,7 +125,7 @@ def copy_all_data(request):
 
 
 def fire_signal(request):
-    obj = WebhookRequest.objects.get(id=33331)
+    obj = WebhookRequest.objects.get(id=33300)
     instance = ExampleWebhookRequest(data=obj.data)
     instance.save()
     return redirect('monitoring:index')

@@ -972,10 +972,11 @@
     monitor.onerror = (e) => console.log("Error:", e);
 
     setInterval(() => {
-        if (messageQueue.length === 0) return;
+        if (messageQueue.length === 0) {
+            console.log("nothing to update");
+            return;
+        }
 
-        console.log("the data to update:");
-        console.log(messageQueue);
         console.log("Length at log time:", messageQueue.length);
         console.table(messageQueue);
 
@@ -1036,10 +1037,12 @@
         const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
         const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
         let totalItem = window.myList.items.length;
+        let pageCount = 1;
+        let numberOfcurrentItems = (pageCount - 1) * Number(window.myList.page) + window.myList.visibleItems.length;
         const locationSelect = document.getElementById('locationSelect');
         const updateListControls = () => {
             listInfo &&
-            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+            (listInfo.innerHTML = `с ${window.myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
 
             paginationButtonPrev &&
             togglePaginationButtonDisable(
