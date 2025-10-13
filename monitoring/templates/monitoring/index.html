@@ -974,6 +974,9 @@
     setInterval(() => {
         if (messageQueue.length === 0) return;
 
+        console.log("the data to update:");
+        console.log(messageQueue);
+
         while (messageQueue.length > 0) {
             const data = messageQueue.pop();   // pop from end (or shift if order matters)
             updateTable(data);
@@ -1026,6 +1029,7 @@
         updateSensorData(data);
 
         window.myList.update();
+        const mainTable = document.getElementById("tableExample4");
         const listInfo = mainTable.querySelector('[data-list-info]');
         const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
         const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
