@@ -2,6 +2,8 @@ import re
 from datetime import datetime
 from functools import lru_cache
 
+from django.utils import timezone
+
 sensor_types = {
     'ТвОВв': [("Температура", "°C"), ('Влажность', '%'), ('Точка росы', "'C")],
     'Vв': [('Скорость воздушного потока', 'м/с')],
@@ -185,7 +187,7 @@ def parse_dt(dt_str):
     for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"):
         try:
             dt = datetime.strptime(dt_str, fmt)
-            return dt
+            return timezone.make_aware(dt)
         except ValueError:
             continue
     raise ValueError(f"Invalid datetime format: {dt_str}")

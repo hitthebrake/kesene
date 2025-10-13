@@ -1,15 +1,20 @@
+from datetime import timedelta
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from datetime import timezone as dt_timezone
 
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
-from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
+from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest, ExampleWebhookRequest
 
 
-@receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')
+@receiver(post_save, sender=ExampleWebhookRequest, dispatch_uid='data_saved')
 def data_saved(sender, instance, created, **kwargs):
     # print('Signal fired!!!')
     if created:
+        today = timezone.now().date()
+
         existing_sensors = {
             (name, location, spot, sensor_type): sid
             for name, location, spot, sensor_type, sid in Sensor.objects.values_list(
@@ -17,16 +22,17 @@ def data_saved(sender, instance, created, **kwargs):
             )
         }
         existing_measurements = set(
-            (date, safe_float(v1), safe_float(v2), safe_float(v3), sensor)
-            for date, v1, v2, v3, sensor in Measurement.objects.filter(date=timezone.now().date())
+            (timezone.make_aware(date, dt_timezone.utc) if timezone.is_naive(date) else date, safe_float(v1),
+             safe_float(v2), safe_float(v3), sensor)
+            for date, v1, v2, v3, sensor in Measurement.objects.filter(date__gte=today)
             .values_list('date', 'value1', 'value2', 'value3', 'sensor_id')
         )
         existing_meteo_data = set(
-            (date, safe_float(v1), safe_float(v2), safe_float(v3), safe_float(v4), safe_float(v5),
-             safe_float(v6), safe_float(v7))
-            for date, v1, v2, v3, v4, v5, v6, v7 in MeteoData.objects.filter(date=timezone.now().date())
+            (timezone.make_aware(date, dt_timezone.utc) if timezone.is_naive(date) else date, safe_float(v1),
+             safe_float(v2), safe_float(v3), safe_float(v4), safe_float(v5), safe_float(v6), safe_float(v7))
+            for date, v1, v2, v3, v4, v5, v6, v7 in MeteoData.objects.filter(date__gte=today)
             .values_list('date', 'temperature', 'dewpoint', 'pressure', 'humidity', 'wind_speed',
-                'wind_direction', 'precipitation')
+                         'wind_direction', 'precipitation')
         )
 
         sheets = instance.data['sheets']
@@ -47,7 +53,7 @@ def data_saved(sender, instance, created, **kwargs):
                 date, temperature, dewpoint, pressure, humidity, wind_speed, wind_direction, precipitation = value
                 if (date, temperature, dewpoint, pressure, humidity, wind_speed, wind_direction, precipitation) not in existing_meteo_data:
                     obj = MeteoData(
-                        date=str(date),
+                        date=date,
                         temperature=temperature,
                         dewpoint=dewpoint,
                         pressure=pressure,
@@ -86,7 +92,7 @@ def data_saved(sender, instance, created, **kwargs):
             # create measurement if it does not exist
             if not (dt, values[0], values[1], values[2], sensor_id) in existing_measurements:
                 obj = Measurement(
-                    date=str(dt), value1=values[0], value2=values[1], value3=values[2], sensor_id=sensor_id,
+                    date=dt, value1=values[0], value2=values[1], value3=values[2], sensor_id=sensor_id,
                 )
                 obj.save()
                 existing_measurements.add((dt, values[0], values[1], values[2], sensor_id))

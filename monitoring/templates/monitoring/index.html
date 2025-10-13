@@ -976,6 +976,8 @@
 
         console.log("the data to update:");
         console.log(messageQueue);
+        console.log("Length at log time:", messageQueue.length);
+        console.table(messageQueue);
 
         while (messageQueue.length > 0) {
             const data = messageQueue.pop();   // pop from end (or shift if order matters)
