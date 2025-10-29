@@ -1,10 +1,12 @@
-from datetime import timedelta
-
+from datetime import timezone as dt_timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from datetime import timezone as dt_timezone
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+from monitoring.services.index import LatestData
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
 from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
 
@@ -98,3 +100,16 @@ def data_saved(sender, instance, created, **kwargs):
                 existing_measurements.add((dt, values[0], values[1], values[2], sensor_id))
 
         # trigger the scenario check
+        latest_data = LatestData().get_data()
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "scenario",
+            {
+                "type": "send_scenarios",
+                'new_scenarios': latest_data.get('new_scenarios'),
+                'pending_scenarios': latest_data.get('pending_scenarios'),
+                'in_progress_scenarios': latest_data.get('in_progress_scenarios'),
+                'resolved_scenarios': latest_data.get('resolved_scenarios'),
+            }
+        )

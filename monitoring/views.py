@@ -216,9 +216,12 @@ def get_draft_data(request, location):
 
 
 @login_required(login_url="authorization:login")
-def scenario_update(request, scenario_id):
+def scenario_update(request, scenario_id, action):
     scenario = ScenarioInstance.objects.get(id=scenario_id)
-    if scenario.status == 'pending':
+    if action == 'pending':
+        scenario.start_pending()
+    elif action == 'in_progress':
         scenario.start_progress(request.user)
-        scenario.save()
+    elif action == 'resolved':
+        scenario.resolve()
     return redirect('monitoring:index')

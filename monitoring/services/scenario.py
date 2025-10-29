@@ -3,14 +3,14 @@ from django.utils import timezone
 from sensors.models import LocationScenario, SensorScenario, ScenarioInstance
 
 
-def get_season():
-    month = timezone.now().month
-    months = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    idx = months.index(month)
-    return idx // 3 + 1
-
-
 class ScenarioCheck:
+    @staticmethod
+    def get_season():
+        month = timezone.now().month
+        months = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        idx = months.index(month)
+        return idx // 3 + 1
+
     @staticmethod
     def scenario_check_by_meteo_data(scenarios, meteo_data):
         # meteo_data = LatestData().get_latest_local_meteo_data()
@@ -49,31 +49,47 @@ class ScenarioCheck:
 
         return valid_scenarios
 
-
+    # returns
     def scenario_check(self, latest_data, meteo_data):
-        scenarios = LocationScenario.objects.filter(season=get_season()).prefetch_related('user')
+        scenarios = LocationScenario.objects.filter(season=self.get_season()).prefetch_related('user')
         scenarios = self.scenario_check_by_meteo_data(scenarios, meteo_data)
         scenarios = self.scenario_check_by_sensors(scenarios, latest_data)
 
         active_scenarios = ScenarioInstance.objects.filter(
-            scenario__in=scenarios, status__in=['pending', 'in_progress']
+            scenario__in=scenarios, status__in=['new', 'pending', 'in_progress']
         ).values_list('scenario__id', flat=True)
 
-        all_active_scenarios = ScenarioInstance.objects.filter(status__in=['pending', 'in_progress'])
+        all_active_scenarios = ScenarioInstance.objects.filter(status__in=['new', 'pending', 'in_progress']).select_related('scenario')
         for scenario in all_active_scenarios:
-            if scenario.id not in active_scenarios:
+            if scenario.scenario.id not in active_scenarios:
                 scenario.resolve()
-
 
         for scenario in scenarios:
             if scenario.id not in active_scenarios:
                 scenario_instance = ScenarioInstance(scenario=scenario)
                 scenario_instance.save()
 
-        active_scenarios = ScenarioInstance.objects.filter(
-            scenario__in=scenarios, status__in=['pending', 'in_progress']
+        new_scenarios = ScenarioInstance.objects.filter(
+            scenario__in=scenarios, status='new'
         ).select_related('scenario', 'user')
 
-        return active_scenarios
+        pending_scenarios = ScenarioInstance.objects.filter(
+            scenario__in=scenarios, status='pending'
+        ).select_related('scenario', 'user')
+
+        in_progress_scenarios = ScenarioInstance.objects.filter(
+            scenario__in=scenarios, status='in_progress'
+        ).select_related('scenario', 'user')
+
+        resolved_scenarios = ScenarioInstance.objects.filter(
+            status='resolved', triggered_at__gte=timezone.now().date()
+        ).select_related('scenario', 'user')
+
+        return {
+            'new_scenarios': new_scenarios,
+            'pending_scenarios': pending_scenarios,
+            'in_progress_scenarios': in_progress_scenarios,
+            'resolved_scenarios': resolved_scenarios,
+        }
 
 

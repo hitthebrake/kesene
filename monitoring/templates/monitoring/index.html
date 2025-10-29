@@ -86,7 +86,7 @@
 
                         <div class="alert-col">
 
-                            {% for scenario in scenarios %}
+                            {% for scenario in new_scenarios %}
                                 <div class="alert alert-subtle-warning alert-dismissible fade show alert-modal"
                                      role="alert" data-scenario-id="{{ scenario.id }}">
                                     <h4 class="alert-heading fw-semibold alert-title">{{ scenario.scenario.location }}. {{ scenario.scenario.title }}</h4>
@@ -97,16 +97,13 @@
                                         </p>
                                     {% endif %}
                                     <hr class="bg-body-tertiary"/>
-                                    {% if scenario.status == 'pending' %}
                                         <a class="btn btn-danger me-1 mb-1"
-                                           href="{% url 'monitoring:scenario-update' scenario.id %}">
+                                           href="{% url 'monitoring:scenario-update' scenario.id 'in_progress' %}">
                                             Принять в работу
                                         </a>
-                                    {% endif %}
-                                    <button class="btn btn-outline-secondary me-1 mb-1 alert-dismiss" type="button"
-                                            data-bs-dismiss="alert"
-                                            aria-label="Close">Закрыть
-                                    </button>
+                                    <a class="btn btn-outline-secondary me-1 mb-1 alert-dismiss"
+                                        href="{% url 'monitoring:scenario-update' scenario.id 'pending' %}">Отложить
+                                    </a>
                                 </div>
                             {% endfor %}
                         </div>
@@ -413,24 +410,22 @@
                                                    href="#tab-completed" role="tab" aria-controls="tab-completed"
                                                    aria-selected="true">Исполненные</a>
                                             </li>
-                                            {#                                            <li class="nav-item" role="presentation">#}
-                                            {#                                                <a class="nav-link" id="contact-trash" data-bs-toggle="tab"#}
-                                            {#                                                   href="#tab-trash" role="tab" aria-controls="tab-trash"#}
-                                            {#                                                   aria-selected="true">Корзина (3)</a>#}
-                                            {#                                            </li>#}
                                         </ul>
                                         <div class="tab-content mt-3" id="myTabContent">
                                             <div class="tab-pane fade active show" id="tab-home" role="tabpanel"
                                                  aria-labelledby="home-new">
                                                 <!--    Начало Новые уведомления-->
-                                                <div id="tableExample"
-                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                <div id="pendingTable">
+{#                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>#}
                                                     <div class="table-responsive">
                                                         <table class="table table-sm fs-9 mb-0">
                                                             <thead>
                                                             <tr>
                                                                 <th class="sort border-top border-translucent ps-0"
                                                                     data-sort="data">Дата
+                                                                </th>
+                                                                <th class="sort border-top border-translucent ps-0"
+                                                                    data-sort="scenario-id" hidden>scenario_id
                                                                 </th>
                                                                 <th class="sort border-top border-translucent ps-0"
                                                                     data-sort="time">Время
@@ -444,40 +439,42 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody class="list">
-                                                            {% for scenario in scenarios %}
-                                                                {% if scenario.status == 'pending' %}
-                                                                    <tr data-scenario-id="{{ scenario.id }}"
-                                                                        data-scenario-location="{{ scenario.scenario.location }}"
-                                                                        data-scenario-title="{{ scenario.scenario.title }}"
-                                                                        data-scenario-status="{{ scenario.status }}"
-                                                                            {% if scenario.user %}
-                                                                        data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
-                                                                            {% endif %}
-                                                                        data-scenario-description="{{ scenario.scenario.description }}">
-                                                                        <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
-                                                                        <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
-                                                                        <td class="align-middle room">{{ scenario.scenario.location }}</td>
-                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                            <div class="btn-reveal-trigger position-static">
-                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                        type="button"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        data-boundary="window"
-                                                                                        aria-haspopup="true"
-                                                                                        aria-expanded="false"
-                                                                                        data-bs-reference="parent">
-                                                                                    <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                                </button>
-                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                    <a class="dropdown-item show-modal-btn">Просмотр</a>
-                                                                                    <a class="dropdown-item" href="#!">
-                                                                                        Оповестить сотрудников
-                                                                                    </a>
-                                                                                </div>
+                                                            {% for scenario in pending_scenarios %}
+                                                                <tr data-scenario-id="{{ scenario.id }}"
+                                                                    data-scenario-location="{{ scenario.scenario.location }}"
+                                                                    data-scenario-title="{{ scenario.scenario.title }}"
+                                                                    data-scenario-status="{{ scenario.status }}"
+                                                                        {% if scenario.user %}
+                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
+                                                                        {% endif %}
+                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                    <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                    <td class="align-middle ps-0 scenario-id" hidden>{{ scenario.id }}</td>
+                                                                    <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
+                                                                    <td class="align-middle room">{{ scenario.scenario.location }}</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'in_progress' %}">
+                                                                                    В работу
+                                                                                </a>
+                                                                                <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'resolved' %}">
+                                                                                    Исполнено
+                                                                                </a>
                                                                             </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                             {% endfor %}
                                                             </tbody>
                                                         </table>
@@ -516,8 +513,8 @@
                                             <div class="tab-pane fade" id="tab-progress" role="tabpanel"
                                                  aria-labelledby="profile-progress">
                                                 <!--    Начало В работе уведомления-->
-                                                <div id="tableExample"
-                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                <div id="inProgressTable">
+{#                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>#}
                                                     <div class="table-responsive">
                                                         <table class="table table-sm fs-9 mb-0">
                                                             <thead>
@@ -537,37 +534,37 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody class="list">
-                                                            {% for scenario in scenarios %}
-                                                                {% if scenario.status == 'in_progress' %}
-                                                                    <tr data-scenario-id="{{ scenario.id }}"
-                                                                        data-scenario-location="{{ scenario.scenario.location }}"
-                                                                        data-scenario-title="{{ scenario.scenario.title }}"
-                                                                        data-scenario-status="{{ scenario.status }}"
-                                                                            {% if scenario.user %}
-                                                                        data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
-                                                                            {% endif %}
-                                                                        data-scenario-description="{{ scenario.scenario.description }}">
-                                                                        <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
-                                                                        <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
-                                                                        <td class="align-middle room">{{ scenario.scenario.location }}</td>
-                                                                        <td class="align-middle white-space-nowrap text-end pe-0">
-                                                                            <div class="btn-reveal-trigger position-static">
-                                                                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
-                                                                                        type="button"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        data-boundary="window"
-                                                                                        aria-haspopup="true"
-                                                                                        aria-expanded="false"
-                                                                                        data-bs-reference="parent">
-                                                                                    <span class="fas fa-ellipsis-h fs-10"></span>
-                                                                                </button>
-                                                                                <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                    <a class="dropdown-item show-modal-btn">Просмотр</a>
-                                                                                </div>
+                                                            {% for scenario in in_progress_scenarios %}
+                                                                <tr data-scenario-id="{{ scenario.id }}"
+                                                                    data-scenario-location="{{ scenario.scenario.location }}"
+                                                                    data-scenario-title="{{ scenario.scenario.title }}"
+                                                                    data-scenario-status="{{ scenario.status }}"
+                                                                        {% if scenario.user %}
+                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
+                                                                        {% endif %}
+                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                    <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                    <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
+                                                                    <td class="align-middle room">{{ scenario.scenario.location }}</td>
+                                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                                        <div class="btn-reveal-trigger position-static">
+                                                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="dropdown"
+                                                                                    data-boundary="window"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                    data-bs-reference="parent">
+                                                                                <span class="fas fa-ellipsis-h fs-10"></span>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                                                <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'pending' %}">Отложить</a>
+                                                                                <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'resolved' %}">Исполнено</a>
                                                                             </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                             {% endfor %}
                                                             </tbody>
                                                         </table>
@@ -575,19 +572,17 @@
                                                     <div class="d-flex flex-between-center pt-3">
                                                         <div class="pagination d-none"></div>
                                                         <p class="mb-0 fs-9">
-                                                                <span class="d-none d-sm-inline-block"
-                                                                      data-list-info="data-list-info"></span>
+                                                            <span class="d-none d-sm-inline-block"
+                                                                  data-list-info="data-list-info"></span>
                                                             <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                            <a class="fw-semibold" href="#!" data-list-view="*">
-                                                                Все
+                                                            <a class="fw-semibold" href="#!" data-list-view="*">Все
                                                                 <span class="fas fa-angle-right ms-1"
                                                                       data-fa-transform="down-1"></span>
-                                                            </a><a class="fw-semibold d-none" href="#!"
-                                                                   data-list-view="less">
-                                                            Сокращенно
-                                                            <span class="fas fa-angle-right ms-1"
-                                                                  data-fa-transform="down-1"></span>
-                                                        </a>
+                                                            </a>
+                                                            <a class="fw-semibold d-none" href="#!" data-list-view="less">
+                                                                Сокращенно <span class="fas fa-angle-right ms-1"
+                                                                                 data-fa-transform="down-1"></span>
+                                                            </a>
                                                         </p>
                                                         <div class="d-flex">
                                                             <button class="btn btn-sm btn-primary" type="button"
@@ -606,8 +601,8 @@
                                             <div class="tab-pane fade" id="tab-completed" role="tabpanel"
                                                  aria-labelledby="contact-completed">
                                                 <!--    Начало Исполненные уведомления-->
-                                                <div id="tableExample"
-                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>
+                                                <div id="resolvedTable">
+{#                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>#}
                                                     <div class="table-responsive">
                                                         <table class="table table-sm fs-9 mb-0">
                                                             <thead>
@@ -693,91 +688,6 @@
                                                 </div>
                                                 <!--    Конец Исполненные уведомления-->
                                             </div>
-                                            {#                                            <div class="tab-pane fade" id="tab-trash" role="tabpanel"#}
-                                            {#                                                 aria-labelledby="contact-trash">#}
-                                            {#                                                <!--    Начало Корзина уведомления-->#}
-                                            {#                                                <div id="tableExample"#}
-                                            {#                                                     data-list='{"valueNames":["data","time","room"],"page":2,"pagination":true}'>#}
-                                            {#                                                    <div class="table-responsive">#}
-                                            {#                                                        <table class="table table-sm fs-9 mb-0">#}
-                                            {#                                                            <thead>#}
-                                            {#                                                            <tr>#}
-                                            {#                                                                <th class="sort border-top border-translucent ps-0"#}
-                                            {#                                                                    data-sort="data">Дата#}
-                                            {#                                                                </th>#}
-                                            {#                                                                <th class="sort border-top border-translucent ps-0"#}
-                                            {#                                                                    data-sort="time">Время#}
-                                            {#                                                                </th>#}
-                                            {#                                                                <th class="sort border-top border-translucent"#}
-                                            {#                                                                    data-sort="room">Помещение#}
-                                            {#                                                                </th>#}
-                                            {#                                                                <th class="sort text-end align-middle pe-0 border-top border-translucent"#}
-                                            {#                                                                    scope="col">Действия#}
-                                            {#                                                                </th>#}
-                                            {#                                                            </tr>#}
-                                            {#                                                            </thead>#}
-                                            {#                                                            <tbody class="list">#}
-                                            {#                                                            <tr>#}
-                                            {#                                                                <td class="align-middle ps-0 data">21.09.2025</td>#}
-                                            {#                                                                <td class="align-middle ps-0 time">16:25</td>#}
-                                            {#                                                                <td class="align-middle room">Асхана</td>#}
-                                            {#                                                                <td class="align-middle white-space-nowrap text-end pe-0">#}
-                                            {#                                                                    <div class="btn-reveal-trigger position-static">#}
-                                            {#                                                                        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"#}
-                                            {#                                                                                type="button"#}
-                                            {#                                                                                data-bs-toggle="dropdown"#}
-                                            {#                                                                                data-boundary="window"#}
-                                            {#                                                                                aria-haspopup="true"#}
-                                            {#                                                                                aria-expanded="false"#}
-                                            {#                                                                                data-bs-reference="parent">#}
-                                            {#                                                                            <span class="fas fa-ellipsis-h fs-10"></span>#}
-                                            {#                                                                        </button>#}
-                                            {#                                                                        <div class="dropdown-menu dropdown-menu-end py-2">#}
-                                            {#                                                                            <a class="dropdown-item" href="#!"#}
-                                            {#                                                                               data-bs-toggle="modal"#}
-                                            {#                                                                               data-bs-target="#danger_room_deleted">Просмотр</a>#}
-                                            {#                                                                            <div class="dropdown-divider"></div>#}
-                                            {#                                                                            <a class="dropdown-item text-danger"#}
-                                            {#                                                                               href="#!">Восстановить</a>#}
-                                            {#                                                                        </div>#}
-                                            {#                                                                    </div>#}
-                                            {#                                                                </td>#}
-                                            {#                                                            </tr>#}
-                                            {##}
-                                            {#                                                            </tbody>#}
-                                            {#                                                        </table>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="d-flex flex-between-center pt-3">#}
-                                            {#                                                        <div class="pagination d-none"></div>#}
-                                            {#                                                        <p class="mb-0 fs-9">#}
-                                            {#                                                                <span class="d-none d-sm-inline-block"#}
-                                            {#                                                                      data-list-info="data-list-info"></span>#}
-                                            {#                                                            <span class="d-none d-sm-inline-block"> &mdash; </span>#}
-                                            {#                                                            <a class="fw-semibold" href="#!" data-list-view="*">#}
-                                            {#                                                                Все#}
-                                            {#                                                                <span class="fas fa-angle-right ms-1"#}
-                                            {#                                                                      data-fa-transform="down-1"></span>#}
-                                            {#                                                            </a><a class="fw-semibold d-none" href="#!"#}
-                                            {#                                                                   data-list-view="less">#}
-                                            {#                                                            Сокращенно#}
-                                            {#                                                            <span class="fas fa-angle-right ms-1"#}
-                                            {#                                                                  data-fa-transform="down-1"></span>#}
-                                            {#                                                        </a>#}
-                                            {#                                                        </p>#}
-                                            {#                                                        <div class="d-flex">#}
-                                            {#                                                            <button class="btn btn-sm btn-primary" type="button"#}
-                                            {#                                                                    data-list-pagination="prev"><span#}
-                                            {#                                                                    data-feather="arrow-left-circle"></span>#}
-                                            {#                                                            </button>#}
-                                            {#                                                            <button class="btn btn-sm btn-primary px-4 ms-2"#}
-                                            {#                                                                    type="button" data-list-pagination="next"><span#}
-                                            {#                                                                    data-feather="arrow-right-circle"></span>#}
-                                            {#                                                            </button>#}
-                                            {#                                                        </div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                </div>#}
-                                            {#                                                <!--    Конец Корзина уведомления-->#}
-                                            {#                                            </div>#}
                                         </div>
                                         <hr style="margin: 20px 0;color: var(--phoenix-border-color-translucent);border: 0;border-top: var(--phoenix-border-width) solid;opacity: 1;">
                                     </div>
@@ -863,6 +773,650 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
+    scenarioData = {};
+    const scenarioSocket = new WebSocket('wss://' + window.location.host + '/ws/scenario/');
+    scenarioSocket.onopen = () => console.log("Connected Scenario!");
+    scenarioSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const scenarios = data["scenarios"] || [];
+        const currentIds = new Set(scenarios.map(s => s.id));
+
+        scenarios.forEach(scenario => {
+            const key = scenario.id;
+            if (scenarioData.hasOwnProperty(key)) {
+                console.log(`Updating existing scenario ${key}`);
+                scenarioData[key] = scenario;
+            } else {
+                console.log(`Adding new scenario ${key}`);
+                scenarioData[key] = scenario;
+            }
+        });
+
+        Object.keys(scenarioData).forEach(key => {
+            if (!currentIds.has(Number(key))) {
+                console.log(`Removing scenario ${key}`);
+                delete scenarioData[key];
+            }
+        });
+
+        console.log("Updated scenarioData:", scenarioData);
+    };
+    scenarioSocket.onerror = (e) => console.log("Error on scenario:", e);
+
+    function updateScenarioData(data) {
+        return 0;
+    }
+    {# Отложенные статусы #}
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById("pendingTable");
+        table.setAttribute('data-list', '')
+        const myList = new List(table, {
+            valueNames: ["data", "time", "room", "scenario-id"],
+            page: 3,
+            pagination: true,
+        });
+
+        let totalItem = myList.items.length;
+        const itemsPerPage = myList.page;
+        const btnDropdownClose = myList.listContainer.querySelector('.btn-close');
+        let pageQuantity = Math.ceil(myList.size() / myList.page);
+        let pageCount = 1;
+        let numberOfcurrentItems =
+            (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+        let isSearching = false;
+        const paginationButtonNext = table.querySelector(
+            '[data-list-pagination="next"]'
+        );
+        const paginationButtonPrev = table.querySelector(
+            '[data-list-pagination="prev"]'
+        );
+        const viewAll = table.querySelector('[data-list-view="*"]');
+        const viewLess = table.querySelector('[data-list-view="less"]');
+        const listInfo = table.querySelector('[data-list-info]');
+
+        btnDropdownClose &&
+        btnDropdownClose.addEventListener('search.close', () => {
+            myList.fuzzySearch('');
+        });
+
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+
+        updateListControls();
+
+        if (paginationButtonNext) {
+            paginationButtonNext.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount += 1;
+                const nextInitialIndex = myList.i + itemsPerPage;
+                nextInitialIndex <= myList.size() &&
+                myList.show(nextInitialIndex, itemsPerPage);
+            });
+        }
+
+        if (paginationButtonPrev) {
+            paginationButtonPrev.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount -= 1;
+                const prevItem = myList.i - itemsPerPage;
+                prevItem > 0 && myList.show(prevItem, itemsPerPage);
+            });
+        }
+
+        const toggleViewBtn = () => {
+            viewLess.classList.toggle('d-none');
+            viewAll.classList.toggle('d-none');
+        };
+
+        if (viewAll) {
+            console.log("bttn");
+            viewAll.addEventListener('click', () => {
+                console.log("button pressed");
+                myList.show(1, totalItem);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        if (viewLess) {
+            viewLess.addEventListener('click', () => {
+                myList.show(1, itemsPerPage);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        // numbering pagination
+        table.querySelector('.pagination').addEventListener('click', e => {
+            if (e.target.classList[0] === 'page') {
+                const pageNum = Number(e.target.getAttribute('data-i'));
+                if (pageNum) {
+                    myList.show(itemsPerPage * (pageNum - 1) + 1, myList.page);
+                    pageCount = pageNum;
+                }
+            }
+        });
+
+        myList.on('searchStart', () => {
+            isSearching = true;
+        });
+        myList.on('searchComplete', () => {
+            isSearching = false;
+        });
+
+        myList.on('updated', item => {
+            document.querySelectorAll("td.status").forEach(cell => {
+                const value = cell.textContent.trim();
+
+                // Clear old classes
+                cell.querySelector(".badge")?.classList.remove(
+                    "badge-phoenix-secondary",
+                    "badge-phoenix-info",
+                    "badge-phoenix-danger",
+                    "badge-phoenix-success"
+                );
+
+                // Apply new one based on status
+                if (value === "Нет данных") {
+                    cell.innerHTML = renderStatusCell("Нет данных");
+                } else if (value === "Предупреждение") {
+                    cell.innerHTML = renderStatusCell("Предупреждение");
+                } else if (value === "Тревога") {
+                    cell.innerHTML = renderStatusCell("Тревога");
+                } else {
+                    cell.innerHTML = renderStatusCell("Норма");
+                }
+            });
+            if (!myList.matchingItems.length) {
+                pageQuantity = Math.ceil(myList.size() / myList.page);
+            } else {
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            }
+            numberOfcurrentItems =
+                (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+            updateListControls();
+
+            // -------search-----------
+            if (isSearching) {
+                if (myList.matchingItems.length === 0) {
+                    pageCount = 0;
+                } else {
+                    pageCount = 1;
+                }
+                totalItem = myList.matchingItems.length;
+                numberOfcurrentItems =
+                    (pageCount === 0 ? 1 : pageCount - 1) * Number(myList.page) +
+                    myList.visibleItems.length;
+
+                updateListControls();
+                listInfo &&
+                (listInfo.innerHTML = `${
+                    myList.matchingItems.length === 0 ? 0 : myList.i
+                } to ${
+                    myList.matchingItems.length === 0 ? 0 : numberOfcurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                    myList.matchingItems.length
+                }`);
+            }
+        });
+        window.pendingList = myList;
+        window.pendingList.sort("status", {sortFunction: statusSorter});
+    });
+    {# В работе статусы #}
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById("inProgressTable");
+        table.setAttribute('data-list', '')
+        const myList = new List(table, {
+            valueNames: ["data", "time", "room", "scenario-id"],
+            page: 3,
+            pagination: true,
+        });
+
+        let totalItem = myList.items.length;
+        const itemsPerPage = myList.page;
+        const btnDropdownClose = myList.listContainer.querySelector('.btn-close');
+        let pageQuantity = Math.ceil(myList.size() / myList.page);
+        let pageCount = 1;
+        let numberOfcurrentItems =
+            (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+        let isSearching = false;
+        const paginationButtonNext = table.querySelector(
+            '[data-list-pagination="next"]'
+        );
+        const paginationButtonPrev = table.querySelector(
+            '[data-list-pagination="prev"]'
+        );
+        const viewAll = table.querySelector('[data-list-view="*"]');
+        const viewLess = table.querySelector('[data-list-view="less"]');
+        const listInfo = table.querySelector('[data-list-info]');
+
+        btnDropdownClose &&
+        btnDropdownClose.addEventListener('search.close', () => {
+            myList.fuzzySearch('');
+        });
+
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+
+        updateListControls();
+
+        if (paginationButtonNext) {
+            paginationButtonNext.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount += 1;
+                const nextInitialIndex = myList.i + itemsPerPage;
+                nextInitialIndex <= myList.size() &&
+                myList.show(nextInitialIndex, itemsPerPage);
+            });
+        }
+
+        if (paginationButtonPrev) {
+            paginationButtonPrev.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount -= 1;
+                const prevItem = myList.i - itemsPerPage;
+                prevItem > 0 && myList.show(prevItem, itemsPerPage);
+            });
+        }
+
+        const toggleViewBtn = () => {
+            viewLess.classList.toggle('d-none');
+            viewAll.classList.toggle('d-none');
+        };
+
+        if (viewAll) {
+            console.log("bttn");
+            viewAll.addEventListener('click', () => {
+                console.log("button pressed");
+                myList.show(1, totalItem);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        if (viewLess) {
+            viewLess.addEventListener('click', () => {
+                myList.show(1, itemsPerPage);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        // numbering pagination
+        table.querySelector('.pagination').addEventListener('click', e => {
+            if (e.target.classList[0] === 'page') {
+                const pageNum = Number(e.target.getAttribute('data-i'));
+                if (pageNum) {
+                    myList.show(itemsPerPage * (pageNum - 1) + 1, myList.page);
+                    pageCount = pageNum;
+                }
+            }
+        });
+
+        myList.on('searchStart', () => {
+            isSearching = true;
+        });
+        myList.on('searchComplete', () => {
+            isSearching = false;
+        });
+
+        myList.on('updated', item => {
+            document.querySelectorAll("td.status").forEach(cell => {
+                const value = cell.textContent.trim();
+
+                // Clear old classes
+                cell.querySelector(".badge")?.classList.remove(
+                    "badge-phoenix-secondary",
+                    "badge-phoenix-info",
+                    "badge-phoenix-danger",
+                    "badge-phoenix-success"
+                );
+
+                // Apply new one based on status
+                if (value === "Нет данных") {
+                    cell.innerHTML = renderStatusCell("Нет данных");
+                } else if (value === "Предупреждение") {
+                    cell.innerHTML = renderStatusCell("Предупреждение");
+                } else if (value === "Тревога") {
+                    cell.innerHTML = renderStatusCell("Тревога");
+                } else {
+                    cell.innerHTML = renderStatusCell("Норма");
+                }
+            });
+            if (!myList.matchingItems.length) {
+                pageQuantity = Math.ceil(myList.size() / myList.page);
+            } else {
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            }
+            numberOfcurrentItems =
+                (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+            updateListControls();
+
+            // -------search-----------
+            if (isSearching) {
+                if (myList.matchingItems.length === 0) {
+                    pageCount = 0;
+                } else {
+                    pageCount = 1;
+                }
+                totalItem = myList.matchingItems.length;
+                numberOfcurrentItems =
+                    (pageCount === 0 ? 1 : pageCount - 1) * Number(myList.page) +
+                    myList.visibleItems.length;
+
+                updateListControls();
+                listInfo &&
+                (listInfo.innerHTML = `${
+                    myList.matchingItems.length === 0 ? 0 : myList.i
+                } to ${
+                    myList.matchingItems.length === 0 ? 0 : numberOfcurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                    myList.matchingItems.length
+                }`);
+            }
+        });
+        window.pendingList = myList;
+        window.pendingList.sort("status", {sortFunction: statusSorter});
+    });
+    {# Законченные статусы #}
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById("resolvedTable");
+        table.setAttribute('data-list', '')
+        const myList = new List(table, {
+            valueNames: ["data", "time", "room", "scenario-id"],
+            page: 3,
+            pagination: true,
+        });
+
+        let totalItem = myList.items.length;
+        const itemsPerPage = myList.page;
+        const btnDropdownClose = myList.listContainer.querySelector('.btn-close');
+        let pageQuantity = Math.ceil(myList.size() / myList.page);
+        let pageCount = 1;
+        let numberOfcurrentItems =
+            (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+        let isSearching = false;
+        const paginationButtonNext = table.querySelector(
+            '[data-list-pagination="next"]'
+        );
+        const paginationButtonPrev = table.querySelector(
+            '[data-list-pagination="prev"]'
+        );
+        const viewAll = table.querySelector('[data-list-view="*"]');
+        const viewLess = table.querySelector('[data-list-view="less"]');
+        const listInfo = table.querySelector('[data-list-info]');
+
+        btnDropdownClose &&
+        btnDropdownClose.addEventListener('search.close', () => {
+            myList.fuzzySearch('');
+        });
+
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+
+        updateListControls();
+
+        if (paginationButtonNext) {
+            paginationButtonNext.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount += 1;
+                const nextInitialIndex = myList.i + itemsPerPage;
+                nextInitialIndex <= myList.size() &&
+                myList.show(nextInitialIndex, itemsPerPage);
+            });
+        }
+
+        if (paginationButtonPrev) {
+            paginationButtonPrev.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount -= 1;
+                const prevItem = myList.i - itemsPerPage;
+                prevItem > 0 && myList.show(prevItem, itemsPerPage);
+            });
+        }
+
+        const toggleViewBtn = () => {
+            viewLess.classList.toggle('d-none');
+            viewAll.classList.toggle('d-none');
+        };
+
+        if (viewAll) {
+            console.log("bttn");
+            viewAll.addEventListener('click', () => {
+                console.log("button pressed");
+                myList.show(1, totalItem);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        if (viewLess) {
+            viewLess.addEventListener('click', () => {
+                myList.show(1, itemsPerPage);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        // numbering pagination
+        table.querySelector('.pagination').addEventListener('click', e => {
+            if (e.target.classList[0] === 'page') {
+                const pageNum = Number(e.target.getAttribute('data-i'));
+                if (pageNum) {
+                    myList.show(itemsPerPage * (pageNum - 1) + 1, myList.page);
+                    pageCount = pageNum;
+                }
+            }
+        });
+
+        myList.on('searchStart', () => {
+            isSearching = true;
+        });
+        myList.on('searchComplete', () => {
+            isSearching = false;
+        });
+
+        myList.on('updated', item => {
+            document.querySelectorAll("td.status").forEach(cell => {
+                const value = cell.textContent.trim();
+
+                // Clear old classes
+                cell.querySelector(".badge")?.classList.remove(
+                    "badge-phoenix-secondary",
+                    "badge-phoenix-info",
+                    "badge-phoenix-danger",
+                    "badge-phoenix-success"
+                );
+
+                // Apply new one based on status
+                if (value === "Нет данных") {
+                    cell.innerHTML = renderStatusCell("Нет данных");
+                } else if (value === "Предупреждение") {
+                    cell.innerHTML = renderStatusCell("Предупреждение");
+                } else if (value === "Тревога") {
+                    cell.innerHTML = renderStatusCell("Тревога");
+                } else {
+                    cell.innerHTML = renderStatusCell("Норма");
+                }
+            });
+            if (!myList.matchingItems.length) {
+                pageQuantity = Math.ceil(myList.size() / myList.page);
+            } else {
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            }
+            numberOfcurrentItems =
+                (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+            updateListControls();
+
+            // -------search-----------
+            if (isSearching) {
+                if (myList.matchingItems.length === 0) {
+                    pageCount = 0;
+                } else {
+                    pageCount = 1;
+                }
+                totalItem = myList.matchingItems.length;
+                numberOfcurrentItems =
+                    (pageCount === 0 ? 1 : pageCount - 1) * Number(myList.page) +
+                    myList.visibleItems.length;
+
+                updateListControls();
+                listInfo &&
+                (listInfo.innerHTML = `${
+                    myList.matchingItems.length === 0 ? 0 : myList.i
+                } to ${
+                    myList.matchingItems.length === 0 ? 0 : numberOfcurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                    myList.matchingItems.length
+                }`);
+            }
+        });
+        window.pendingList = myList;
+        window.pendingList.sort("status", {sortFunction: statusSorter});
+    });
+    {# Для обновления таблицы #}
+    let scenarioList = [];
+    function updateScenarioTable(table, tableId, newScenarios) {
+        const newIds = new Set(newScenarios.map(s => s.id));
+
+        scenarioList = scenarioList.filter(existing => {
+            const stillExists = newIds.has(existing.id);
+            if (!stillExists) {
+                const row = document.querySelector(`#row-${existing.id}`);
+                if (row) row.remove();
+                table.remove('scenario-id', data["scenario_id"]);
+            }
+            return stillExists;
+        });
+
+        newScenarios.forEach(scenario => {
+            const existing = scenarioList.find(s => s.id === scenario.id);
+
+            if (existing) {
+                // Update the cached data
+                Object.assign(existing, scenario);
+
+                // Update table row (example assumes columns: id, name, status)
+                const row = document.querySelector(`#row-${scenario.id}`);
+                if (row) {
+                    row.querySelector('.scenario-name').textContent = scenario.name;
+                    row.querySelector('.scenario-status').textContent = scenario.status;
+                }
+            } else {
+                // Add to list and table
+                scenarioList.push(scenario);
+
+                const row = document.createElement('tr');
+                row.id = `row-${scenario.id}`;
+                row.innerHTML = `
+                    <td>${scenario.id}</td>
+                    <td class="scenario-name">${scenario.name}</td>
+                    <td class="scenario-status">${scenario.status}</td>
+                `;
+                tableBody.appendChild(row);
+            }
+        });
+
+        table.remove('scenario-id', data["scenario_id"]);
+        table.add({
+            data: data.date,
+            time: data.time,
+            room: data.room,
+            "scenario-id": data["scenario_id"],
+        });
+        updateScenarioData(data);
+
+        table.update();
+        const mainTable = document.getElementById(tableId);
+        const listInfo = mainTable.querySelector('[data-list-info]');
+        const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
+        const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
+        let totalItem = table.items.length;
+        let pageCount = 1;
+        let numberOfcurrentItems = (pageCount - 1) * Number(table.page) + table.visibleItems.length;
+        const locationSelect = document.getElementById('locationSelect');
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${table.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+        table.filter(item => {
+            if (locationSelect.value === '') {
+                return true;
+            }
+            pageQuantity = Math.ceil(table.matchingItems.length / table.page);
+            pageCount = 1;
+            updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, table, totalItem);
+            return item.values()["group"].toLowerCase() === locationSelect.value.toLowerCase();
+        });
+
+
+    }
+
+
     let sensorData = {};
     document.addEventListener("DOMContentLoaded", function () {
         const tBody = document.getElementById('mainTableBody');
@@ -946,21 +1500,6 @@
     });
 
 
-    const camelize = str => {
-        const text = str.replace(/[-_\s.]+(.)?/g, (_, c) =>
-            c ? c.toUpperCase() : ''
-        );
-        return `${text.substr(0, 1).toLowerCase()}${text.substr(1)}`;
-    };
-
-    const getData = (el, data) => {
-        try {
-            return JSON.parse(el.dataset[camelize(data)]);
-        } catch (e) {
-            return el.dataset[camelize(data)];
-        }
-    };
-
     let messageQueue = [];
     const monitor = new WebSocket('wss://' + window.location.host + '/ws/monitor/');
     monitor.onopen = () => console.log("Connected!");
@@ -987,14 +1526,6 @@
         window.myList.sort("status", {sortFunction: statusSorter});
     }, 100000);
 
-    {#const scenario = new WebSocket('wss://' + window.location.host + '/ws/scenario/');#}
-    {#scenario.onopen = () => console.log("Connected!");#}
-    {#scenario.onmessage = function (e) {#}
-    {#    const data = JSON.parse(e.data);#}
-    {##}
-    {#scenario.onerror = (e) => console.log("Error:", e);#}
-
-
     function statusSorter(a, b) {
         const order = {
             "Тревога": 1,
@@ -1014,7 +1545,6 @@
 
         return (order[aStatus] || 999) - (order[bStatus] || 999);
     }
-
 
     function updateTable(data) {
         window.myList.remove('sensor-id', data.sensor_id);
@@ -1073,7 +1603,6 @@
 
     }
 
-
     function renderStatusCell(statusValue) {
         let html = "";
 
@@ -1117,12 +1646,10 @@
         return html;
     }
 
-
     const togglePaginationButtonDisable = (button, disabled) => {
         button.disabled = disabled;
         button.classList[disabled ? 'add' : 'remove']('disabled');
     };
-
 
     document.addEventListener('DOMContentLoaded', function () {
         const mainTable = document.getElementById("tableExample4");
@@ -1414,7 +1941,7 @@
 
 
     document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.show-modal-btn');
+        const btn = e.target.closest('.show-modal-btn-m');
         if (btn) {
             e.preventDefault();
 
@@ -1439,13 +1966,13 @@
             if (user) {
                 string += `<p class="alert-user">Исполнитель: ${user}</p>`
             }
-            string += `<hr class="bg-body-tertiary"/>`
-            if (status === 'pending') {
-                string += `<a class="btn btn-danger me-1 mb-1" href="/monitoring/scenario-update/${id}/"">
-                                  Принять в работу</a>`;
-            }
-            string += `<button class="btn btn-outline-secondary me-1 mb-1 alert-dismiss" type="button"
-                               data-bs-dismiss="alert" aria-label="Close">Закрыть</button></div>`;
+            string += `<hr class="bg-body-tertiary"/>
+                        <a class="btn btn-danger me-1 mb-1" href="/monitoring/scenario-update/${id}/in_progress/">
+                                  Принять в работу</a>
+                        <a class="btn btn-outline-secondary me-1 mb-1 alert-dismiss"
+                                        href="/monitoring/scenario-update/${id}/pending/">Отложить
+                                    </a>
+                        </div>`;
 
             div.insertAdjacentHTML('beforeend', string);
         }

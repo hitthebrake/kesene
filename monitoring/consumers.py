@@ -28,6 +28,9 @@ class ScenarioConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard("scenario", self.channel_name)
 
-    async def send_measurement(self, event):
+    async def send_scenarios(self, event):
         # Send data to WebSocket
-        await self.send(text_data=json.dumps(event["data"]))
+        await self.send(text_data=json.dumps({
+            'scenarios': event['scenarios'],
+            'resolved_scenarios': event['resolved_scenarios'],
+        }))

@@ -60,14 +60,16 @@ class LatestData(ScenarioCheck):
         latest_values = self.get_latest_measurements()
         latest_local_meteo = self.get_latest_local_meteo_data()
         latest_api_meteo = self.get_latest_api_meteo_data()
+
         scenarios = self.scenario_check(latest_values, latest_api_meteo)
-        resolved_scenarios = ScenarioInstance.objects.filter(triggered_at=timezone.now().date(), status='resolved')
         return {
             'latest_values': latest_values,
             'latest_local_meteo': latest_local_meteo,
             'latest_api_meteo': latest_api_meteo,
-            'scenarios': scenarios,
-            'resolved_scenarios': resolved_scenarios,
+            'new_scenarios': scenarios.get('new_scenarios'),
+            'pending_scenarios': scenarios.get('pending_scenarios'),
+            'in_progress_scenarios': scenarios.get('in_progress_scenarios'),
+            'resolved_scenarios': scenarios.get('resolved_scenarios'),
         }
 
     @staticmethod
@@ -137,7 +139,6 @@ class LatestData(ScenarioCheck):
             }
         except MeteoData.DoesNotExist:
             return {}
-
 
     @staticmethod
     def get_weather():

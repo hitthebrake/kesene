@@ -105,6 +105,7 @@ class SensorScenario(models.Model):
 
 class ScenarioInstance(models.Model):
     STATUS_CHOICES = [
+        ('new', 'New'),
         ('pending', 'Pending'),
         ('in_progress', 'In Progress'),
         ('resolved', 'Resolved'),
@@ -112,10 +113,11 @@ class ScenarioInstance(models.Model):
     scenario = models.ForeignKey(LocationScenario, on_delete=models.CASCADE, related_name='triggers')
 
     triggered_at = models.DateTimeField(auto_now_add=True)   # when condition was first met
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
 
     in_progress_at = models.DateTimeField(null=True, blank=True)
     resolved_at = models.DateTimeField(null=True, blank=True)
+    pending_at = models.DateTimeField(null=True, blank=True)
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -130,6 +132,11 @@ class ScenarioInstance(models.Model):
             models.Index(fields=['status']),
             models.Index(fields=['triggered_at']),
         ]
+
+    def start_pending(self):
+        self.status = 'pending'
+        self.pending_at = timezone.now()
+        self.save()
 
     def start_progress(self, user=None):
         self.status = 'in_progress'
