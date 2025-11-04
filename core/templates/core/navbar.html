@@ -60,13 +60,6 @@
                             <span class="me-2 uil" data-feather="list"></span>Журнал оповещении
                         </div>
                     </a></li>
-                    <!-- CHANGE href='{ % static "set/report_maker.html" %}'-->
-                    <li><a class="dropdown-item" href='#'>
-                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="file-plus"></span>Конструктор
-                            отчетов
-                        </div>
-                    </a>
-                    </li>
                 </ul>
             </li>
             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle lh-1" href="#!" role="button"
@@ -149,9 +142,13 @@
                     <div class="card-body p-0">
                         <div class="text-center pt-4 pb-3">
                             <div class="avatar avatar-xl ">
-                                <img class="rounded-circle " src='{% static "images/30.webp" %}' alt=""/>
+                                {% if request.user.avatar %}
+                                    <img class="rounded-circle " src='{{ request.user.avatar.url }}' alt=""/>
+                                {% else %}
+                                    <img class="rounded-circle " src='{% static "images/30.webp" %}' alt=""/>
+                                {% endif %}
                             </div>
-                            <h6 class="mt-2 text-body-emphasis">Батырулан Айтжанов</h6>
+                            <h6 class="mt-2 text-body-emphasis">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
                         </div>
                     </div>
                     <div class="overflow-auto scrollbar">

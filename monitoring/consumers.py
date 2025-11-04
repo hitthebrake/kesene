@@ -31,6 +31,8 @@ class ScenarioConsumer(AsyncWebsocketConsumer):
     async def send_scenarios(self, event):
         # Send data to WebSocket
         await self.send(text_data=json.dumps({
-            'scenarios': event['scenarios'],
+            'new_scenarios': event['new_scenarios'],
+            'pending_scenarios': event['pending_scenarios'],
+            'in_progress_scenarios': event['in_progress_scenarios'],
             'resolved_scenarios': event['resolved_scenarios'],
         }))

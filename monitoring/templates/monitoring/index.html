@@ -81,10 +81,11 @@
                             <h3 class="mb-4 text-body-emphasis">Состояние системы</h3>
                         </div>
 
-                        <audio id="alert-sound" src="{% static 'sounds/mixkit-warning-alarm-buzzer-991.wav' %}"
+                        <audio id="alertSound" src="{% static 'sounds/mixkit-warning-alarm-buzzer-991.wav' %}"
                                preload="auto" loop></audio>
 
                         <div class="alert-col">
+
 
                             {% for scenario in new_scenarios %}
                                 <div class="alert alert-subtle-warning alert-dismissible fade show alert-modal"
@@ -438,16 +439,10 @@
                                                                 </th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody class="list">
+                                                            <tbody class="list pending-scenario-table">
                                                             {% for scenario in pending_scenarios %}
-                                                                <tr data-scenario-id="{{ scenario.id }}"
-                                                                    data-scenario-location="{{ scenario.scenario.location }}"
-                                                                    data-scenario-title="{{ scenario.scenario.title }}"
-                                                                    data-scenario-status="{{ scenario.status }}"
-                                                                        {% if scenario.user %}
-                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
-                                                                        {% endif %}
-                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                <tr data-description="{{ scenario.scenario.description }}"
+                                                                    data-title="{{ scenario.scenario.title }}">
                                                                     <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
                                                                     <td class="align-middle ps-0 scenario-id" hidden>{{ scenario.id }}</td>
                                                                     <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
@@ -464,7 +459,7 @@
                                                                                 <span class="fas fa-ellipsis-h fs-10"></span>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                <a class="dropdown-item show-modal-btn" href="#!" data-bs-toggle="modal" data-bs-target="#scenarioModal">Просмотр</a>
                                                                                 <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'in_progress' %}">
                                                                                     В работу
                                                                                 </a>
@@ -533,17 +528,12 @@
                                                                 </th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody class="list">
+                                                            <tbody class="list in-progress-scenario-table">
                                                             {% for scenario in in_progress_scenarios %}
-                                                                <tr data-scenario-id="{{ scenario.id }}"
-                                                                    data-scenario-location="{{ scenario.scenario.location }}"
-                                                                    data-scenario-title="{{ scenario.scenario.title }}"
-                                                                    data-scenario-status="{{ scenario.status }}"
-                                                                        {% if scenario.user %}
-                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
-                                                                        {% endif %}
-                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                <tr data-description="{{ scenario.scenario.description }}"
+                                                                    data-title="{{ scenario.scenario.title }}">
                                                                     <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                    <td class="align-middle ps-0 scenario-id" hidden>{{ scenario.id }}</td>
                                                                     <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
                                                                     <td class="align-middle room">{{ scenario.scenario.location }}</td>
                                                                     <td class="align-middle white-space-nowrap text-end pe-0">
@@ -558,7 +548,7 @@
                                                                                 <span class="fas fa-ellipsis-h fs-10"></span>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                                                                <a class="dropdown-item show-modal-btn" href="#!" data-bs-toggle="modal" data-bs-target="#scenarioModal">Просмотр</a>
                                                                                 <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'pending' %}">Отложить</a>
                                                                                 <a class="dropdown-item" href="{% url 'monitoring:scenario-update' scenario.id 'resolved' %}">Исполнено</a>
                                                                             </div>
@@ -621,17 +611,12 @@
                                                                 </th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody class="list">
+                                                            <tbody class="list resolved-scenario-table">
                                                             {% for scenario in resolved_scenarios %}
-                                                                <tr data-scenario-id="{{ scenario.id }}"
-                                                                    data-scenario-location="{{ scenario.scenario.location }}"
-                                                                    data-scenario-title="{{ scenario.scenario.title }}"
-                                                                    data-scenario-status="{{ scenario.status }}"
-                                                                        {% if scenario.user %}
-                                                                    data-scenario-user="{{ scenario.user.last_name }} {{ scenario.user.first_name }}"
-                                                                        {% endif %}
-                                                                    data-scenario-description="{{ scenario.scenario.description }}">
+                                                                <tr data-description="{{ scenario.scenario.description }}"
+                                                                    data-title="{{ scenario.scenario.title }}">
                                                                     <td class="align-middle ps-0 data">{{ scenario.triggered_at|date:"d.m.Y" }}</td>
+                                                                    <td class="align-middle ps-0 scenario-id" hidden>{{ scenario.id }}</td>
                                                                     <td class="align-middle ps-0 time">{{ scenario.triggered_at|date:"H:i" }}</td>
                                                                     <td class="align-middle room">{{ scenario.scenario.location }}</td>
                                                                     <td class="align-middle white-space-nowrap text-end pe-0">
@@ -646,9 +631,7 @@
                                                                                 <span class="fas fa-ellipsis-h fs-10"></span>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-end py-2">
-                                                                                <a class="dropdown-item show-modal-btn">
-                                                                                    Просмотр
-                                                                                </a>
+                                                                                <a class="dropdown-item show-modal-btn" href="#!" data-bs-toggle="modal" data-bs-target="#scenarioModal">Просмотр</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -718,6 +701,7 @@
             </div>
         </footer>
     </div>
+
     <div class="modal fade" id="nodata" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -739,6 +723,28 @@
                         <p class="mb-0 text-secondary-lighter text-capitalize" id="nodataTypes">Температура, влажность,
                             точка росы</p>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="scenarioModal" tabindex="-1" data-bs-backdrop="static"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between" style="background-color:#eff2f6">
+                    <h5 class="modal-title dark__text-gray-1100 scenario-modal-location-title" id="staticBackdropLabel">Асхана. Критический уровень
+                        влажности!</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="text-body-tertiary lh-lg mb-0 scenario-modal-description">Необходимо ограничить посещение! Включить вентиляторы по
+                        направлению к западной стене. Включить тепловую пушку</p>
+                </div>
+                <div class="modal-body">
+
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button>
@@ -773,39 +779,327 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
-    scenarioData = {};
+    const alertDiv = document.querySelector(".alert-col");
+    const alertSound = document.getElementById("alertSound");
+    document.addEventListener("click", () => {
+        const alertContent = alertDiv?.textContent?.trim();
+
+        if (alertContent) {
+            if (alertSound.paused) {
+                alertSound.currentTime = 0;
+                alertSound.loop = true;
+                alertSound.play().catch(err => console.error("Audio play failed:", err));
+            }
+        } else {
+            alertSound.pause();
+            alertSound.currentTime = 0;
+        }
+    });
+
+
+    let newScenarios = {};
+    let pendingScenarios = {};
+    let inProgressScenarios = {};
+    let resolvedScenarios = {};
+
+    function addScenariosToDict(tBodyClass, dictionary) {
+        const tBody = document.querySelector(tBodyClass);
+        tBody.querySelectorAll("tr").forEach(row => {
+            let scenarioId = row.querySelector('.scenario-id').innerText.trim();
+
+            dictionary[scenarioId] = {
+                title: row.dataset.title,
+                description: row.dataset.description,
+                date: row.querySelector('.data').innerText.trim(),
+                time: row.querySelector('.time').innerText.trim(),
+                location: row.querySelector('.room').innerText.trim(),
+                "scenario-id": row.querySelector('.scenario-id').innerText.trim()
+            }
+        })
+
+    }
+
+    document.addEventListener('DOMContentLoaded', (e) => {
+        addScenariosToDict(".pending-scenario-table", pendingScenarios);
+        addScenariosToDict(".in-progress-scenario-table", inProgressScenarios);
+        addScenariosToDict(".resolved-scenario-table", resolvedScenarios);
+    })
+
     const scenarioSocket = new WebSocket('wss://' + window.location.host + '/ws/scenario/');
     scenarioSocket.onopen = () => console.log("Connected Scenario!");
     scenarioSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        const scenarios = data["scenarios"] || [];
-        const currentIds = new Set(scenarios.map(s => s.id));
+        newScenarios = data["new_scenarios"] || {};
+        pendingScenarios = data["pending_scenarios"] || {};
+        inProgressScenarios = data["in_progress_scenarios"] || {};
+        resolvedScenarios = data["resolved_scenarios"] || {};
 
-        scenarios.forEach(scenario => {
-            const key = scenario.id;
-            if (scenarioData.hasOwnProperty(key)) {
-                console.log(`Updating existing scenario ${key}`);
-                scenarioData[key] = scenario;
-            } else {
-                console.log(`Adding new scenario ${key}`);
-                scenarioData[key] = scenario;
-            }
-        });
+        updateNewScenarios();
 
-        Object.keys(scenarioData).forEach(key => {
-            if (!currentIds.has(Number(key))) {
-                console.log(`Removing scenario ${key}`);
-                delete scenarioData[key];
-            }
-        });
-
-        console.log("Updated scenarioData:", scenarioData);
+        updateScenarioList(window.pendingList, pendingScenarios, "pendingTable");
+        updateScenarioList(window.inProgressList, inProgressScenarios, "inProgressTable");
+        updateScenarioList(window.resolvedList, resolvedScenarios, "resolvedTable");
     };
     scenarioSocket.onerror = (e) => console.log("Error on scenario:", e);
 
-    function updateScenarioData(data) {
-        return 0;
+    function updateScenarioList(listTable, scenariosData, tableId) {
+        if (listTable) {
+            listTable.remove();
+            Object.values(scenariosData).forEach(scenario => {
+                listTable.add({
+                    data: scenario["date"],
+                    time: scenario["time"],
+                    room: scenario["location"],
+                    "scenario-id": scenario['scenario_id']
+                });
+            })
+            listTable.update();
+        } else {
+            initScenarioList(scenariosData, tableId);
+        }
     }
+
+    function updateNewScenarios() {
+        alertDiv.innerHTML = "";
+        Object.values(newScenarios).forEach(scenario => {
+            let htmlText = `<div class="alert alert-subtle-warning alert-dismissible fade show alert-modal"
+                                 role="alert" data-scenario-id="${scenario["scenario_id"]}">
+                                <h4 class="alert-heading fw-semibold alert-title">${scenario.location}. ${scenario.title}</h4>
+                                <p class="alert-description">${scenario.description}</p>
+                                <hr class="bg-body-tertiary"/>
+                                    <a class="btn btn-danger me-1 mb-1"
+                                       href="/monitoring/scenario_update/${scenario["scenario_id"]}/in_progress/">
+                                        Принять в работу
+                                    </a>
+                                <a class="btn btn-outline-secondary me-1 mb-1 alert-dismiss"
+                                    href="/monitoring/scenario_update/${scenario["scenario_id"]}/pending/">Отложить
+                                </a>
+                            </div>`
+            alertDiv.innerHTML += htmlText;
+
+            if (alertSound.paused) {
+                alertSound.currentTime = 0;
+                alertSound.loop = true;
+                alertSound.play()
+            }
+        })
+    }
+
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.show-modal-btn');
+        if (btn) {
+            e.preventDefault();
+
+            const row = e.target.closest('tr');
+            let id = row.querySelector('.scenario-id').innerText.trim();
+
+            if (id in pendingScenarios) {
+                document.querySelector('.scenario-modal-location-title').innerText = `${pendingScenarios[id].location}. ${pendingScenarios[id].title}`;
+                document.querySelector('.scenario-modal-description').innerText = pendingScenarios[id].description;
+            } else if (id in inProgressScenarios) {
+                document.querySelector('.scenario-modal-location-title').innerText = `${inProgressScenarios[id].location}. ${inProgressScenarios[id].title}`;
+                document.querySelector('.scenario-modal-description').innerText = inProgressScenarios[id].description;
+            } else if (id in resolvedScenarios) {
+                document.querySelector('.scenario-modal-location-title').innerText = `${resolvedScenarios[id].location}. ${resolvedScenarios[id].title}`;
+                document.querySelector('.scenario-modal-description').innerText = resolvedScenarios[id].description;
+            }
+        }
+    });
+
+    function initScenarioList(scenariosData, tableId) {
+        const table = document.getElementById(tableId);
+        table.setAttribute('data-list', '')
+        const myList = new List(tableId, {
+            valueNames: ["data", "time", "room", "scenario-id"],
+            page: 3,
+            pagination: true,
+            item: `<tr>
+                    <td class="align-middle ps-0 data"></td>
+                        <td class="align-middle ps-0 scenario-id" hidden></td>
+                        <td class="align-middle ps-0 time"></td>
+                        <td class="align-middle room"></td>
+                        <td class="align-middle white-space-nowrap text-end pe-0">
+                            <div class="btn-reveal-trigger position-static">
+                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        data-boundary="window"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        data-bs-reference="parent">
+                                    <span class="fas fa-ellipsis-h fs-10"></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                    <a class="dropdown-item show-modal-btn">Просмотр</a>
+                                    <a class="dropdown-item" href="#">
+                                        В работу
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        Исполнено
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>`
+        }, scenariosData.map(scenario => {
+            return {
+                data: scenario['date'],
+                time: scenario['time'],
+                room: scenario['location'],
+                'scenario-id': scenario['scenario_id']
+            }
+        }));
+
+        let totalItem = myList.items.length;
+        const itemsPerPage = myList.page;
+        const btnDropdownClose = myList.listContainer.querySelector('.btn-close');
+        let pageQuantity = Math.ceil(myList.size() / myList.page);
+        let pageCount = 1;
+        let numberOfCurrentItems =
+            (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+        let isSearching = false;
+        const paginationButtonNext = table.querySelector(
+            '[data-list-pagination="next"]'
+        );
+        const paginationButtonPrev = table.querySelector(
+            '[data-list-pagination="prev"]'
+        );
+        const viewAll = table.querySelector('[data-list-view="*"]');
+        const viewLess = table.querySelector('[data-list-view="less"]');
+        const listInfo = table.querySelector('[data-list-info]');
+
+        btnDropdownClose &&
+        btnDropdownClose.addEventListener('search.close', () => {
+            myList.fuzzySearch('');
+        });
+
+        const updateListControls = () => {
+            listInfo &&
+            (listInfo.innerHTML = `с ${myList.i} по ${numberOfCurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
+
+            paginationButtonPrev &&
+            togglePaginationButtonDisable(
+                paginationButtonPrev,
+                pageCount === 1 || pageCount === 0
+            );
+            paginationButtonNext &&
+            togglePaginationButtonDisable(
+                paginationButtonNext,
+                pageCount === pageQuantity || pageCount === 0
+            );
+
+            if (pageCount > 1 && pageCount < pageQuantity) {
+                togglePaginationButtonDisable(paginationButtonNext, false);
+                togglePaginationButtonDisable(paginationButtonPrev, false);
+            }
+        };
+
+        updateListControls();
+
+        if (paginationButtonNext) {
+            paginationButtonNext.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount += 1;
+                const nextInitialIndex = myList.i + itemsPerPage;
+                nextInitialIndex <= myList.size() &&
+                myList.show(nextInitialIndex, itemsPerPage);
+            });
+        }
+
+        if (paginationButtonPrev) {
+            paginationButtonPrev.addEventListener('click', e => {
+                e.preventDefault();
+                pageCount -= 1;
+                const prevItem = myList.i - itemsPerPage;
+                prevItem > 0 && myList.show(prevItem, itemsPerPage);
+            });
+        }
+
+        const toggleViewBtn = () => {
+            viewLess.classList.toggle('d-none');
+            viewAll.classList.toggle('d-none');
+        };
+
+        if (viewAll) {
+            viewAll.addEventListener('click', () => {
+                myList.show(1, totalItem);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        if (viewLess) {
+            viewLess.addEventListener('click', () => {
+                myList.show(1, itemsPerPage);
+                pageCount = 1;
+                toggleViewBtn();
+            });
+        }
+        // numbering pagination
+        table.querySelector('.pagination').addEventListener('click', e => {
+            if (e.target.classList[0] === 'page') {
+                const pageNum = Number(e.target.getAttribute('data-i'));
+                if (pageNum) {
+                    myList.show(itemsPerPage * (pageNum - 1) + 1, myList.page);
+                    pageCount = pageNum;
+                }
+            }
+        });
+
+        myList.on('searchStart', () => {
+            isSearching = true;
+        });
+        myList.on('searchComplete', () => {
+            isSearching = false;
+        });
+
+        myList.on('updated', item => {
+            if (!myList.matchingItems.length) {
+                pageQuantity = Math.ceil(myList.size() / myList.page);
+            } else {
+                pageQuantity = Math.ceil(myList.matchingItems.length / myList.page);
+            }
+            numberOfCurrentItems =
+                (pageCount - 1) * Number(myList.page) + myList.visibleItems.length;
+            updateListControls();
+
+            // -------search-----------
+            if (isSearching) {
+                if (myList.matchingItems.length === 0) {
+                    pageCount = 0;
+                } else {
+                    pageCount = 1;
+                }
+                totalItem = myList.matchingItems.length;
+                numberOfCurrentItems =
+                    (pageCount === 0 ? 1 : pageCount - 1) * Number(myList.page) +
+                    myList.visibleItems.length;
+
+                updateListControls();
+                listInfo &&
+                (listInfo.innerHTML = `${
+                    myList.matchingItems.length === 0 ? 0 : myList.i
+                } to ${
+                    myList.matchingItems.length === 0 ? 0 : numberOfCurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                    myList.matchingItems.length
+                }`);
+            }
+        });
+        if (tableId === "pendingTable") {
+            window.pendingList = myList;
+        } else if (tableId === "inProgressTable") {
+            window.inProgressList = myList;
+        } else if (tableId === "resolvedTable") {
+            window.resolvedList = myList;
+        }
+    }
+
+    {#setInterval(() => {#}
+    {#    console.log("calling update function...");#}
+    {#    newScenarios = {10000: {"date": "14-09-2025", "time": "13:00", "location": "Astana", "scenario_id": "10000"}}#}
+    {#    updateNewScenarios();#}
+    {#, 10000);#}
+
     {# Отложенные статусы #}
     document.addEventListener('DOMContentLoaded', function () {
         const table = document.getElementById("pendingTable");
@@ -887,9 +1181,7 @@
         };
 
         if (viewAll) {
-            console.log("bttn");
             viewAll.addEventListener('click', () => {
-                console.log("button pressed");
                 myList.show(1, totalItem);
                 pageCount = 1;
                 toggleViewBtn();
@@ -921,28 +1213,6 @@
         });
 
         myList.on('updated', item => {
-            document.querySelectorAll("td.status").forEach(cell => {
-                const value = cell.textContent.trim();
-
-                // Clear old classes
-                cell.querySelector(".badge")?.classList.remove(
-                    "badge-phoenix-secondary",
-                    "badge-phoenix-info",
-                    "badge-phoenix-danger",
-                    "badge-phoenix-success"
-                );
-
-                // Apply new one based on status
-                if (value === "Нет данных") {
-                    cell.innerHTML = renderStatusCell("Нет данных");
-                } else if (value === "Предупреждение") {
-                    cell.innerHTML = renderStatusCell("Предупреждение");
-                } else if (value === "Тревога") {
-                    cell.innerHTML = renderStatusCell("Тревога");
-                } else {
-                    cell.innerHTML = renderStatusCell("Норма");
-                }
-            });
             if (!myList.matchingItems.length) {
                 pageQuantity = Math.ceil(myList.size() / myList.page);
             } else {
@@ -976,7 +1246,6 @@
             }
         });
         window.pendingList = myList;
-        window.pendingList.sort("status", {sortFunction: statusSorter});
     });
     {# В работе статусы #}
     document.addEventListener('DOMContentLoaded', function () {
@@ -1059,9 +1328,7 @@
         };
 
         if (viewAll) {
-            console.log("bttn");
             viewAll.addEventListener('click', () => {
-                console.log("button pressed");
                 myList.show(1, totalItem);
                 pageCount = 1;
                 toggleViewBtn();
@@ -1093,28 +1360,6 @@
         });
 
         myList.on('updated', item => {
-            document.querySelectorAll("td.status").forEach(cell => {
-                const value = cell.textContent.trim();
-
-                // Clear old classes
-                cell.querySelector(".badge")?.classList.remove(
-                    "badge-phoenix-secondary",
-                    "badge-phoenix-info",
-                    "badge-phoenix-danger",
-                    "badge-phoenix-success"
-                );
-
-                // Apply new one based on status
-                if (value === "Нет данных") {
-                    cell.innerHTML = renderStatusCell("Нет данных");
-                } else if (value === "Предупреждение") {
-                    cell.innerHTML = renderStatusCell("Предупреждение");
-                } else if (value === "Тревога") {
-                    cell.innerHTML = renderStatusCell("Тревога");
-                } else {
-                    cell.innerHTML = renderStatusCell("Норма");
-                }
-            });
             if (!myList.matchingItems.length) {
                 pageQuantity = Math.ceil(myList.size() / myList.page);
             } else {
@@ -1147,8 +1392,7 @@
                 }`);
             }
         });
-        window.pendingList = myList;
-        window.pendingList.sort("status", {sortFunction: statusSorter});
+        window.inProgressList = myList;
     });
     {# Законченные статусы #}
     document.addEventListener('DOMContentLoaded', function () {
@@ -1231,9 +1475,7 @@
         };
 
         if (viewAll) {
-            console.log("bttn");
             viewAll.addEventListener('click', () => {
-                console.log("button pressed");
                 myList.show(1, totalItem);
                 pageCount = 1;
                 toggleViewBtn();
@@ -1265,28 +1507,6 @@
         });
 
         myList.on('updated', item => {
-            document.querySelectorAll("td.status").forEach(cell => {
-                const value = cell.textContent.trim();
-
-                // Clear old classes
-                cell.querySelector(".badge")?.classList.remove(
-                    "badge-phoenix-secondary",
-                    "badge-phoenix-info",
-                    "badge-phoenix-danger",
-                    "badge-phoenix-success"
-                );
-
-                // Apply new one based on status
-                if (value === "Нет данных") {
-                    cell.innerHTML = renderStatusCell("Нет данных");
-                } else if (value === "Предупреждение") {
-                    cell.innerHTML = renderStatusCell("Предупреждение");
-                } else if (value === "Тревога") {
-                    cell.innerHTML = renderStatusCell("Тревога");
-                } else {
-                    cell.innerHTML = renderStatusCell("Норма");
-                }
-            });
             if (!myList.matchingItems.length) {
                 pageQuantity = Math.ceil(myList.size() / myList.page);
             } else {
@@ -1319,102 +1539,8 @@
                 }`);
             }
         });
-        window.pendingList = myList;
-        window.pendingList.sort("status", {sortFunction: statusSorter});
+        window.resolvedList = myList;
     });
-    {# Для обновления таблицы #}
-    let scenarioList = [];
-    function updateScenarioTable(table, tableId, newScenarios) {
-        const newIds = new Set(newScenarios.map(s => s.id));
-
-        scenarioList = scenarioList.filter(existing => {
-            const stillExists = newIds.has(existing.id);
-            if (!stillExists) {
-                const row = document.querySelector(`#row-${existing.id}`);
-                if (row) row.remove();
-                table.remove('scenario-id', data["scenario_id"]);
-            }
-            return stillExists;
-        });
-
-        newScenarios.forEach(scenario => {
-            const existing = scenarioList.find(s => s.id === scenario.id);
-
-            if (existing) {
-                // Update the cached data
-                Object.assign(existing, scenario);
-
-                // Update table row (example assumes columns: id, name, status)
-                const row = document.querySelector(`#row-${scenario.id}`);
-                if (row) {
-                    row.querySelector('.scenario-name').textContent = scenario.name;
-                    row.querySelector('.scenario-status').textContent = scenario.status;
-                }
-            } else {
-                // Add to list and table
-                scenarioList.push(scenario);
-
-                const row = document.createElement('tr');
-                row.id = `row-${scenario.id}`;
-                row.innerHTML = `
-                    <td>${scenario.id}</td>
-                    <td class="scenario-name">${scenario.name}</td>
-                    <td class="scenario-status">${scenario.status}</td>
-                `;
-                tableBody.appendChild(row);
-            }
-        });
-
-        table.remove('scenario-id', data["scenario_id"]);
-        table.add({
-            data: data.date,
-            time: data.time,
-            room: data.room,
-            "scenario-id": data["scenario_id"],
-        });
-        updateScenarioData(data);
-
-        table.update();
-        const mainTable = document.getElementById(tableId);
-        const listInfo = mainTable.querySelector('[data-list-info]');
-        const paginationButtonNext = mainTable.querySelector('[data-list-pagination="next"]');
-        const paginationButtonPrev = mainTable.querySelector('[data-list-pagination="prev"]');
-        let totalItem = table.items.length;
-        let pageCount = 1;
-        let numberOfcurrentItems = (pageCount - 1) * Number(table.page) + table.visibleItems.length;
-        const locationSelect = document.getElementById('locationSelect');
-        const updateListControls = () => {
-            listInfo &&
-            (listInfo.innerHTML = `с ${table.i} по ${numberOfcurrentItems} <span class='text-body-tertiary'> записей из </span>${totalItem}`);
-
-            paginationButtonPrev &&
-            togglePaginationButtonDisable(
-                paginationButtonPrev,
-                pageCount === 1 || pageCount === 0
-            );
-            paginationButtonNext &&
-            togglePaginationButtonDisable(
-                paginationButtonNext,
-                pageCount === pageQuantity || pageCount === 0
-            );
-
-            if (pageCount > 1 && pageCount < pageQuantity) {
-                togglePaginationButtonDisable(paginationButtonNext, false);
-                togglePaginationButtonDisable(paginationButtonPrev, false);
-            }
-        };
-        table.filter(item => {
-            if (locationSelect.value === '') {
-                return true;
-            }
-            pageQuantity = Math.ceil(table.matchingItems.length / table.page);
-            pageCount = 1;
-            updateListControls(listInfo, paginationButtonNext, paginationButtonPrev, table, totalItem);
-            return item.values()["group"].toLowerCase() === locationSelect.value.toLowerCase();
-        });
-
-
-    }
 
 
     let sensorData = {};
@@ -1938,49 +2064,6 @@
             });
 
     }
-
-
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.show-modal-btn-m');
-        if (btn) {
-            e.preventDefault();
-
-            const row = e.target.closest('tr');
-            let id = row.dataset.scenarioId;
-            document.querySelectorAll('.alert-modal').forEach(item => {
-                if (item.dataset.scenarioId === id) {
-                    item.remove();
-                }
-            })
-            let status = row.dataset.scenarioStatus;
-            let location = row.dataset.scenarioLocation;
-            let title = row.dataset.scenarioTitle;
-            let description = row.dataset.scenarioDescription;
-            let user = row.dataset.scenarioUser;
-
-            const div = document.querySelector('.alert-col');
-            let string = `<div class="alert alert-subtle-warning alert-dismissible fade show alert-modal" role="alert"
-                                data-scenario-id="${id}">
-                                <h4 class="alert-heading fw-semibold alert-title">${location}. ${title}</h4>
-                                <p class="alert-description">${description}</p>`;
-            if (user) {
-                string += `<p class="alert-user">Исполнитель: ${user}</p>`
-            }
-            string += `<hr class="bg-body-tertiary"/>
-                        <a class="btn btn-danger me-1 mb-1" href="/monitoring/scenario-update/${id}/in_progress/">
-                                  Принять в работу</a>
-                        <a class="btn btn-outline-secondary me-1 mb-1 alert-dismiss"
-                                        href="/monitoring/scenario-update/${id}/pending/">Отложить
-                                    </a>
-                        </div>`;
-
-            div.insertAdjacentHTML('beforeend', string);
-        }
-    });
-
-    document.addEventListener('closed.bs.alert', function (event) {
-        event.target.remove();  // physically remove alert from DOM
-    });
 
 </script>
 </body>

@@ -134,16 +134,18 @@ class ScenarioInstance(models.Model):
         ]
 
     def start_pending(self):
-        self.status = 'pending'
-        self.pending_at = timezone.now()
-        self.save()
+        if self.status != 'resolved':
+            self.status = 'pending'
+            self.pending_at = timezone.now()
+            self.save()
 
     def start_progress(self, user=None):
-        self.status = 'in_progress'
-        self.in_progress_at = timezone.now()
-        if user:
-            self.user = user
-        self.save()
+        if self.status != 'resolved':
+            self.status = 'in_progress'
+            self.in_progress_at = timezone.now()
+            if user:
+                self.user = user
+            self.save()
 
     def resolve(self):
         self.status = 'resolved'

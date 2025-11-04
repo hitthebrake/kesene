@@ -10,6 +10,21 @@ from monitoring.services.index import LatestData
 from webhook.sensor_parsing import get_sensor_info, parse_dt, safe_float
 from webhook.models import Sensor, Measurement, MeteoData, WebhookRequest
 
+def parse_scenario(scenarios):
+    result = {}
+    for scenario in scenarios:
+        result[scenario.id] = {
+            'scenario_id': scenario.id,
+            'location': scenario.scenario.location,
+            'date': scenario.triggered_at.date(),
+            'time': scenario.triggered_at.time(),
+            'title': scenario.scenario.title,
+            'status': scenario.status,
+            'user': f'{scenario.user.first_name} {scenario.user.last_name}',
+            'description': scenario.scenario.description,
+        }
+    return result
+
 
 @receiver(post_save, sender=WebhookRequest, dispatch_uid='data_saved')
 def data_saved(sender, instance, created, **kwargs):
@@ -107,9 +122,9 @@ def data_saved(sender, instance, created, **kwargs):
             "scenario",
             {
                 "type": "send_scenarios",
-                'new_scenarios': latest_data.get('new_scenarios'),
-                'pending_scenarios': latest_data.get('pending_scenarios'),
-                'in_progress_scenarios': latest_data.get('in_progress_scenarios'),
-                'resolved_scenarios': latest_data.get('resolved_scenarios'),
+                'new_scenarios': parse_scenario(latest_data.get('new_scenarios')),
+                'pending_scenarios': parse_scenario(latest_data.get('pending_scenarios')),
+                'in_progress_scenarios': parse_scenario(latest_data.get('in_progress_scenarios')),
+                'resolved_scenarios': parse_scenario(latest_data.get('resolved_scenarios')),
             }
         )
