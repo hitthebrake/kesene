@@ -223,7 +223,7 @@ def scenario_update(request, scenario_id, action):
         scenario.start_pending()
     elif action == 'in_progress':
         scenario.start_progress(request.user)
-    elif action == 'resolved':
         broadcast_form(request, scenario_id)
+    elif action == 'resolved':
         scenario.resolve()
     return redirect('monitoring:index')
