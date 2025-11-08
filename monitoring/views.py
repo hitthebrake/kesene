@@ -10,6 +10,7 @@ from django.utils import timezone
 from core import extra_functions
 from monitoring.services.export_to_excel import ExportToExcel
 from monitoring.services.index import LatestData
+from monitoring.telegram_bot import broadcast_form
 from sensors.models import ManualData, InstanceManualData, ScenarioInstance
 from webhook.models import Measurement, ExampleMeasurement
 from webhook.sensor_parsing import get_sensor_types
@@ -223,5 +224,6 @@ def scenario_update(request, scenario_id, action):
     elif action == 'in_progress':
         scenario.start_progress(request.user)
     elif action == 'resolved':
+        broadcast_form(request, scenario_id)
         scenario.resolve()
     return redirect('monitoring:index')

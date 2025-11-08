@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, telegram_bot
 app_name = 'monitoring'
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('manual_data_list/', views.data_list, name='manual-data-list'),
     path('get_draft_data/<str:location>', views.get_draft_data, name='get-draft-data'),
     path('scenario_update/<int:scenario_id>/<str:action>/', views.scenario_update, name='scenario-update'),
+    path("telegram/webhook/", telegram_bot.telegram_webhook, name="telegram_webhook"),
 ]

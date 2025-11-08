@@ -152,6 +152,8 @@ LOGIN_URL = '/login/'
 
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY", '')
 
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", '')
+
 AUTH_USER_MODEL = 'authorization.CustomUser'
 
 CHANNEL_LAYERS = {

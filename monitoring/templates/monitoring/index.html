@@ -79,9 +79,16 @@
                     <div class="col-xl-8 col-xxl-9">
                         <div class="col-auto">
                             <h3 class="mb-4 text-body-emphasis">Состояние системы</h3>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} me-2">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
 
-                        <audio id="alertSound" src="{% static 'sounds/mixkit-warning-alarm-buzzer-991.wav' %}"
+                        <audio id="alertSound" src='{% static "sounds/mixkit-warning-alarm-buzzer-991.wav" %}'
                                preload="auto" loop></audio>
 
                         <div class="alert-col">
