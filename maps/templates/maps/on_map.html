@@ -409,18 +409,18 @@
         </div>
 
 
-        <div class="modal modal-coord" style="display: none">
-            <form method="post" action="{% url 'maps:save-coordinates' %}">
-                {% csrf_token %}
-                <p class="natural"></p>
-                <p class="percent"></p>
-                <input name="sensor_id" placeholder="sensor id" required/>
-                <input name="x" required/>
-                <input name="y" required/>
-                <button type="submit" id="submitBtn">Button</button>
-                <button type="button" class="close-btn">Close</button>
-            </form>
-        </div>
+{#        <div class="modal modal-coord" style="display: none">#}
+{#            <form method="post" action="{% url 'maps:save-coordinates' %}">#}
+{#                {% csrf_token %}#}
+{#                <p class="natural"></p>#}
+{#                <p class="percent"></p>#}
+{#                <input name="sensor_id" placeholder="sensor id" required/>#}
+{#                <input name="x" required/>#}
+{#                <input name="y" required/>#}
+{#                <button type="submit" id="submitBtn">Button</button>#}
+{#                <button type="button" class="close-btn">Close</button>#}
+{#            </form>#}
+{#        </div>#}
     </div>
 </main>
 <!-- ===============================================-->
