@@ -576,7 +576,7 @@
                 sType = sensor['sensor__sensor_type'];
                 sLocation = sensor['sensor__location'];
                 if (sensor['sensor__image']) {
-                    sImg = sensor['sensor__image'];
+                    sImg = `/media/${sensor['sensor__image']}`;
                 }
                 found = true;
             }
@@ -590,7 +590,6 @@
             modalSpot.innerText = `Точка: ${sSpot}`;
             modalType.innerText = `Тип датчика: ${sType}`;
             sensorModal.show();
-            popup.style.display = 'block';
         }
 
         const pageX = event.clientX + window.scrollX;
