@@ -1,51 +1,11 @@
 (function () {
   // Example sensor data (pixel coords relative to original image natural size)
   // Replace with your real data from DB or inline attributes.
-  const sensors = [
-    { id: 1, name: "Sensor A", x: 2510, y: 1175 },
-    { id: 2, name: "Sensor B", x: 1200, y: 340 },
-    { id: 3, name: "Sensor C", x: 900, y: 760 }
-  ];
 
-  function createHotspots(img, container, sensors) {
-    // remove existing sensors
-    container.querySelectorAll('.sensor').forEach(n => n.remove());
 
-    const naturalW = img.naturalWidth;
-    const naturalH = img.naturalHeight;
-    if (!naturalW || !naturalH) return;
 
-    sensors.forEach(s => {
-      const leftPercent = (s.x / naturalW) * 100;
-      const topPercent  = (s.y / naturalH) * 100;
 
-      const btn = document.createElement('button');
-      btn.className = 'sensor';
-      btn.setAttribute('data-id', s.id);
-      btn.setAttribute('aria-label', s.name);
-      btn.style.left = leftPercent + '%';
-      btn.style.top  = topPercent  + '%';
-      btn.title = s.name;
 
-      btn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        openSensorModal(s);
-      });
-
-      container.appendChild(btn);
-    });
-  }
-
-  function openSensorModal(sensor) {
-    const modal = document.getElementById('sensorModal');
-    document.getElementById('modalBody').textContent = `${sensor.name} (id ${sensor.id}) — details here.`;
-    modal.setAttribute('aria-hidden', 'false');
-  }
-
-  function closeModal() {
-    document.getElementById('sensorModal').setAttribute('aria-hidden', 'true');
-  }
-  document.getElementById('closeModal').addEventListener('click', closeModal);
 
 //
 //   /* ---- existing magnifier initialization (slightly adapted) ---- */
@@ -176,8 +136,8 @@
                 const lw = lens.offsetWidth / 2;
                 const lh = lens.offsetHeight / 2;
 
-                x = Math.max(lw, Math.min(x, rect.width - lw));
-                y = Math.max(lh, Math.min(y, rect.height - lh));
+                // x = Math.max(lw, Math.min(x, rect.width - lw));
+                // y = Math.max(lh, Math.min(y, rect.height - lh));
 
                 lens.style.left = (x - lw) + "px";
                 lens.style.top = (y - lh) + "px";
@@ -219,24 +179,22 @@
 
         if (img.complete) {
             setup();
-            createHotspots(img, container, sensors);
         } else {
             img.addEventListener('load', () => {
                 setup();
-                createHotspots(img, container, sensors);
             });
         }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".tab-pane.active .magnifiable").forEach(img => initMagnifier(img, 1.0));
+        document.querySelectorAll(".tab-pane.active .magnifiable").forEach(img => initMagnifier(img, 2.0));
 
         const tabButtons = document.querySelectorAll('a[data-bs-toggle="tab"]');
         tabButtons.forEach(btn => {
             btn.addEventListener('shown.bs.tab', function (event) {
                 const targetId = event.target.getAttribute('href').substring(1); // remove #
                 const targetTab = document.getElementById(targetId);
-                targetTab.querySelectorAll(".magnifiable").forEach(img => initMagnifier(img, 1.0));
+                targetTab.querySelectorAll(".magnifiable").forEach(img => initMagnifier(img, 2.0));
             });
         });
 

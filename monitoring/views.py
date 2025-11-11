@@ -19,7 +19,6 @@ from webhook.sensor_parsing import get_sensor_types
 @login_required(login_url="authorization:login")
 def index(request):
     context = LatestData().get_data()
-
     for sensor_id, values in context['latest_values'].items():
         cnt = 1 if values['value1'] == '#NV' else 0
         cnt = cnt + 1 if values['value2'] == '#NV' else cnt

@@ -75,8 +75,8 @@
           box-shadow: 0 4px 12px rgba(0,0,0,0.35);
           cursor: none; /* hide default cursor when over lens */
           /* size of lens: change width/height to taste */
-          width: 220px;
-          height: 220px;
+          width: 20%;
+          height: 25%;
           border: 3px solid rgba(255,255,255,0.9);
           /* overflow hidden not necessary since background is used */
           background-repeat: no-repeat;
@@ -101,6 +101,22 @@
         .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
         .modal[aria-hidden="false"] { display:flex; }
         .modal-content { background:white; padding:16px; border-radius:8px; min-width:220px; }
+
+            .clickable-img { max-width: 90%; height: auto; cursor: crosshair; }
+    .click-marker {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: rgba(255,0,0,0.9);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      box-shadow: 0 0 4px rgba(0,0,0,0.6);
+    }
+    /* container to position absolute marker relative to page */
+    .img-wrapper { position: relative; display: inline-block; }
     </style>
 </head>
 <body>
@@ -135,15 +151,15 @@
                         <div class="tab-content mt-3" id="myTabContent">
                             <div class="tab-pane fade show active img-magnifier-container" id="tab-home" role="tabpanel"
                                  aria-labelledby="home-tab">
-                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable"
+                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable with-modal"
                                      src='{% static "images/1_floor.jpg" %}' alt="" style="min-height: 250px;" id="firstLevelMap">
                             </div>
                             <div class="tab-pane fade img-magnifier-container" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable"
+                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable clickable-img"
                                      src='{% static "images/2_floor.jpg" %}' alt="" style="min-height: 250px;" id="secondLevelMap">
                             </div>
                             <div class="tab-pane fade img-magnifier-container" id="tab-contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable"
+                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable clickable-img"
                                      src='{% static "images/roof_plan.jpg" %}' alt="" style="min-height: 250px;" id="roofMap">
                             </div>
                         </div>
@@ -341,122 +357,40 @@
             </footer>
         </div>
 
-        <div id="sensorModal" class="modal" aria-hidden="true">
-          <div class="modal-content">
-            <button id="closeModal">Close</button>
-            <div id="modalBody"></div>
-          </div>
-        </div>
-
-        <div class="modal fade" id="varning" tabindex="-1" data-bs-backdrop="static"
+        <div class="modal fade" id="sensorModal" tabindex="-1" data-bs-backdrop="static"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header justify-content-between" style="background-color:#c7ebff">
-                        <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная
-                            шахта: Предупреждение</h5>
+                        <h5 class="modal-location-name dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная
+                            шахта</h5>
                     </div>
                     <div class="modal-body">
-                        <p class="text-body-tertiary lh-lg mb-0">Большая вероятность скопления влажности изза потока
-                            ветра. Закройте двери во избежании образования сквозняков</p>
-                    </div>
-                    <div class="modal-body">
-                        <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
+                        <img class="rounded-2 w-100 h-100 object-fit-cover modal-image" src='{% static "images/91.png" %}' alt="">
                         <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                            <h4 class="text-white">Вентиляционная шахта-P1.14-Vв</h4>
-                            <p class="mb-0 text-secondary-lighter text-capitalize">Скорость воздушного потока, м/с</p>
+                            <h4 class="text-white modal-spot">Точка</h4>
+                            <p class="mb-0 text-secondary-lighter text-capitalize modal-type">Тип</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-warning me-1 mb-1" type="button">К исполнению</button>
-                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Подождать</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="nodata" tabindex="-1" data-bs-backdrop="static"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-between" style="background-color:#eff2f6">
-                        <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная
-                            шахта: Нет данных</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с
-                            датчиком. Необходимо проверить физическое состояние данного датчика на месте ее
-                            установки.</p>
-                    </div>
-                    <div class="modal-body">
-                        <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                        <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                            <h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
-                            <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка
-                                росы</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" type="button">К исполнению</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade" id="view" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-between" style="background-color:#eff2f6">
-                        <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная
-                            шахта: Нет данных</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-body-tertiary lh-lg mb-0">Возможно это происходит изза неполадки в линии связи с
-                            датчиком. Необходимо проверить физическое состояние данного датчика на месте ее
-                            установки.</p>
-                    </div>
-                    <div class="modal-body">
-                        <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                        <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                            <h4 class="text-white">Вентиляционная шахта-P1.14-ТвОВв</h4>
-                            <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка
-                                росы</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" type="button">В работу</button>
                         <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="danger" tabindex="-1" data-bs-backdrop="static"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-between" style="background-color:#FFE0DB">
-                        <h5 class="modal-title dark__text-gray-1100" id="staticBackdropLabel">Асхана. Наклонный свод:
-                            Тревога</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-body-tertiary lh-lg mb-0">Включить вентиляторы по направлению выдува к двери.
-                            Ограничить посщение на 2 часа!</p>
-                    </div>
-                    <div class="modal-body">
-                        <img class="rounded-2 w-100 h-100 object-fit-cover" src='{% static "images/91.png" %}' alt="">
-                        <div class="position-absolute w-100 bottom-0 start-0 p-5">
-                            <h4 class="text-white">Вентиляционная шахта-P2.5-ТвОВв</h4>
-                            <p class="mb-0 text-secondary-lighter text-capitalize">Температура, влажность, точка
-                                росы</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger me-1 mb-1" type="button">К исполнению</button>
-                    </div>
-                </div>
-            </div>
+
+
+        <div class="modal modal-coord" style="display: none">
+            <form method="post" action="{% url 'maps:save-coordinates' %}">
+                {% csrf_token %}
+                <p class="natural"></p>
+                <p class="percent"></p>
+                <input name="sensor_id" placeholder="sensor id" required/>
+                <input name="x" required/>
+                <input name="y" required/>
+                <button type="submit" id="submitBtn">Button</button>
+                <button type="button" class="close-btn">Close</button>
+            </form>
         </div>
     </div>
 </main>
@@ -485,6 +419,203 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script src="{% static 'js/magnifier.js' %}"></script>
+
+<script>
+    // Utility: show marker where clicked (uses page coordinates)
+    function showMarkerAtPageCoords(pageX, pageY) {
+        const marker = document.createElement('div');
+        marker.className = 'click-marker';
+        document.body.appendChild(marker);
+        marker.style.left = pageX + 'px';
+        marker.style.top = pageY + 'px';
+        setTimeout(() => marker.remove(), 1200);
+    }
+
+    function getEventClientCoords(event) {
+        // For mouse events: event.clientX/Y exists
+        // For touch events: use first touch
+        if (event.touches && event.touches.length) {
+            return {clientX: event.touches[0].clientX, clientY: event.touches[0].clientY};
+        }
+        // If synthetic object passed (from previous examples), allow it
+        if (typeof event.clientX === 'number' && typeof event.clientY === 'number') {
+            return {clientX: event.clientX, clientY: event.clientY};
+        }
+        // Fallback to pageX/pageY converted to clientX/clientY
+        if (typeof event.pageX === 'number' && typeof event.pageY === 'number') {
+            return {clientX: event.pageX - window.scrollX, clientY: event.pageY - window.scrollY};
+        }
+        return null;
+    }
+
+    function onImageClick(event) {
+        const img = event.currentTarget;
+        const rect = img.getBoundingClientRect();
+
+        const coords = getEventClientCoords(event);
+        if (!coords) return;
+
+        const clientX = coords.clientX;
+        const clientY = coords.clientY;
+
+        // Coordinates relative to the displayed image (viewport / CSS pixels)
+        let xDisplayed = clientX - rect.left;
+        let yDisplayed = clientY - rect.top;
+
+        // Clamp to image bounds
+        const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+        xDisplayed = clamp(xDisplayed, 0, rect.width);
+        yDisplayed = clamp(yDisplayed, 0, rect.height);
+
+        // Map to natural pixels
+        const scaleX = img.naturalWidth / rect.width;
+        const scaleY = img.naturalHeight / rect.height;
+        const xNatural = Math.round(xDisplayed * scaleX);
+        const yNatural = Math.round(yDisplayed * scaleY);
+
+        // Percent coords
+        const percentX = (xDisplayed / rect.width);
+        const percentY = (yDisplayed / rect.height);
+
+        // Convert client (viewport) coords to page coords for absolute placement
+        const pageX = clientX + window.scrollX;
+        const pageY = clientY + window.scrollY;
+
+        console.log('--- image click ---');
+        console.log('Displayed coords (css px, viewport-based):', {
+            x: Math.round(xDisplayed),
+            y: Math.round(yDisplayed)
+        });
+        console.log('Natural coords (image px):', {x: xNatural, y: yNatural});
+        console.log('Percent coords (%):', {x: percentX.toFixed(5), y: percentY.toFixed(5)});
+        console.log('Page coords (document px):', {x: Math.round(pageX), y: Math.round(pageY)});
+
+        const modal = document.querySelector('.modal-coord');
+        modal.querySelector('.natural').textContent = `Natural coords: x - ${xNatural}, y - ${yNatural}`;
+        modal.querySelector('.percent').textContent = `Percentages: x - ${percentX.toFixed(5)}, y - ${percentY.toFixed(5)}`;
+        modal.querySelector('input[name="x"]').value = percentX.toFixed(5);
+        modal.querySelector('input[name="y"]').value = percentY.toFixed(5);
+        modal.querySelector('input[name="sensor_id"]').value = '';
+        modal.querySelector('input[name="sensor_id"]').placeholder = 'sensor_id';
+        modal.style.display = 'block';
+
+
+        // Show marker at the true page position
+        showMarkerAtPageCoords(pageX, pageY);
+    }
+
+    document.addEventListener('click', e => {
+        let obj = e.target.closest('button')
+        if (obj && obj.classList.contains('close-btn')) {
+            const modal = document.querySelector('.modal-coord');
+            modal.style.display = 'none';
+        }
+    })
+
+    // Attach to images
+    document.querySelectorAll('.clickable-img').forEach(img => {
+        if (img.complete) {
+            img.addEventListener('click', onImageClick);
+        } else {
+            img.addEventListener('load', () => img.addEventListener('click', onImageClick));
+        }
+        // Touch support
+        img.addEventListener('touchstart', function (e) {
+            // prevent generating a delayed mouse event on some devices
+            // (you might remove preventDefault if you want native scrolling on touch)
+            // e.preventDefault(); // uncomment only if you want to disable page scroll on touch
+            onImageClick.call(this, e);
+        }, {passive: true});
+    });
+
+    let sensors = []
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('/maps/get_coordinates/'); // wait for the fetch
+            sensors = await response.json();
+        } catch (err) {
+            console.error('Error fetching sensors:', err);
+        }
+    });
+
+    function showSensorInfo(event) {
+        const popup = document.getElementById('sensorModal');
+        const sensorModal = new bootstrap.Modal(popup);
+
+        let sName = '';
+        let sSpot = '';
+        let sType = '';
+        let sLocation = '';
+        let sImg = '/static/images/91.png';
+
+        const modalLocationName = popup.querySelector('.modal-location-name');
+        const modalImg = popup.querySelector('.modal-image');
+        const modalSpot = popup.querySelector('.modal-spot');
+        const modalType = popup.querySelector('.modal-type');
+
+        const img = event.currentTarget;
+        const rect = img.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+
+        const imgWidth = img.clientWidth;
+        const imgHeight = img.clientHeight;
+
+        let found = false;
+        let closest = 1.7;
+
+        sensors.forEach(sensor => {
+            const sensorX = (sensor.x) * imgWidth;
+            const sensorY = (sensor.y) * imgHeight;
+
+            // Check if click is within RANGE pixels of sensor
+            if (Math.abs(clickX - sensorX) <= closest && Math.abs(clickY - sensorY) <= closest) {
+                closest = Math.min(Math.abs(clickX - sensorX), Math.abs(clickY - sensorY));
+                sName = sensor['sensor__name'];
+                sSpot = sensor['sensor__spot'];
+                sType = sensor['sensor__sensor_type'];
+                sLocation = sensor['sensor__location'];
+                if (sensor['sensor__image']) {
+                    sImg = sensor['sensor__image'];
+                }
+                found = true;
+            }
+        });
+
+        if (!found) {
+            popup.style.display = 'none';
+        } else {
+            modalLocationName.innerText = `${sLocation}: ${sName}`;
+            modalImg.src = sImg;
+            modalSpot.innerText = `Точка: ${sSpot}`;
+            modalType.innerText = `Тип датчика: ${sType}`;
+            sensorModal.show();
+            popup.style.display = 'block';
+        }
+
+        const pageX = event.clientX + window.scrollX;
+        const pageY = event.clientY + window.scrollY;
+        showMarkerAtPageCoords(pageX, pageY);
+    }
+
+
+    document.querySelectorAll('.with-modal').forEach(img => {
+        if (img.complete) {
+            img.addEventListener('click', showSensorInfo);
+        } else {
+            img.addEventListener('load', () => img.addEventListener('click', showSensorInfo));
+        }
+        // Touch support
+        img.addEventListener('touchstart', function (e) {
+            // prevent generating a delayed mouse event on some devices
+            // (you might remove preventDefault if you want native scrolling on touch)
+            // e.preventDefault(); // uncomment only if you want to disable page scroll on touch
+            showSensorInfo.call(this, e);
+        }, {passive: true});
+    });
+
+
+</script>
 </body>
 
 </html>
