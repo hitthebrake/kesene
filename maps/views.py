@@ -19,10 +19,8 @@ def save_coordinates(request):
         try:
             coordinate = Coordinate(x=x, y=y, sensor_id=sensor_id)
             coordinate.save()
-            print('successfully saved:', x, y, sensor_id)
         except Exception as e:
             print(e)
-            print('failed to save:', x, y, sensor_id)
     return redirect('maps:maps')
 
 

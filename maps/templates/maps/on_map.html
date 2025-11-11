@@ -56,67 +56,89 @@
 
     <style>
         .img-magnifier-container {
-          position: relative;
-          display: inline-block; /* change to block/width:100% if needed */
-          max-width: 100%;
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
         }
 
         .img-magnifier-container img {
-          display: block;
-          max-width: 100%;
-          width: 100%;
-          height: auto;
+            display: block;
+            max-width: 100%;
+            width: 100%;
+            height: auto;
         }
 
-        /* Lens */
         .img-magnifier-lens {
-          position: absolute;
-          border-radius: 50%;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-          cursor: none; /* hide default cursor when over lens */
-          /* size of lens: change width/height to taste */
-          width: 20%;
-          height: 25%;
-          border: 3px solid rgba(255,255,255,0.9);
-          /* overflow hidden not necessary since background is used */
-          background-repeat: no-repeat;
-          pointer-events: none; /* lens doesn't block clicks */
-          z-index: 10;
-          display: none; /* shown by script on hover */
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            cursor: none; /* hide default cursor when over lens */
+            /* size of lens: change width/height to taste */
+            width: 20%;
+            height: 25%;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            /* overflow hidden not necessary since background is used */
+            background-repeat: no-repeat;
+            pointer-events: none; /* lens doesn't block clicks */
+            z-index: 10;
+            display: none; /* shown by script on hover */
         }
 
         .sensor {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          border-radius: 50%;
-          transform: translate(-50%, -50%); /* center on point */
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          z-index: 20; /* above image and lens (lens is 10 in earlier example) */
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%); /* center on point */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 20; /* above image and lens (lens is 10 in earlier example) */
         }
 
-        /* simple modal styles (very minimal) */
-        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
-        .modal[aria-hidden="false"] { display:flex; }
-        .modal-content { background:white; padding:16px; border-radius:8px; min-width:220px; }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
 
-            .clickable-img { max-width: 90%; height: auto; cursor: crosshair; }
-    .click-marker {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid white;
-      background: rgba(255,0,0,0.9);
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 9999;
-      box-shadow: 0 0 4px rgba(0,0,0,0.6);
-    }
-    /* container to position absolute marker relative to page */
-    .img-wrapper { position: relative; display: inline-block; }
+        .modal[aria-hidden="false"] {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            min-width: 220px;
+        }
+
+        .clickable-img {
+            max-width: 90%;
+            height: auto;
+            cursor: crosshair;
+        }
+
+        .click-marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: rgba(255, 0, 0, 0.9);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .img-wrapper {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -152,15 +174,20 @@
                             <div class="tab-pane fade show active img-magnifier-container" id="tab-home" role="tabpanel"
                                  aria-labelledby="home-tab">
                                 <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable with-modal"
-                                     src='{% static "images/1_floor.jpg" %}' alt="" style="min-height: 250px;" id="firstLevelMap">
+                                     src='{% static "images/1_floor.jpg" %}' alt="" style="min-height: 250px;"
+                                     id="firstLevelMap">
                             </div>
-                            <div class="tab-pane fade img-magnifier-container" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable clickable-img"
-                                     src='{% static "images/2_floor.jpg" %}' alt="" style="min-height: 250px;" id="secondLevelMap">
+                            <div class="tab-pane fade img-magnifier-container" id="tab-profile" role="tabpanel"
+                                 aria-labelledby="profile-tab">
+                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable with-modal"
+                                     src='{% static "images/2_floor.jpg" %}' alt="" style="min-height: 250px;"
+                                     id="secondLevelMap">
                             </div>
-                            <div class="tab-pane fade img-magnifier-container" id="tab-contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable clickable-img"
-                                     src='{% static "images/roof_plan.jpg" %}' alt="" style="min-height: 250px;" id="roofMap">
+                            <div class="tab-pane fade img-magnifier-container" id="tab-contact" role="tabpanel"
+                                 aria-labelledby="contact-tab">
+                                <img class="rounded w-100 object-fit-cover mb-5 mb-md-6 mb-xl-8 magnifiable with-modal"
+                                     src='{% static "images/roof_plan.jpg" %}' alt="" style="min-height: 250px;"
+                                     id="roofMap">
                             </div>
                         </div>
                     </div>
@@ -362,11 +389,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header justify-content-between" style="background-color:#c7ebff">
-                        <h5 class="modal-location-name dark__text-gray-1100" id="staticBackdropLabel">Асхана. Вентиляционная
+                        <h5 class="modal-location-name dark__text-gray-1100" id="staticBackdropLabel">Асхана.
+                            Вентиляционная
                             шахта</h5>
                     </div>
                     <div class="modal-body">
-                        <img class="rounded-2 w-100 h-100 object-fit-cover modal-image" src='{% static "images/91.png" %}' alt="">
+                        <img class="rounded-2 w-100 h-100 object-fit-cover modal-image"
+                             src='{% static "images/91.png" %}' alt="">
                         <div class="position-absolute w-100 bottom-0 start-0 p-5">
                             <h4 class="text-white modal-spot">Точка</h4>
                             <p class="mb-0 text-secondary-lighter text-capitalize modal-type">Тип</p>
@@ -421,7 +450,6 @@
 <script src="{% static 'js/magnifier.js' %}"></script>
 
 <script>
-    // Utility: show marker where clicked (uses page coordinates)
     function showMarkerAtPageCoords(pageX, pageY) {
         const marker = document.createElement('div');
         marker.className = 'click-marker';
@@ -562,14 +590,17 @@
         const imgHeight = img.clientHeight;
 
         let found = false;
-        let closest = 1.7;
+        let closest = 1.8;
 
         sensors.forEach(sensor => {
             const sensorX = (sensor.x) * imgWidth;
             const sensorY = (sensor.y) * imgHeight;
 
-            // Check if click is within RANGE pixels of sensor
-            if (Math.abs(clickX - sensorX) <= closest && Math.abs(clickY - sensorY) <= closest) {
+            let condition = (Math.abs(clickX - sensorX) <= closest && Math.abs(clickY - sensorY) <= closest)
+            if (sensor['sensor__sensor_type'] === 'Угол наклона' || sensor['sensor__sensor_type'] === 'Уровень шума') {
+                condition = (Math.abs(clickX - sensorX) <= closest + 3.2 && Math.abs(clickY - sensorY) <= closest + 3.2)
+            }
+            if (condition) {
                 closest = Math.min(Math.abs(clickX - sensorX), Math.abs(clickY - sensorY));
                 sName = sensor['sensor__name'];
                 sSpot = sensor['sensor__spot'];
