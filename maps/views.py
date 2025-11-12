@@ -3,11 +3,30 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from maps.models import Coordinate
+from webhook.models import Sensor
+
+
 # Create your views here.
 
 @login_required(login_url='authorization:login')
 def maps_view(request):
-    return render(request, 'maps/on_map.html')
+    sensors = Sensor.objects.all()
+    context = {
+        'first_floor': [],
+        'second_floor': [],
+        'third_floor': [],
+    }
+    for sensor in sensors:
+        floor = sensor.spot[1]
+        if floor == '1':
+            context['first_floor'].append(sensor)
+        elif floor == '2':
+            context['second_floor'].append(sensor)
+        elif floor == '3' or floor == '4':
+            context['third_floor'].append(sensor)
+
+
+    return render(request, 'maps/on_map.html', context)
 
 
 def save_coordinates(request):
