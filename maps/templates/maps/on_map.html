@@ -364,6 +364,13 @@
 <script src="{% static 'js/magnifier.js' %}"></script>
 
 <script>
+    const div = document.querySelector(".maps-link");
+    if (div) {
+        div.classList.add("active");
+    } else {
+        console.log('not found');
+    }
+
     function showMarkerAtPageCoords(pageX, pageY) {
         const marker = document.createElement('div');
         marker.className = 'click-marker';

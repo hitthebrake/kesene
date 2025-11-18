@@ -10,4 +10,5 @@ urlpatterns = [
     path('maps/', include('maps.urls')),
     path('webhook/', include('webhook.urls')),
     path('sensors/', include('sensors.urls')),
+    path('analytics/', include('analytics.urls')),
 ]

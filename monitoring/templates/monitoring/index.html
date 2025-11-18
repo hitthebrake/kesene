@@ -786,6 +786,13 @@
 <script src='{% static "js/ecommerce-dashboard.js" %}'></script>
 
 <script>
+    const div = document.querySelector(".main-link");
+    if (div) {
+        div.classList.add("active");
+    } else {
+        console.log('not found');
+    }
+
     const alertDiv = document.querySelector(".alert-col");
     const alertSound = document.getElementById("alertSound");
     document.addEventListener("click", () => {
