@@ -132,13 +132,13 @@
                                                         {% if "min" in stats %}
                                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                                    {{ t }}
+                                                                    {{ t.0 }}
                                                                 </td>
                                                                 <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
                                                                     Минимальное
                                                                 </td>
                                                                 <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                                    {{ stat.min.value }}
+                                                                    {{ stat.min.value }} {% if stat.min.value != 'Нету данных' %}{{ t.1 }}{% endif %}
                                                                 </td>
                                                                 <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
                                                                     {{ stat.min.date|date:'d.m.Y' }}
@@ -148,13 +148,13 @@
                                                         {% if "max" in stats %}
                                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                             <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                                {{ t }}
+                                                                {{ t.0 }}
                                                             </td>
                                                             <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
                                                                 Максимальное
                                                             </td>
                                                             <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                                {{ stat.max.value }}
+                                                                {{ stat.max.value }} {% if stat.min.value != 'Нету данных' %}{{ t.1 }}{% endif %}
                                                             </td>
                                                             <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
                                                                 {{ stat.max.date|date:'d.m.Y' }}
@@ -164,13 +164,13 @@
                                                         {% if "avg" in stats %}
                                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                                             <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                                {{ t }}
+                                                                {{ t.0 }}
                                                             </td>
                                                             <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
                                                                 Среднее
                                                             </td>
                                                             <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                                {{ stat.average }}
+                                                                {{ stat.average }} {% if stat.min.value != 'Нету данных' %}{{ t.1 }}{% endif %}
                                                             </td>
                                                             <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
                                                                 {{ cur_start_date|date:'d.m.Y' }} - {{ cur_end_date|date:'d.m.Y' }}
