@@ -100,14 +100,15 @@
 
 
                             <div class="row g-4 mb-9">
-                                <div class="col-xl-6">
+                                {% for sensor, data in data.items %}
+                                    <div class="col-xl-6">
                                     <div class="card shadow-none border">
                                         <div class="card-header p-3 border-bottom bg-body">
                                             <div class="row g-3 justify-content-between align-items-center">
                                                 <div class="col-12 col-md">
-                                                    <h5 class="text-body mb-1">P1.14. Асхана. Вентиляционная шахта.
-                                                        ТвОВв</h5>
-                                                    <p class="mb-0">Период: 01.09.25 - 31.09.25</p>
+                                                    <h5 class="text-body mb-1">{{ sensor.spot }}. {{ sensor.location }}. {{ sensor.name }}.
+                                                        {{ sensor.sensor_type }}</h5>
+                                                    <p class="mb-0">Период: {{ cur_start_date }} - {{ cur_end_date }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,208 +128,56 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody class="list" id="report-data-body">
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            8 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            02.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            15 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            21.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            12 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Влажность
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            35 %
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            07.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Влажность
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            65 %
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            11.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Влажность
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            48 %
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Точка росы
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,1 'С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            07.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Точка росы
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,7 'С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            11.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Точка росы
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,4 'С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6">
-                                    <div class="card shadow-none border">
-                                        <div class="card-header p-3 border-bottom bg-body">
-                                            <div class="row g-3 justify-content-between align-items-center">
-                                                <div class="col-12 col-md">
-                                                    <h5 class="text-body mb-1">P1.14. Асхана. Вентиляционная шахта.
-                                                        Vв</h5>
-                                                    <p class="mb-0">Период: 01.09.25 - 31.09.25</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div class="p-3 code-to-copy">
-                                                <table class="reports-details-chart-table table table-sm fs-9 mb-0">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
-                                                            scope="col" style="width:20%;"><b>Точка</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
-                                                            scope="col" style="width:50%;"><b>Место установки</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Тип</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Период</b></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="list" id="report-data-body">
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,2 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            02.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,6 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            21.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,4 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
+                                                    {% for t, stat in data.items %}
+                                                        {% if "min" in stats %}
+                                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                                <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                                    {{ t }}
+                                                                </td>
+                                                                <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
+                                                                    Минимальное
+                                                                </td>
+                                                                <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                    {{ stat.min.value }}
+                                                                </td>
+                                                                <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                    {{ stat.min.date|date:'d.m.Y' }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                        {% if "max" in stats %}
+                                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                            <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                                {{ t }}
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
+                                                                Максимальное
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                {{ stat.max.value }}
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                {{ stat.max.date|date:'d.m.Y' }}
+                                                            </td>
+                                                        </tr>
+                                                        {% endif %}
+                                                        {% if "avg" in stats %}
+                                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                            <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
+                                                                {{ t }}
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
+                                                                Среднее
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                {{ stat.average }}
+                                                            </td>
+                                                            <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
+                                                                {{ cur_start_date|date:'d.m.Y' }} - {{ cur_end_date|date:'d.m.Y' }}
+                                                            </td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
 
                                                     </tbody>
                                                 </table>
@@ -336,176 +185,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-xl-6">
-                                    <div class="card shadow-none border">
-                                        <div class="card-header p-3 border-bottom bg-body">
-                                            <div class="row g-3 justify-content-between align-items-center">
-                                                <div class="col-12 col-md">
-                                                    <h5 class="text-body mb-1">P2.5. Асхана. Наклонный свод. Vв</h5>
-                                                    <p class="mb-0">Период: 01.09.25 - 31.09.25</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div class="p-3 code-to-copy">
-                                                <table class="reports-details-chart-table table table-sm fs-9 mb-0">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
-                                                            scope="col" style="width:20%;"><b>Точка</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
-                                                            scope="col" style="width:50%;"><b>Место установки</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Тип</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Период</b></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="list" id="report-data-body">
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,2 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            02.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,6 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            21.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            0,4 м/с
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="card shadow-none border">
-                                        <div class="card-header p-3 border-bottom bg-body">
-                                            <div class="row g-3 justify-content-between align-items-center">
-                                                <div class="col-12 col-md">
-                                                    <h5 class="text-body mb-1">P2.5. Асхана. Наклонный свод. Тп</h5>
-                                                    <p class="mb-0">Период: 01.09.25 - 31.09.25</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div class="p-3 code-to-copy">
-                                                <table class="reports-details-chart-table table table-sm fs-9 mb-0">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="align-middle pe- text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap ps-0"
-                                                            scope="col" style="width:20%;"><b>Точка</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase text-nowrap"
-                                                            scope="col" style="width:50%;"><b>Место установки</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Тип</b></th>
-                                                        <th class="align-middle  ps-2 text-body-tertiary fw-bold fs-10 text-uppercase"
-                                                            scope="col" style="width:30%;"><b>Период</b></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="list" id="report-data-body">
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Минимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            6,0 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            02.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Максимальное
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            9,0 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            21.09.2025
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight py-2">
-                                                            Температура
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap fw-semibold text-body-highlight ps-2 py-2">
-                                                            Среднее
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            7,2 °С
-                                                        </td>
-                                                        <td class="align-middle white-space-nowrap ps-2 fw-semibold text-body-highlight">
-                                                            01.09.25 - 31.09.25
-                                                        </td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="card shadow-none border">
-                                        <div class="card-header p-3 border-bottom bg-body">
-                                            <div class="row g-3 justify-content-between align-items-center">
-                                                <div class="col-12 col-md">
-                                                    <h5 class="text-body mb-1">P1.14. Асхана. Вентиляционная шахта.
-                                                        ТвОВв</h5>
-                                                    <p class="mb-0">Период: 01.09.25 - 31.09.25</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div class="p-3 code-to-copy">
-                                                <div class="echart-step-line-chart-example"
-                                                     style="min-height:300px"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
 
 
@@ -515,16 +195,24 @@
                     <div class="col-xl-3 col-xxl-3">
                         <div class="sticky-leads-sidebar">
                             <div class="card mb-3">
-                                <div class="card-body">
+                                <form class="card-body" method="get" action="{% url 'analytics:analytics' %}">
                                     <h5 class="card-title mb-4">Фильтр</h5>
                                     <div class="col-auto mb-3 ">
                                         <div class="gap-3">
                                             <div class="px-md-0">
                                                 <div class="needs-validation">
                                                     <input class="form-control datetimepicker" id="timepicker2"
-                                                           type="text"
+                                                           type="text" name="date_range"
                                                            placeholder="Выберите даты"
-                                                           data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true, "locale":"ru"}'/>
+                                                           required
+                                                           data-options='{
+                                                               "mode":"range",
+                                                               "dateFormat":"d/m/Y",
+                                                               "disableMobile":true,
+                                                               "locale":"ru",
+                                                               "defaultDate": ["{{ cur_start_date|date:'d.m.Y' }}", "{{ cur_end_date|date:'d.m.Y' }}"],
+                                                               "allowInput": true
+                                                           }'/>
                                                 </div>
                                             </div>
 
@@ -533,7 +221,7 @@
                                     <div class="col-auto mb-3">
                                         <div class="col-auto d-flex gap-3">
                                             <select class="form-select form-select-sm mb-0" id="locationSelect"
-                                                    required>
+                                                    name="location" required>
                                                 <option disabled {% if not cur_location %}selected{% endif %} value="">
                                                     Выберите место установки
                                                 </option>
@@ -549,72 +237,49 @@
                                     </div>
 
                                     <div class="col-auto mb-3" id="typeSwitch">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">ТВоВВ</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">НВ</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Vв</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">ПТП</label>
-                                        </div>
-
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Тп</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Конц.
-                                                СО2</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Угол
-                                                наклона</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Уровень
-                                                грунтовых вод</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                   type="checkbox"/>
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Уровень
-                                                шума</label>
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" id="flexSwitchCheckChecked" type="checkbox"
-                                                   checked=""/>
-                                            <label class="form-check-label" for="flexSwitchCheckChecked">При выборе
-                                                помещения, все существующие в помещении датчики должны стать
-                                                активны</label>
+                                        {% for t in active_types %}
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input"
+                                                       id="flexSwitchCheckDefault_{{ t }}"
+                                                       name="types"
+                                                       value="{{ t }}" checked
+                                                       type="checkbox"/>
+                                                <label class="form-check-label"
+                                                       for="flexSwitchCheckDefault_{{ t }}">{{ t }}</label>
+                                            </div>
+                                        {% endfor %}
+                                        {% for t in inactive_types %}
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input"
+                                                       id="flexSwitchCheckDefault_{{ t }}"
+                                                       name="types"
+                                                       value="{{ t }}"
+                                                       type="checkbox"/>
+                                                <label class="form-check-label"
+                                                       for="flexSwitchCheckDefault_{{ t }}">{{ t }}</label>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                   name="stats" {% if "min" in stats %}checked{% endif %} value="min">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать минимальное значение</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
-                                                   value="option2">
-                                            <label class="form-check-label" for="inlineCheckbox2">Отобразить в
-                                                графиках</label>
+                                                   name="stats" {% if "max" in stats %}checked{% endif %} value="max">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать максимальное значение</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                   name="stats" {% if "avg" in stats %}checked{% endif %} value="avg">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать среднее значение</label>
                                         </div>
                                     </div>
-                                    <button class="btn btn-phoenix-primary w-100" type="button">Применить</button>
-                                </div>
+                                    <button class="btn btn-phoenix-primary w-100" type="submit">Применить</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -692,12 +357,30 @@
                 <div class="form-check form-switch">
                     <input class="form-check-input"
                            id="flexSwitchCheckDefault_${t}"
-                           name="${t}" checked
+                           name="types" value="${t}" checked
                            type="checkbox"/>
                     <label class="form-check-label"
                            for="flexSwitchCheckDefault_${t}">${t}</label>
                 </div>`;
             })
+            typeSwitch.innerHTML += `<div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                   name="stats" checked value="min">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать минимальное значение</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                   name="stats" checked value="max">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать максимальное значение</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="inlineCheckbox2" type="checkbox"
+                                                   name="stats" checked value="avg">
+                                            <label class="form-check-label" for="inlineCheckbox2">
+                                                Показать среднее значение</label>
+                                        </div>`
         } catch (error) {
             console.error('Error fetching organization details:', error);
         }
