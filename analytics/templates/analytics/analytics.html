@@ -91,9 +91,10 @@
                             <div class="row align-items-end justify-content-between pb-3 g-2">
                                 <div class="col-auto">
                                     <div class="d-flex flex-wrap gap-1">
-                                        <button class="btn btn-phoenix-secondary bg-body-emphasis btn-sm px-md-4"><span
-                                                class="fa-solid fa-file-export"> </span><span
-                                                class="d-none d-md-inline ms-2"> Экспорт в Excel</span></button>
+                                        <button class="btn btn-phoenix-secondary bg-body-emphasis btn-sm px-md-4" id="exportExcelBtn">
+                                            <span class="fa-solid fa-file-export"></span>
+                                            <span class="d-none d-md-inline ms-2">Экспорт в Excel</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -385,6 +386,75 @@
             console.error('Error fetching organization details:', error);
         }
     })
+
+
+    const exportExcelBtn = document.getElementById("exportExcelBtn");
+    exportExcelBtn.addEventListener('click', (e) => {
+        const newUrl = new URL("{% url 'analytics:export' %}", window.location.origin);
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.forEach((value, key) => {
+            newUrl.searchParams.append(key, value);
+        });
+        downloadFile(e, newUrl.toString());
+    })
+
+    function downloadFile(e, apiUrl) {
+        e.preventDefault()
+        return fetch(apiUrl, {
+            method: 'GET',
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('Content-Type') || '';
+                if (contentType.includes('application/json')) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    return null;
+                }
+
+                const contentDisposition = response.headers.get('Content-Disposition');
+                console.log("File contentDisposition", contentDisposition);
+                let filename = 'downloaded-file'; // Default name in case header is missing
+
+                if (contentDisposition) {
+                    let match = contentDisposition.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+                    if (!match) {
+                        match = contentDisposition.match(/filename="?([^"]+)"?/);
+                    }
+                    filename = decodeURIComponent(match[1]);
+                }
+
+                return response.blob().then(blob => ({blob, filename}));
+            })
+            .then(response => {
+                if (!response) return;
+                const {blob, filename} = response;
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename; // Set filename
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url); // Clean up URL objec
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+    }
 </script>
 </body>
 </html>

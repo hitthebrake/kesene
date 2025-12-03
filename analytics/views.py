@@ -1,7 +1,8 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from analytics.services.analytics import GetAnalytics
+from analytics.services.export_to_excel import ExportAnalytics
 from webhook.models import Sensor
 
 
@@ -17,3 +18,6 @@ def get_location_info(request, location: str):
         sensors = Sensor.objects.filter(location=location)
     types = list(sensors.values_list('sensor_type', flat=True).distinct())
     return JsonResponse({'types': types})
+
+def export_analytics(request):
+    return ExportAnalytics(request).export()
