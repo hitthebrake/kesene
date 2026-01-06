@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
 
     <!-- ===============================================-->
@@ -84,7 +85,13 @@
             <div class="row g-3 mb-3">
                 <div class="col-auto my-0">
                     <h4 class="mb-2">Журнал ручных измерении</h4>
-                    <h5 class="text-body-tertiary fw-semibold">Параметры</h5>
+                    {% if location == "" or spot == "" %}
+                        <h5 class="text-body-tertiary fw-semibold">Параметры</h5>
+                    {% else %}
+                        <h5 class="text-body-tertiary fw-semibold">{{ location }}: {{ spot }}</h5>
+                    {% endif %}
+                    <input hidden id="spotValue" value="{{ spot }}"/>
+                    <input hidden id="locationValue" value="{{ location }}"/>
                 </div>
             </div>
 
@@ -99,7 +106,7 @@
                                     <select class="form-select form-select-sm mb-1" id="locationSelect" name="location"
                                             data-list-filter="data-list-filter" required>
                                         <option selected disabled value="">Выберите локацию</option>
-                                        <option value="Периметер">Периметр</option>
+                                        <option value="Периметр">Периметр</option>
                                         <option value="Помещения">Помещения</option>
                                         <option value="Кровля">Кровля</option>
                                     </select>
@@ -412,21 +419,87 @@
     })
 
 
+    function downloadFile(e, apiUrl, data) {
+        e.preventDefault()
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        return fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "X-CSRFToken": csrfToken
+            },
+            body: JSON.stringify(data),
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('Content-Type') || '';
+                if (contentType.includes('application/json')) {
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    return null;
+                }
+
+                const contentDisposition = response.headers.get('Content-Disposition');
+                console.log("File contentDisposition", contentDisposition);
+                let filename = 'downloaded-file'; // Default name in case header is missing
+
+                if (contentDisposition) {
+                    let match = contentDisposition.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+                    if (!match) {
+                        match = contentDisposition.match(/filename="?([^"]+)"?/);
+                    }
+                    filename = decodeURIComponent(match[1]);
+                }
+
+                return response.blob().then(blob => ({blob, filename}));
+            })
+            .then(response => {
+                if (!response) return;
+                const {blob, filename} = response;
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename; // Set filename
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url); // Clean up URL objec
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+                return false;
+            });
+
+    }
+
     const exportToPdfButton = document.getElementById('exportToPdfButton');
     const timepicker2 = document.getElementById('timepicker2');
-    exportToPdfButton.addEventListener('click', function () {
+    exportToPdfButton.addEventListener('click', function (e) {
         const params = new URLSearchParams(window.location.search);
-        const location = params.get('location');
-        const spot = params.get('spot');
-        if (!location || !spot) {
-            alert('Выберите локацию и место');
-            return;
-        }
-        if (!timepicker2.value || !timepicker2.value.includes("—")) {
+        const location = params.get('location') || "";
+        const spot = params.get('spot') || "";
+        if (!timepicker2.value) {
             alert("Выберите промежуток");
             return;
         }
-        console.log('date', timepicker2.value);
+
+        downloadFile(e, '{% url "monitoring:manual-data-export" %}', {
+            'date-range': timepicker2.value,
+            'location': location,
+            'spot': spot,
+        });
     })
 
 

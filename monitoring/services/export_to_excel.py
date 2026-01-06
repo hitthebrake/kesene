@@ -21,13 +21,10 @@ class ExportToExcel:
 
         # Parse each into datetime objects
         start_date = datetime.strptime(start_str, "%d/%m/%y")
-        end_date = start_date + timedelta(days=1)
+        end_date = start_date
         if end_str is not None:
             end_date = datetime.strptime(end_str, "%d/%m/%y")
         return start_date, end_date
-
-    def get_data(self):
-        pass
 
     @staticmethod
     def write(data_to_write):

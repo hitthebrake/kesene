@@ -10,6 +10,7 @@ from django.utils import timezone
 from core import extra_functions
 from monitoring.services.export_to_excel import ExportToExcel
 from monitoring.services.index import LatestData
+from monitoring.services.manual_data_export import ManualDataExport
 from monitoring.telegram_bot import broadcast_form
 from sensors.models import ManualData, InstanceManualData, ScenarioInstance
 from webhook.models import Measurement, ExampleMeasurement
@@ -182,8 +183,9 @@ def add_data(request):
 def data_list(request):
     instances = InstanceManualData.objects.select_related('manual_data', 'manual_data__user') \
         .filter(manual_data__is_draft=False).order_by('manual_data__created_date', 'created_time')
-    location = request.GET.get('location')
-    spot = request.GET.get('spot')
+    location = request.GET.get('location', "")
+    spot = request.GET.get('spot', "")
+
     if location and spot:
         if location == 'Помещения':
             instances = instances.filter(manual_data__location=spot)
@@ -199,11 +201,17 @@ def data_list(request):
         del request_copy['page']
 
     context = {
+        'location': location,
+        'spot': spot,
         'url': request_copy.urlencode(),
         'instances': instances
     }
     return render(request, 'monitoring/data_list.html', context)
 
+
+@login_required(login_url="authorization:login")
+def manual_data_export(request):
+    return ManualDataExport().export(request)
 
 @login_required(login_url="authorization:login")
 def get_draft_data(request, location):
