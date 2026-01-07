@@ -34,7 +34,6 @@ def wind_direction_sign(degrees: float) -> str:
 
 
 def check_limits(setting, value):
-
     if setting.from_value is None and setting.to_value is None and value == "#NV":
         return True
     if (setting.from_value is None and setting.to_value is None) or value == "#NV":
@@ -106,7 +105,7 @@ class LatestData(ScenarioCheck):
                         'sensor_image': sensor.image
                     }
                     sensor_types = get_sensor_types(sensor.sensor_type)
-                    sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id)
+                    sensor_settings = SensorSettings.objects.filter(sensor_id=sensor_id, is_active=True)
                     for i in range(len(sensor_types)):
                         latest_values[sensor_id][f'type{i + 1}'] = sensor_types[i][1]
                         for s in sensor_settings:

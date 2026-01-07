@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test, login_required
+from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
@@ -33,6 +35,30 @@ def logout_view(request):
 
 
 def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = CustomUser.objects.filter(email=email).first()
+        if user is None:
+            messages.error(request, "Пользователь не существует")
+            return render(request, 'authorization/forgot-password.html')
+
+        if not user.passphrase:
+            body = "К сожалению, ваш пароль не удается получить. Свяжитесь с админом"
+        else:
+            body = f"Ваш пароль для входа в систему: {user.passphrase}"
+
+        subject = f"Система мониторинга Мавзолей Ходжи Ахмеда Ясави"
+        sender = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [user.email]
+
+        email = EmailMessage(subject, body, sender, recipient_list)
+        try:
+            email.send()
+            messages.success(request, "Проверьте электронную почту")
+        except Exception as e:
+            messages.error(request, "Не удалось отправить данные")
+
+
     return render(request, 'authorization/forgot-password.html')
 
 

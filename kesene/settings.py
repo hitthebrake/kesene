@@ -172,3 +172,16 @@ CACHES = {
         'LOCATION': os.getenv('REDIS_URL', "redis://127.0.0.1:6379/1"),
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'bekzhan.nurakyn@nu.edu.kz'
+EMAIL_HOST_PASSWORD = 'svlfvejneoazksjl'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

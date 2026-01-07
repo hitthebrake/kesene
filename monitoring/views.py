@@ -14,33 +14,11 @@ from monitoring.services.manual_data_export import ManualDataExport
 from monitoring.telegram_bot import broadcast_form
 from sensors.models import ManualData, InstanceManualData, ScenarioInstance
 from webhook.models import Measurement, ExampleMeasurement
-from webhook.sensor_parsing import get_sensor_types
 
 
 @login_required(login_url="authorization:login")
 def index(request):
     context = LatestData().get_data()
-    for sensor_id, values in context['latest_values'].items():
-        cnt = 1 if values['value1'] == '#NV' else 0
-        cnt = cnt + 1 if values['value2'] == '#NV' else cnt
-        cnt = cnt + 1 if values['value3'] == '#NV' else cnt
-        sensor_types = get_sensor_types(values['sensor_type'])
-        cnt -= (3 - len(sensor_types))
-        if len(sensor_types) == 1 and cnt > 0:
-            context['latest_values'][sensor_id]['status'] = 'Нет данных'
-        elif len(sensor_types) == 2:
-            if cnt == 1:
-                context['latest_values'][sensor_id]['status'] = 'Тревога'
-            if cnt == 2:
-                context['latest_values'][sensor_id]['status'] = 'Нет данных'
-        elif len(sensor_types) == 3:
-            if cnt == 1:
-                context['latest_values'][sensor_id]['status'] = 'Предупреждение'
-            elif cnt == 2:
-                context['latest_values'][sensor_id]['status'] = 'Тревога'
-            elif cnt == 3:
-                context['latest_values'][sensor_id]['status'] = 'Нет данных'
-
     return render(request, 'monitoring/index.html', context)
 
 

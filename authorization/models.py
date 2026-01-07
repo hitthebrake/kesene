@@ -7,6 +7,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True, default="")
 
+    passphrase = models.CharField(max_length=120, blank=True, null=True, default="")
+
     #permissions
     can_add_data = models.BooleanField(default=False)
     can_add_settings = models.BooleanField(default=False)
