@@ -143,6 +143,7 @@ def add_user(request):
                 patronym=patronym,
                 email=email,
                 password=password,
+                passphrase=password,
                 phone=phone_number,
                 first_name=first_name,
                 last_name=last_name,
