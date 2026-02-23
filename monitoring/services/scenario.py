@@ -16,14 +16,17 @@ class ScenarioCheck:
         # meteo_data = LatestData().get_latest_local_meteo_data()
         valid_scenarios = []
         for scenario in scenarios:
-            if scenario.from_temperature <= meteo_data["temperature"] <= scenario.to_temperature and \
-                    scenario.from_humidity <= meteo_data["humidity"] <= scenario.to_humidity and \
-                    scenario.from_dewpoint <= meteo_data["dewpoint"] <= scenario.to_dewpoint and \
-                    scenario.from_pressure <= meteo_data["pressure"] <= scenario.to_pressure and \
-                    scenario.from_wind_speed <= meteo_data["wind_speed"] <= scenario.to_wind_speed and \
-                    scenario.from_wind_direction <= meteo_data["wind_direction"] <= scenario.to_wind_direction and \
-                    scenario.from_precipitation <= meteo_data["precipitation"] <= scenario.to_precipitation:
-                valid_scenarios.append(scenario)
+            try:
+                if scenario.from_temperature <= meteo_data["temperature"] <= scenario.to_temperature and \
+                        scenario.from_humidity <= meteo_data["humidity"] <= scenario.to_humidity and \
+                        scenario.from_dewpoint <= meteo_data["dewpoint"] <= scenario.to_dewpoint and \
+                        scenario.from_pressure <= meteo_data["pressure"] <= scenario.to_pressure and \
+                        scenario.from_wind_speed <= meteo_data["wind_speed"] <= scenario.to_wind_speed and \
+                        scenario.from_wind_direction <= meteo_data["wind_direction"] <= scenario.to_wind_direction and \
+                        scenario.from_precipitation <= meteo_data["precipitation"] <= scenario.to_precipitation:
+                    valid_scenarios.append(scenario)
+            except Exception as e:
+                break
         return valid_scenarios
 
     @staticmethod

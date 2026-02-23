@@ -159,15 +159,23 @@ class LatestData(ScenarioCheck):
         if data.get("error", ''):
             return data
         try:
+            temp = data.get("current", {'temp': ""})["temp"] or ""
+            dewpoint = data.get("current", {'dew_point': ""})["dew_point"] or ""
+            pressure = data.get("current", {'pressure': ""})["pressure"] or ""
+            humidity = data.get("current", {'humidity': ""})["humidity"] or ""
+            wind_speed = data.get("current", {'wind_speed': ""})["wind_speed"] or ""
+            wind_direction = data.get("current", {'wind_deg': ""})["wind_deg"] or ""
+            precipitation = data.get("minutely", [{'precipitation': ""}])[0]["precipitation"] or ""
+
             return {
-                'temperature': round(data['current']['temp']-273, 2),
-                'dewpoint': round(data['current']['dew_point']-273, 2),
-                'pressure': data['current']['pressure'],
-                'humidity': data['current']['humidity'],
-                'wind_speed': data['current']['wind_speed'],
-                'wind_direction': round(data['current']['wind_deg']),
-                'precipitation': data['minutely'][0]['precipitation'],
-                'wind_direction_sign': wind_direction_sign(data['current']['wind_deg']),
+                'temperature': round(float(temp)-273, 2) if temp != "" else "",
+                'dewpoint': round(float(dewpoint)-273, 2) if dewpoint != "" else "",
+                'pressure': pressure,
+                'humidity': humidity,
+                'wind_speed': wind_speed,
+                'wind_direction': int(float(wind_direction)) if wind_direction != "" else "",
+                'precipitation': precipitation,
+                'wind_direction_sign': wind_direction_sign(float(wind_direction)) if wind_direction != "" else "",
             }
         except Exception as e:
             return {}
